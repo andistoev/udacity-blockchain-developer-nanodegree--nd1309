@@ -2,3 +2,10 @@ node_modules
 build
 .idea
 .DS_Store
+
+# ignore secret
+.secret
+
+# ignore rinkeby-infurakey
+.rinkeby-infurakey
+

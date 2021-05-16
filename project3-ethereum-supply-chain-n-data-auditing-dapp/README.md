@@ -9,6 +9,15 @@ For this project, you will creating a DApp supply chain solution backed by the E
 You will architect smart contracts that manage specific user permission controls as well as contracts that track and
 verify a product’s authenticity.
 
+### Required for submission info: !!!!!!!!!!!!!!!!!! TODO !!!!!!!!!!!!!!!!
+- Contract address: !!!!!!!!!!!!!!!!!!!! TODO !!!!!!!!!!!!!!!!!!!
+- Program version number: 1.0.0 (src/js/app.js) ✔
+- Node v10.15.3 ✔
+- Truffle v5.3.6 (core: 5.3.6) ✔
+- Solidity v0.5.16 (solc-js)
+- Web3.js v1.3.5 ✔
+- Ganache CLI v6.12.2 (ganache-core: 2.13.2)
+
 ### 1. Part 1 - Plan the project with write-ups ✔️
 
 #### 1.1. Requirement 1 - Project write-up - UML ✔️
@@ -297,5 +306,23 @@ Consumer: accounts[4]  0xD37b7B8C62BE2fdDe8dAa9816483AeBDBd356088
 ```
 
 ### 4. Part 4	Deploy smart contracts on a public test network (Rinkeby)
+
+#### 4.1. Requirement 1: Deploy smart contract on a public test network
+Using Truffle framework, deploy your smart contract with the Rinkeby test network. Take note of your contract hash and address after successful deployment.
+
+- create a file .secret in root folder with a mnemonic seed for Rinkeby network with enough credit
+- create a file .rinkeby-infurakey containing your rinkeby infurakey
+- be sure that you never commit .secret and .rinkeby-infurakey to GitHub (.gitignore)
+- execute 'truffle migrate --network rinkeby' to deploy it to the Rinkeby network
+
+```bash
+=> truffle migrate --network rinkeby
+```
+
+#### 4.2. Requirement 2: Submit Contract Address
+Provide a document with your project submission that includes the contract address.
+
+```bash
+```
 
 ### 5. Part 5	Modify client code to interact with smart contracts

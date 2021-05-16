@@ -1,4 +1,6 @@
 const App = {
+    version: "1.0.0",
+
     web3Provider: null,
     metamaskAccountId: null,
     contracts: {},
