@@ -611,21 +611,25 @@ Frontend code can be downloaded and executed from a local environment. ✔
 - Download in browser the latest MetaMask version (tested with MetaMask 9.5.2 in Chrome)
 - Using Localhost 8545 import in MetaMask all accounts with the seed "spirit supply whale amount human item harsh scare
   congress discover talent hamster"
+
   ![Metamask Import Seed](res/metamask-import-seed.png)
 - Select in MetaMask the first address which is the contract creator
+
   ![Metamask Select Address](res/metamask-select-addr.png)
 - In case you restarted ganache or if you have change the account without refreshing the front-end, it's always a good
   idea to do Restart Account to avoid some internal MetaMask transaction state problems
+
   ![Metamask Reset Account](res/metamask-reset-account.png)
 - Start the front-end 'npm run dev'
 - Open in the browser with MetaMask 'http://localhost:3000'
-- After the app has started, it will try to connect to an account in MetaMask. Authorize the first 5 accounts and
-  therefore select the first address
+- After the app has started, it will try to connect to your accounts in MetaMask. Authorize all your first 5 accounts
+
   ![Metamask Authorize 5 Accounts](res/metamask-auth-5-accounts.png)
 - Now, the first step to do as contract creator is to assign roles to the farmer, distributor, retailer and consumer
   account. To do that:
   - Click on the button [1. Set access control for all roles (as contractOwner)]
   - After that authorize the role assignment for the four other accounts in the popups which will appear automatically
+
     ![Contract owner assigning roles](res/contractowner-assigning-roles.png)
   - If everything has worked fine, you should see in the bottom of UI the contract events, certifying the roles creation
 - The second step in the process is to do all actions as farmer:
@@ -682,6 +686,7 @@ Transaction History
 
 (!) Please note that the reason for the duplicates (but with the same hashcode) is that when the account in UI changes,
 the last event is popping out again.
+
 (!) If you want to run the whole process again you have two options:
 
 - opt1: Restart ganache and the whole blockchain
