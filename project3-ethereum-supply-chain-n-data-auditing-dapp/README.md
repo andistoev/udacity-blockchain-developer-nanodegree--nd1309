@@ -312,6 +312,7 @@ Consumer: accounts[4]  0xD37b7B8C62BE2fdDe8dAa9816483AeBDBd356088
 #### 4.1. Requirement 1: Deploy smart contract on a public test network ✔️
 Using Truffle framework, deploy your smart contract with the Rinkeby test network. Take note of your contract hash and address after successful deployment.
 
+- install 'npm install @truffle/hdwallet-provider' if not already installed
 - install 'npm install truffle-hdwallet-provider@web3-one' if not already installed
 - create a file .secret in root folder with a mnemonic seed for Rinkeby network with enough credit
 - create a file .rinkeby-infurakey containing your rinkeby infurakey
