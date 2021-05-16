@@ -1,13 +1,56 @@
 @startuml
 
+class Ownable{
+    address owner()
+    address transferOwnership()
+}
+
+class FarmerRole{
+    boolean isFarmer(address)
+    addFarmer(address)
+    modifier onlyFarmer(address)
+}
+
+class DistributorRole{
+    boolean isDistributor(address)
+    addDistributor(address)
+    modifier onlyDistributor(address)
+}
+
+class RetailerRole{
+    boolean isRetailer(address)
+    addRetailer(address)
+    modifier onlyRetailer(address)
+}
+
+class ConsumerRole{
+    boolean isConsumer(address)
+    addConsumer(address)
+    modifier onlyConsumer(address)
+}
+
+class SupplyChain{
+    {field} mapping(uint => Items) items
+    {field} ...
+    void harvestItem(uin _upc, ...)
+    void processItem(uint _upc)
+    void packItem(uint _upc)
+    void markItemForSale(uint _upc)
+    void buyItem(uint _upc)
+    void shipItem(uint _upc)
+    void receiveItem(uint _upc)
+    void purchaseItem(uint _upc)
+    {method} ...
+}
+
 Ownable <|-- SupplyChain
 FarmerRole <|-- SupplyChain
 DistributorRole <|-- SupplyChain
 RetailerRole <|-- SupplyChain
 ConsumerRole <|-- SupplyChain
-FarmerRole *-up- Roles
-DistributorRole *-up- Roles
-RetailerRole *-up- Roles
-ConsumerRole *-up- Roles
+FarmerRole o-up- Roles
+DistributorRole o-up- Roles
+RetailerRole o-up- Roles
+ConsumerRole o-up- Roles
 
 @enduml
