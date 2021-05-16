@@ -11,18 +11,23 @@ verify a product’s authenticity.
 
 ### 1. Part 1 - Plan the project with write-ups
 
-#### A) Requirement 1 - Project write-up - UML
+#### 1.1. Requirement 1 - Project write-up - UML
 
 ##### Planning Overview
 
-| Supply chain |
-|:---:|
-|French bread|
+- Selected supply chain: French bread production and distribution
 
-| Assets |
-|:---:|
-|wheat|
-|baguette|
+- Assets:
+    - wheat
+    - baguette
+
+- Actors:
+    - farmer
+    - distributor
+    - retailer
+    - consumer
+
+- Roles:
 
 | Actor | Role |
 |:---:|:---:|
@@ -35,7 +40,7 @@ verify a product’s authenticity.
 |Retailer|can receive the baguette|
 |Consumer|can purchase the baguette|
 
-##### Activity Diagram
+#### Activity Diagram
 
 ![baguette-activity-diagram](res/baguette-activity-diagram.png)
 
@@ -47,7 +52,7 @@ verify a product’s authenticity.
 
 ##### Data Modelling
 
-#### B) Requirement 2 - Project write-up - Libraries
+#### 1.2. Requirement 2 - Project write-up - Libraries
 
 If libraries are used in the project, the project write-up indicates which libraries and discusses why these libraries
 were adopted.
@@ -58,7 +63,7 @@ were adopted.
 |truffle-contract.js|0.5.5|To allow interaction with ethereum contracts from browser|
 |jquery-3.6.0.min.js|3.6.0|To build very simple front-end (the focus of the project are the contracts)|
 
-#### C) Requirement 3 - Project write-up - IPFS
+#### 1.3. Requirement 3 - Project write-up - IPFS
 
 If IPFS is used, the project write-up discusses how IPFS is used in this project.
 
