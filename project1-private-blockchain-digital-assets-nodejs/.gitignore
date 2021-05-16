@@ -108,3 +108,5 @@ dist
 
 # Ignore out
 out
+
+.DS_Store
