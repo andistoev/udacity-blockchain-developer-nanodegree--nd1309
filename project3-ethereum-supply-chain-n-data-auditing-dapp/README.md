@@ -614,8 +614,69 @@ Frontend code can be downloaded and executed from a local environment. ✔
   ![Metamask Import Seed](res/metamask-import-seed.png)
 - Select in MetaMask the first address which is the contract creator
   ![Metamask Select Address](res/metamask-select-addr.png)
-- In case you restarted granache or if you have change the account without refreshing the front-end, it's always a good
+- In case you restarted ganache or if you have change the account without refreshing the front-end, it's always a good
   idea to do Restart Account to avoid some internal MetaMask transaction state problems
   ![Metamask Reset Account](res/metamask-reset-account.png)
 - Start the front-end 'npm run dev'
 - Open in the browser with MetaMask 'http://localhost:3000'
+- After the app has started, it will try to connect to an account in MetaMask. Authorize the first 5 accounts and
+  therefore select the first address
+  ![Metamask Authorize 5 Accounts](res/metamask-auth-5-accounts.png)
+- Now, the first step to do as contract creator is to assign roles to the farmer, distributor, retailer and consumer
+  account. To do that:
+  - Click on the button [1. Set access control for all roles (as contractOwner)]
+  - After that authorize the role assignment for the four other accounts in the popups which will appear automatically
+    ![Contract owner assigning roles](res/contractowner-assigning-roles.png)
+  - If everything has worked fine, you should see in the bottom of UI the contract events, certifying the roles creation
+- The second step in the process is to do all actions as farmer:
+  - Select Account2 from MetaMask
+  - Reset the account from MetaMask
+  - At this point you should see in UI that the switch from contractOwner to the Farmer account has worked
+  - Click the buttons [Harvest], [Process], [Pack] and [For Sale]. After each step a confirm from MetaMask will be ask
+    to provide enough gas for contract execution
+  - If everything has worked fine, you should see in the bottom of UI the contract events, certifying the actions
+    performed
+- The third step in the process is to do all actions as distributor:
+  - Select Account3 from MetaMask
+  - Reset the account from MetaMask
+  - At this point you should see in UI that the switch from Farmer to the Distributor account has worked
+  - Click the buttons [Buy] and [Ship]. After each step a confirm from MetaMask will be ask to provide enough gas for
+    contract execution
+  - If everything has worked fine, you should see in the bottom of UI the contract events, certifying the actions
+    performed
+- The fourth step in the process is to do all actions as retailer:
+  - Select Account4 from MetaMask
+  - Reset the account from MetaMask
+  - At this point you should see in UI that the switch from Distributor to the Retailer account has worked
+  - Click the button [Receive] and confirm from MetaMask to provide enough gas for contract execution
+  - If everything has worked fine, you should see in the bottom of UI the contract event, certifying the action
+    performed
+- The fifth final step in the process is to do all actions as consumer:
+  - Select Account5 from MetaMask
+  - Reset the account from MetaMask
+  - At this point you should see in UI that the switch from Retailer to the Consumer account has worked
+  - Click the button [Purchase] and confirm from MetaMask to provide enough gas for contract execution
+  - If everything has worked fine, you should see in the bottom of UI the contract event, certifying the action
+    performed
+- At the end you will see the whole transaction history. Please note that the reason for the duplicates (but with the
+  same hashcode) is that when the account in UI changes, the last event is popping out again:
+
+```bash
+Transaction History
+  FarmerAdded - 0x81b1da8ec35bd49f989c2460b20f63c6e0d515604cabf7cf680c2593653ab9c3
+  DistributorAdded - 0x464aa0fcac7ab5d1e398f16c2c20949f27b323f01b7df2c5ce04194bc615d86c
+  RetailerAdded - 0x44480a56784f9ae9f67a546ca0b7e1c319239637816b69383d258e812bfbf1bf
+  ConsumerAdded - 0x61de653122cee4c294b1b70cb1a025e9c1c226d225f4a86c3296c2a4b9a74a9c
+  ConsumerAdded - 0x61de653122cee4c294b1b70cb1a025e9c1c226d225f4a86c3296c2a4b9a74a9c
+  Harvested - 0x31a6219ce951732fd46c2e839e57d1836eec9d6dc099267c12b38329f1700e93
+  Processed - 0x8453c4f37f792067a58044e659f21b71a2ae60f01d72c0d052fb0ec4ae0ea692
+  Packed - 0x42ffa3d72ebff307351558c8e8c721107aecef176b7a663a62967c3fcc3b4a2d
+  ForSale - 0x23825876619065b1fef47c4ce1037dafe27edfcb4dd2617ad7b825d9b783cd70
+  ForSale - 0x23825876619065b1fef47c4ce1037dafe27edfcb4dd2617ad7b825d9b783cd70
+  Sold - 0x63583915a4f6b9e4efa811a387fa94c1884a5f4b329c1796e31facde33271798
+  Shipped - 0xc199b671227ba283a7556dc1500b8631c75af78cd54061d067f935409dd8d5e4
+  Shipped - 0xc199b671227ba283a7556dc1500b8631c75af78cd54061d067f935409dd8d5e4
+  Received - 0x82b1502b839609658ceb2494a0692c5e094193a745ef1bb69cb05fba8b140c87
+  Received - 0x82b1502b839609658ceb2494a0692c5e094193a745ef1bb69cb05fba8b140c87
+  Purchased - 0xa164a9cc67e327ffc0d4db368b6f6e5cc2c9efb4e3b9f12d82577c911feea101
+```
