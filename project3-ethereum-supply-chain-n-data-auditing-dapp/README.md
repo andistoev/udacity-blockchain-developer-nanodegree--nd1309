@@ -1,6 +1,6 @@
 # Udacity - Blockchain Developer Nanodegree Program
 
-## Project 3 - Ethereum Dapp for Tracking Items through Supply Chain
+## Project 3 - Ethereum Dapp for Tracking Items through Supply Chain ✔️
 
 ### Project Details
 
@@ -569,7 +569,7 @@ Provide a document with your project submission that includes the contract addre
 
 - contract address: https://rinkeby.etherscan.io/address/0x3dFacD7FbC83FF51Fc4eA2F74d529De704B9E31F ✔
 
-### 5. Part 5	Modify client code to interact with smart contracts
+### 5. Part 5	Modify client code to interact with smart contracts ✔️
 
 Create the frontend that allows your users to interact with your DApp. This should be a simple and clean frontend that
 manages product lifecycle as the product navigates down the supply chain.
@@ -587,7 +587,7 @@ Front-end is configured to:
 
 Frontend code can be downloaded and executed from a local environment. ✔
 
-#### Setup instructions
+#### Setup instructions ️
 
 - Stop first all running ganache-cli, truffle and npm instances (required a fresh start to test the UI)
 - Install ganache-cli if not already installed 'npm install -g ganache-cli'
@@ -658,8 +658,7 @@ Frontend code can be downloaded and executed from a local environment. ✔
   - Click the button [Purchase] and confirm from MetaMask to provide enough gas for contract execution
   - If everything has worked fine, you should see in the bottom of UI the contract event, certifying the action
     performed
-- At the end you will see the whole transaction history. Please note that the reason for the duplicates (but with the
-  same hashcode) is that when the account in UI changes, the last event is popping out again:
+- At the end you will see the whole transaction history:
 
 ```bash
 Transaction History
@@ -680,3 +679,11 @@ Transaction History
   Received - 0x82b1502b839609658ceb2494a0692c5e094193a745ef1bb69cb05fba8b140c87
   Purchased - 0xa164a9cc67e327ffc0d4db368b6f6e5cc2c9efb4e3b9f12d82577c911feea101
 ```
+
+(!) Please note that the reason for the duplicates (but with the same hashcode) is that when the account in UI changes,
+the last event is popping out again.
+(!) If you want to run the whole process again you have two options:
+
+- opt1: Restart ganache and the whole blockchain
+- opt2: Change manually in app.js the code of UPC from 1 to 2 for example and then run the UI again This is a simple
+  GUI. So no effort was invested to make it usable. It's just good enough to test the contracts.
