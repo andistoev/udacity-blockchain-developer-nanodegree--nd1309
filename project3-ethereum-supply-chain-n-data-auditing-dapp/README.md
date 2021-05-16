@@ -18,6 +18,7 @@ verify a product’s authenticity.
 - Solidity v0.5.16 (solc-js)
 - Web3.js v1.3.5 ✔
 - Ganache CLI v6.12.2 (ganache-core: 2.13.2)
+- MetaMask 9.5.2
 
 ### 1. Part 1 - Plan the project with write-ups ✔️
 
@@ -568,3 +569,52 @@ Provide a document with your project submission that includes the contract addre
 - contract address: https://rinkeby.etherscan.io/address/0x3dFacD7FbC83FF51Fc4eA2F74d529De704B9E31F ✔
 
 ### 5. Part 5	Modify client code to interact with smart contracts
+
+Create the frontend that allows your users to interact with your DApp. This should be a simple and clean frontend that
+manages product lifecycle as the product navigates down the supply chain.
+
+Using javascript, create a single JS file with all web3 functions that allows your client code to interact with you
+smart contracts.
+
+#### Requirement: Configure client code for each actor ✔️
+
+Front-end is configured to:
+
+- Submit a product for shipment (farmer to the distributor, distributor to retailer, etc). ✔
+- Receive product from shipment. ✔
+- Validate the authenticity of the product.️ ✔
+
+Frontend code can be downloaded and executed from a local environment. ✔
+
+#### Setup instructions
+
+- Stop first all running ganache-cli, truffle and npm instances (required a fresh start to test the UI)
+- Install ganache-cli if not already installed 'npm install -g ganache-cli'
+- Start in a new terminal ganache-cli to simulate an ethereum blockchain locally with predefined addresses
+
+```bash
+=> ganache-cli -m "spirit supply whale amount human item harsh scare congress discover talent hamster"
+```
+
+- Install truffle if not already installed 'npm install -g truffle'
+- Start in a new terminal truffle to deploy the contracts to the local blockchain
+
+```bash
+=> truffle compile
+=> truffle migrate
+```
+
+- Install all node dependencies 'npm install'
+- Make sure the first 5 addresses (contractOwnerID .. consumerId) found in src/js/app.js are exactly the same created by
+  ganache-cli. If you want to use different addresses please update app.js
+- Download in browser the latest MetaMask version (tested with MetaMask 9.5.2 in Chrome)
+- Using Localhost 8545 import in MetaMask all accounts with the seed "spirit supply whale amount human item harsh scare
+  congress discover talent hamster"
+  ![Metamask Import Seed](res/metamask-import-seed.png)
+- Select in MetaMask the first address which is the contract creator
+  ![Metamask Select Address](res/metamask-select-addr.png)
+- In case you restarted granache or if you have change the account without refreshing the front-end, it's always a good
+  idea to do Restart Account to avoid some internal MetaMask transaction state problems
+  ![Metamask Reset Account](res/metamask-reset-account.png)
+- Start the front-end 'npm run dev'
+- Open in the browser with MetaMask 'http://localhost:3000'
