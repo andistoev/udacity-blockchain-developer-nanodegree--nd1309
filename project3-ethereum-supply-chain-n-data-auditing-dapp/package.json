@@ -1,0 +1,19 @@
+{
+  "name": "supply-chain-E",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/js/app.js",
+  "scripts": {
+    "dev": "lite-server",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Andrey Stoev <andi.stoev@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "lite-server": "2.4.0"
+  },
+  "dependencies": {
+    "@truffle/contract": "^4.3.16"
+  }
+}

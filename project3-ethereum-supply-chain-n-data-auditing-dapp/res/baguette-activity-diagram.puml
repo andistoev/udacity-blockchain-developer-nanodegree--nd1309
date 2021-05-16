@@ -1,0 +1,23 @@
+@startuml
+
+partition Farmer {
+  (*) --> "Harvest wheat"
+  "Harvest wheat" --> "Process wheat into baguette"
+  "Process wheat into baguette" --> "Pack the baguette"
+  "Pack the baguette" --> "Mark the baguette for sale"
+}
+
+partition Distributor {
+  "Mark the baguette for sale" -right-> "Buy the baguette"
+  "Buy the baguette" --> "Ship the baguette"
+}
+
+partition Retailer {
+  "Ship the baguette" -right-> "Receive the baguette"
+}
+
+partition Consumer {
+  "Receive the baguette" -right-> "Purchase the baguette"
+}
+
+@enduml

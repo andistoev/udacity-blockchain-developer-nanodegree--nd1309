@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Fair Trade French Bread</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <link href="style.css" rel="stylesheet" type="text/css">
+    <script src="js/jquery-3.6.0.min.js" type="text/javascript"></script>
+    <script src="js/web3.min.js" type="text/javascript"></script>
+    <script src="js/truffle-contract.js" type="text/javascript"></script>
+    <script src="js/app.js" type="text/javascript"></script>
+</head>
+
+<body>
+<div class="container">
+    <h1 style="text-align: center;">Fair Trade French Bread</h1>
+    <hr>
+    <p style="text-align: center;">Prove the authenticity of french baguette using the Ethereum blockchain.</p>
+</div>
+
+<div id="ftc-harvest">
+    <h2>MetaMask Injected Data</h2>
+    <div class="form-group">
+        Authorized by user ethereum's account
+        <br>
+        <input class="input-field" id="metamaskAccountLabel" name="metamaskAccountLabel" readonly type="text"><br>
+        <br>
+        Instructions:<br>
+        <ul>
+            <li>Use contractOwnerID account in MetaMask and do 1. SET ACCESS CONTROL FOR ALL ROLES</li>
+            <li>Use farmerID account in MetaMask and do 2. HARVEST, 3. PROCESS, 4. PACK and 5. FOR-SALE</li>
+            <li>Use distributorID account in MetaMask and do 6. BUY and 7. SHIP</li>
+            <li>Use retailerID account in MetaMask and do 8. RECEIVE</li>
+            <li>Use consumerID account in MetaMask and do 9. PURCHASE</li>
+        </ul>
+    </div>
+
+    <h2>Roles setup</h2>
+    <div class="form-group">
+        Contract Owner ID
+        <br>
+        <input id="contractOwnerID" name="contractOwnerID" readonly size="50" type="text"><br>
+        <button class="btn-set-access-control-for-all-roles" id="button" type="button">1. Set access control for all
+            roles (as
+            contractOwner)
+        </button>
+    </div>
+
+    <h2>Product Overview</h2>
+    <div class="form-group">
+        SKU
+        <br>
+        <input class="input-field" id="sku" name="sku" readonly type="number"><br>
+        UPC
+        <br>
+        <input id="upc" name="upc" type="number"><br>
+        <div class=button-div>
+            <button class="btn-fetchOne" id="button" type="button">Fetch Data One</button>
+            <button class="btn-fetchTwo" id="button" type="button">Fetch Data Two</button>
+        </div>
+    </div>
+    <div class=form-break></div>
+    <h2>Farm Details</h2>
+    <div class="form-group">
+        Farmer ID
+        <br>
+        <input id="originFarmerID" name="originFarmerID" readonly size="50" type="text"><br>
+        Farm Name
+        <br>
+        <input id="originFarmName" name="originFarmName" readonly type="text"><br>
+        Farm Information
+        <br>
+        <input id="originFarmInformation" name="originFarmInformation" readonly type="text"><br>
+        Farm Latitude
+        <br>
+        <input id="originFarmLatitude" name="originFarmLatitude" readonly type="text"><br>
+        Farm Longitude
+        <br>
+        <input id="originFarmLongitude" name="originFarmLongitude" readonly type="text"><br>
+        <br>
+        <button class="btn-harvest" id="button" type="button">2. Harvest wheat (as farmer)</button>
+        <button class="btn-process" id="button" type="button">3. Process wheat into baguette (as farmer)</button>
+        <button class="btn-pack" id="button" type="button">4. Pack baguette (as farmer)</button>
+        <button class="btn-for-sale" id="button" type="button">5. Put baguette for sale (as farmer)</button>
+    </div>
+    <div class=form-break></div>
+    <h2>Product Details</h2>
+    <div class="form-group">
+        Product Notes
+        <br>
+        <input id="productNotes" name="productNotes" readonly size="60" type="text"><br>
+        Product Price
+        <br>
+        <input id="productPrice" name="productPrice" readonly type="number">ETH<br>
+        Distributor ID
+        <br>
+        <input id="distributorID" name="distributorID" readonly size="50" type="text">
+        <br>
+        Retailer ID
+        <br>
+        <input id="retailerID" name="retailerID" readonly size="50" type="text"><br>
+        Distributor ID
+        <br>
+        <input id="consumerID" name="consumerID" readonly size="50" type="text"><br>
+        <br>
+        <button class="btn-buy" id="button" type="button">6. Buy baguette (as distributor)</button>
+        <button class="btn-ship" id="button" type="button">7. Ship baguette (as distributor)</button>
+        <button class="btn-receive" id="button" type="button">8. Receive baguette (as retailer)</button>
+        <button class="btn-purchase" id="button" type="button">9. Purchase baguette (as consumer)</button>
+    </div>
+    <div class=form-break></div>
+    <hr>
+</div>
+
+<h2>Transaction History<span id="ftc-history"></span></h2>
+<div>
+    <ul id="ftc-events">
+        <!-- Events will appear here from app.js -->
+    </ul>
+    <br>
+    <hr>
+</div>
+
+</body>
+
+</html>

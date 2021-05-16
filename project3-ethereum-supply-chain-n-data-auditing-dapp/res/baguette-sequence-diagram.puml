@@ -1,0 +1,12 @@
+@startuml
+
+Farmer -> Farmer: Harvest wheat
+Farmer -> Farmer: Pack wheat
+Farmer -> Farmer: Process wheat into baguette
+Farmer -> Farmer: Mark the baguette for sale
+Farmer <- Distributor: Buy the baguette
+Farmer <- Distributor: Ship the baguette
+Distributor <- Retailer: Receive the baguette
+Retailer <- Consumer: Purchase the baguette
+
+@enduml

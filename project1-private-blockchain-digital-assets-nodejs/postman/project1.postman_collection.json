@@ -1,0 +1,144 @@
+{
+	"info": {
+		"_postman_id": "0c1cba6f-9496-4a94-8cfd-5dedbd94d4d1",
+		"name": "project1",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "get block by height",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/block/2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"block",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get block by hashcode",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/blockhash/fec1b2e4587ea6bcec2434d2ce0431dd6831d608fce73d18fec475fe6e197bb8",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"blockhash",
+						"fec1b2e4587ea6bcec2434d2ce0431dd6831d608fce73d18fec475fe6e197bb8"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "request validation",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"address\":\"mhL3h4r2Bkw4ReuoRo3ZrnRX7TTfMs7you\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/requestValidation",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"requestValidation"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "submit star",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"address\": \"mhL3h4r2Bkw4ReuoRo3ZrnRX7TTfMs7you\",\n    \"message\": \"mhL3h4r2Bkw4ReuoRo3ZrnRX7TTfMs7you:1610104960:starRegistry\",\n    \"signature\": \"IFM0mrMIyyQr6xTySFQRVU9Zg7GozpgHZSTfmbqsxZTUaXecMkYo3jOpWywBbUWXNKzrDwEHJbHy2h0WhSsgkPE=\",\n    \"star\": {\n        \"dec\": \"68° 52' 56.9\",\n        \"ra\": \"16h 29m 1.0s\",\n        \"story\": \"Testing the story 2\"\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/submitstar",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"submitstar"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "retrieve star own by me",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/blocks/mhL3h4r2Bkw4ReuoRo3ZrnRX7TTfMs7you",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"blocks",
+						"mhL3h4r2Bkw4ReuoRo3ZrnRX7TTfMs7you"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "validate chain",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/validatechain",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"validatechain"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
