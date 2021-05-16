@@ -52,8 +52,9 @@ verify a product’s authenticity.
 
 ![baguette-state-diagram](res/baguette-state-diagram.png)
 
-##### Data Modelling
+##### Class Diagram
 
+![baguette-class-diagram](res/baguette-class-diagram.png)
 
 #### 1.2. Requirement 2 - Project write-up - Libraries
 

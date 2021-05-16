@@ -1,0 +1,13 @@
+@startuml
+
+Ownable <|-- SupplyChain
+FarmerRole <|-- SupplyChain
+DistributorRole <|-- SupplyChain
+RetailerRole <|-- SupplyChain
+ConsumerRole <|-- SupplyChain
+FarmerRole *-up- Roles
+DistributorRole *-up- Roles
+RetailerRole *-up- Roles
+ConsumerRole *-up- Roles
+
+@enduml
