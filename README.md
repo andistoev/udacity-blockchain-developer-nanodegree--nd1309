@@ -1,7 +1,7 @@
 ## Projects of Udacity - Blockchain Developer Nanodegree Program -- nd1309 (160 hours)
 
 ### Intro
-My projects in [Udacity - Blockchain Developer Nanodegree Program](https://www.udacity.com/courses/blockchain-developer-nanodegree--nd1309) :
+My projects in [Udacity - Blockchain Developer Nanodegree Program](https://www.udacity.com/course/blockchain-developer-nanodegree--nd1309) :
 
 - [project1: Private Blockchain Digital Assets NodeJS](project1-private-blockchain-digital-assets-nodejs)
 - [project2: Ethereum NFT Crypto Start Dapp](project2-ethereum-nft-crypto-star-dapp)
