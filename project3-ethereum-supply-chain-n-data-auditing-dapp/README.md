@@ -50,7 +50,10 @@ verify a product’s authenticity.
 
 ##### State Diagram
 
+![baguette-state-diagram](res/baguette-state-diagram.png)
+
 ##### Data Modelling
+
 
 #### 1.2. Requirement 2 - Project write-up - Libraries
 

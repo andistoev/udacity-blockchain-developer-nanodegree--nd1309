@@ -1,0 +1,13 @@
+@startuml
+
+[*] -> Harvested
+Harvested -> Processed
+Processed -> Packed
+Packed -> ForSale
+ForSale -> Sold
+Sold -> Shipped
+Shipped -> Received
+Received -> Purchased
+Purchased -> [*]
+
+@enduml
