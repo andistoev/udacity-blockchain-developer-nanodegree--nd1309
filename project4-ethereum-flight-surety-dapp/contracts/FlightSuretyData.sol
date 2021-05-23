@@ -122,7 +122,11 @@ contract FlightSuretyData {
     * @dev Fallback function for funding smart contract.
     *
     */
-    function() external payable {
+    fallback() external payable {
+        fund();
+    }
+
+    receive() external payable {
         fund();
     }
 

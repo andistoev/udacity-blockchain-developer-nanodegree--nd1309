@@ -26,7 +26,7 @@ Compatible with:
 
 * Truffle v5.3.7 (core: 5.3.7)
 * Solidity v0.8.4 (solc-js)
-* Node v10.15.3
+* Node v16.2.0
 * Web3.js v1.3.6
 * Ganache CLI v6.12.2 (ganache-core: 2.13.2)
 

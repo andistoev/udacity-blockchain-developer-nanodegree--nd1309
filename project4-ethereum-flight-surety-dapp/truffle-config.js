@@ -63,9 +63,8 @@ module.exports = {
             //provider: () => provider, //new HDWalletProvider(mnemonic, "http://127.0.0.1:8545/", 0, 50),
             host: "127.0.0.1",
             port: 8545,
-            gas: 9999999,
             network_id: '*',
-            websocket: true
+            websockets: true
         },
 
         // Another network with more advanced options...

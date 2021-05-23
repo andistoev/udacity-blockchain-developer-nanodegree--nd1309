@@ -24,6 +24,8 @@ contract FlightSuretyApp {
     /*                                       DATA VARIABLES                                     */
     /********************************************************************************************/
 
+    uint8 private constant RANDOM_NUMBER_CEIL = 10;
+
     // Flight status codees
     uint8 private constant STATUS_CODE_UNKNOWN = 0;
     uint8 private constant STATUS_CODE_ON_TIME = 10;
@@ -121,15 +123,15 @@ contract FlightSuretyApp {
     }
 
     // Generate a request for oracles to fetch flight information
-    function fetchFlightStatus(address airline, string flight, uint256 timestamp) external {
-        uint8 index = getRandomIndex(msg.sender);
+    function fetchFlightStatus(address airline, string calldata flight, uint256 timestamp) external {
+        uint8 index = getRandomIndex(msg.sender, RANDOM_NUMBER_CEIL);
 
         // Generate a unique key for storing the request
         bytes32 key = keccak256(abi.encodePacked(index, airline, flight, timestamp));
-        oracleResponses[key] = ResponseInfo({
-        requester : msg.sender,
-        isOpen : true
-        });
+
+        ResponseInfo storage responseInfo = oracleResponses[key];
+        responseInfo.isOpen = true;
+        responseInfo.requester = msg.sender;
 
         emit OracleRequest(index, airline, flight, timestamp);
     }
@@ -181,7 +183,7 @@ contract FlightSuretyApp {
         });
     }
 
-    function getMyIndexes() view external returns (uint8[3]){
+    function getMyIndexes() view external returns (uint8[3] memory){
         require(oracles[msg.sender].isRegistered, "Not registered as an oracle");
 
         return oracles[msg.sender].indexes;
@@ -191,11 +193,11 @@ contract FlightSuretyApp {
     // For the response to be accepted, there must be a pending request that is open
     // and matches one of the three Indexes randomly assigned to the oracle at the
     // time of registration (i.e. uninvited oracles are not welcome)
-    function submitOracleResponse(uint8 index, address airline, string flight, uint256 timestamp, uint8 statusCode) external {
+    function submitOracleResponse(uint8 index, address airline, string calldata flight, uint256 timestamp, uint8 statusCode) external {
         require((oracles[msg.sender].indexes[0] == index) || (oracles[msg.sender].indexes[1] == index) || (oracles[msg.sender].indexes[2] == index), "Index does not match oracle request");
 
-
         bytes32 key = keccak256(abi.encodePacked(index, airline, flight, timestamp));
+
         require(oracleResponses[key].isOpen, "Flight or timestamp do not match oracle request");
 
         oracleResponses[key].responses[statusCode].push(msg.sender);
@@ -203,7 +205,10 @@ contract FlightSuretyApp {
         // Information isn't considered verified until at least MIN_RESPONSES
         // oracles respond with the *** same *** information
         emit OracleReport(airline, flight, timestamp, statusCode);
+
         if (oracleResponses[key].responses[statusCode].length >= MIN_RESPONSES) {
+
+            oracleResponses[key].isOpen = false;
 
             emit FlightStatusInfo(airline, flight, timestamp, statusCode);
 
@@ -213,40 +218,38 @@ contract FlightSuretyApp {
     }
 
 
-    function getFlightKey(address airline, string flight, uint256 timestamp) pure internal returns (bytes32){
+    function getFlightKey(address airline, string calldata flight, uint256 timestamp) pure internal returns (bytes32){
         return keccak256(abi.encodePacked(airline, flight, timestamp));
     }
 
     // Returns array of three non-duplicating integers from 0-9
-    function generateIndexes(address account) internal returns (uint8[3]){
+    function generateIndexes(address account) internal returns (uint8[3] memory){
         uint8[3] memory indexes;
-        indexes[0] = getRandomIndex(account);
 
-        indexes[1] = indexes[0];
-        while (indexes[1] == indexes[0]) {
-            indexes[1] = getRandomIndex(account);
+        indexes[0] = getRandomIndex(account, RANDOM_NUMBER_CEIL);
+        indexes[1] = getRandomIndex(account, RANDOM_NUMBER_CEIL - 1);
+        indexes[2] = getRandomIndex(account, RANDOM_NUMBER_CEIL - 2);
+
+        if (indexes[1] == indexes[0]) {
+            indexes[1] = (indexes[1] + 1) % RANDOM_NUMBER_CEIL;
         }
 
-        indexes[2] = indexes[1];
-        while ((indexes[2] == indexes[0]) || (indexes[2] == indexes[1])) {
-            indexes[2] = getRandomIndex(account);
+        if (indexes[2] == indexes[0]) {
+            indexes[2] = (indexes[2] + 1) % RANDOM_NUMBER_CEIL;
+        }
+
+        if (indexes[2] == indexes[1]) {
+            indexes[2] = (indexes[2] + 1) % RANDOM_NUMBER_CEIL;
         }
 
         return indexes;
     }
 
     // Returns array of three non-duplicating integers from 0-9
-    function getRandomIndex(address account) internal returns (uint8){
-        uint8 maxValue = 10;
-
+    function getRandomIndex(address account, uint8 random_nummber_ceil) internal returns (uint8){
         // Pseudo random number...the incrementing nonce adds variation
-        uint8 random = uint8(uint256(keccak256(abi.encodePacked(blockhash(block.number - nonce++), account))) % maxValue);
-
-        if (nonce > 250) {
-            nonce = 0;
-            // Can only fetch blockhashes for last 256 blocks so we adapt
-        }
-
+        uint8 random = uint8(uint256(keccak256(abi.encodePacked(blockhash(block.number - nonce), nonce, account))) % random_nummber_ceil);
+        nonce = (nonce + 1) % 5;
         return random;
     }
 
