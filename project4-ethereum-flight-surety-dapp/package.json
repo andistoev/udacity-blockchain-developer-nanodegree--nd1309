@@ -10,7 +10,7 @@
   "scripts": {
     "test": "truffle test ./test/flightSurety.js",
     "dapp": "webpack serve --config webpack.config.dapp.js --progress",
-    "server": "rm -rf ./build/server && webpack --config webpack.config.server.js"
+    "server": "rm -rf ./build/server && webpack --config webpack.config.server.js --progress"
   },
   "author": "Andrey Stoev",
   "devDependencies": {

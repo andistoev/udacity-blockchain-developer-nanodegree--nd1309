@@ -1,6 +1,6 @@
-const path = require("path");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-const NodePolyfillPlugin = require("node-polyfill-webpack-plugin");
+const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const NodePolyfillPlugin = require('node-polyfill-webpack-plugin');
 
 module.exports = {
     mode: 'development',
@@ -44,7 +44,7 @@ module.exports = {
         stats: "minimal"
     },
     output: {
-        path: path.join(__dirname, "build/dapp"),
-        filename: "bundle.js"
-    },
+        path: path.join(__dirname, 'build/dapp'),
+        filename: 'bundle.js'
+    }
 };
