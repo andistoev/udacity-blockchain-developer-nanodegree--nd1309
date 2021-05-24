@@ -1,7 +1,9 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 pragma solidity ^0.8.4;
 
-contract FlightSuretyData {
+import "./data/BaseFlightSuretyData.sol";
+
+contract FlightSuretyData is BaseFlightSuretyData {
 
     /********************************************************************************************/
     /*                                       DATA VARIABLES                                     */
@@ -58,7 +60,7 @@ contract FlightSuretyData {
     *
     * @return A bool that is the current operating status
     */
-    function isOperational() public view returns (bool){
+    function isOperational() external view override returns (bool){
         return operational;
     }
 
@@ -68,7 +70,7 @@ contract FlightSuretyData {
     *
     * When operational mode is disabled, all write transactions except for this one will fail
     */
-    function setOperatingStatus(bool mode) external requireContractOwner {
+    function setOperatingStatus(bool mode) external override requireContractOwner {
         operational = mode;
     }
 
@@ -81,7 +83,15 @@ contract FlightSuretyData {
      *      Can only be called from FlightSuretyApp contract
      *
      */
-    function registerAirline() external pure {
+    function registerInsurer() external pure override {
+    }
+
+    /**
+     * @dev Add an airline to pay the insurance fee
+     *      Can only be called from FlightSuretyApp contract
+     *
+     */
+    function payInsurerFee() external payable override {
     }
 
 
@@ -89,21 +99,15 @@ contract FlightSuretyData {
      * @dev Buy insurance for a flight
      *
      */
-    function buy() external payable {
+    function buyInsurance() external payable override {
 
-    }
-
-    /**
-     *  @dev Credits payouts to insurees
-    */
-    function creditInsurees() external pure {
     }
 
     /**
      *  @dev Transfers eligible payout funds to insuree
      *
     */
-    function pay() external pure {
+    function withdrawInsuranceCredit() external pure override {
     }
 
     /**
@@ -112,10 +116,6 @@ contract FlightSuretyData {
      *
      */
     function fund() public payable {
-    }
-
-    function getFlightKey(address airline, string memory flight, uint256 timestamp) pure internal returns (bytes32){
-        return keccak256(abi.encodePacked(airline, flight, timestamp));
     }
 
     /**
