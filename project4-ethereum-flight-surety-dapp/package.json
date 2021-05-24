@@ -9,8 +9,7 @@
   "license": "MIT",
   "scripts": {
     "test": "truffle test ./test/flightSurety.js",
-    "dapp": "webpack-dev-server --mode development --config webpack.config.dapp.js",
-    "dapp:prod": "webpack --mode production  --config webpack.config.dapp.js",
+    "dapp": "webpack serve --config webpack.config.dapp.js --progress",
     "server": "rm -rf ./build/server && webpack --config webpack.config.server.js"
   },
   "author": "Andrey Stoev",
@@ -34,6 +33,7 @@
     "fsevents": "^2.3.2",
     "html-loader": "^2.1.2",
     "html-webpack-plugin": "^5.3.1",
+    "node-polyfill-webpack-plugin": "^1.1.2",
     "resolve-url": "^0.2.1",
     "start-server-nestjs-webpack-plugin": "^2.2.5",
     "style-loader": "^2.0.0",
@@ -44,7 +44,6 @@
     "webpack": "^5.37.1",
     "webpack-cli": "^4.7.0",
     "webpack-dev-server": "^3.11.2",
-    "webpack-node-externals": "^3.0.0",
-    "yargs-parser": "^20.2.7"
+    "webpack-node-externals": "^3.0.0"
   }
 }

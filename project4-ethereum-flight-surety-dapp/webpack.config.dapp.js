@@ -1,13 +1,10 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const NodePolyfillPlugin = require("node-polyfill-webpack-plugin");
 
 module.exports = {
     mode: 'development',
     entry: ['babel-polyfill', path.join(__dirname, "src/dapp")],
-    output: {
-        path: path.join(__dirname, "prod/dapp"),
-        filename: "bundle.js"
-    },
     module: {
         rules: [
             {
@@ -33,6 +30,7 @@ module.exports = {
         ]
     },
     plugins: [
+        new NodePolyfillPlugin(),
         new HtmlWebpackPlugin({
             template: path.join(__dirname, "src/dapp/index.html")
         })
@@ -44,5 +42,9 @@ module.exports = {
         contentBase: path.join(__dirname, "dapp"),
         port: 8000,
         stats: "minimal"
-    }
+    },
+    output: {
+        path: path.join(__dirname, "build/dapp"),
+        filename: "bundle.js"
+    },
 };
