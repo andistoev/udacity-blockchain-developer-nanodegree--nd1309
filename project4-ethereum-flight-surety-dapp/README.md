@@ -18,7 +18,7 @@ The repository contains:
 - contracts: Back-end ethereum smart contracts (deployable from Truffle)
 - test: Back-end mocha unit testing (executable from Truffle)
 - src/server: Back-end NodeJs oracle server App (executable from Webpack)
-- src/dapp: Front-end react dApp (executable from Webpack)
+- src/dapp: Front-end javascript/web3.js dApp (executable from Webpack)
 
 ## Install
 
@@ -48,15 +48,13 @@ To test it:
 
 `truffle test ./test/oracles.js`
 
+`truffle test ./test/flightSurety.js`
+
 To run the oracles:
 
 `npm run server`
 
 ## Develop Front-End
-
-To test it:
-
-`truffle test ./test/flightSurety.js`
 
 To use the dApp:
 
