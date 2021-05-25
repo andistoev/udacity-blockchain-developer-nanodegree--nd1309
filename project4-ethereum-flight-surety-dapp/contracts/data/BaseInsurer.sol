@@ -2,7 +2,9 @@
 pragma solidity ^0.8.4;
 
 interface BaseInsurer {
-    function registerInsurer() external pure;
+    function registerInsurer(address insurerAddress, string memory insurerName) external;
 
-    function payInsurersFee() external payable;
+    function approveInsurer(address insurerAddress) external;
+
+    function payInsurerFee() external payable;
 }

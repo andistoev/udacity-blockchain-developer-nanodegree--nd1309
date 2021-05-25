@@ -8,11 +8,11 @@ abstract contract CallableContract is BaseCallableContract, OwnableContract {
 
     mapping(address => bool) private authorizedContracts;
 
-    function enableContractCaller(address dataContract) external override requireContractOwner {
+    function authorizeContractCaller(address dataContract) external override requireContractOwner {
         authorizedContracts[dataContract] = true;
     }
 
-    function disableContractCaller(address dataContract) external override requireContractOwner {
+    function deauthorizeContractCaller(address dataContract) external override requireContractOwner {
         delete authorizedContracts[dataContract];
     }
 
