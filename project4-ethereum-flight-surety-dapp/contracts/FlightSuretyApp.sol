@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 pragma solidity ^0.8.4;
 
+import "./BaseFlightSuretyData.sol";
+
 /************************************************** */
 /* FlightSurety Smart Contract                      */
 /************************************************** */
@@ -35,6 +37,8 @@ contract FlightSuretyApp {
     uint8 private constant STATUS_CODE_LATE_OTHER = 50;
 
     address private contractOwner;          // Account used to deploy contract
+
+    BaseFlightSuretyData private flightSuretyData;
 
     struct Flight {
         bool isRegistered;
@@ -81,8 +85,9 @@ contract FlightSuretyApp {
     * @dev Contract constructor
     *
     */
-    constructor(){
+    constructor(address flightSuretyDataAddress){
         contractOwner = msg.sender;
+        flightSuretyData = BaseFlightSuretyData(flightSuretyDataAddress);
     }
 
     /********************************************************************************************/

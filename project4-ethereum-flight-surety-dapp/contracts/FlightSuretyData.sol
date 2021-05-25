@@ -1,113 +1,16 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 pragma solidity ^0.8.4;
 
-import "./data/BaseFlightSuretyData.sol";
+import "./BaseFlightSuretyData.sol";
+import "./data/OwnableContract.sol";
+import "./data/OperationalContract.sol";
+import "./data/Insurer.sol";
+import "./data/Insuree.sol";
+import "./data/CallableContract.sol";
 
-contract FlightSuretyData is BaseFlightSuretyData {
+contract FlightSuretyData is BaseFlightSuretyData, OwnableContract, OperationalContract, CallableContract, Insurer, Insuree {
 
-    /********************************************************************************************/
-    /*                                       DATA VARIABLES                                     */
-    /********************************************************************************************/
-
-    address private contractOwner;                                      // Account used to deploy contract
-    bool private operational = true;                                    // Blocks all state changes throughout the contract if false
-
-    /********************************************************************************************/
-    /*                                       EVENT DEFINITIONS                                  */
-    /********************************************************************************************/
-
-
-    /**
-    * @dev Constructor
-    *      The deploying account becomes contractOwner
-    */
-    constructor(){
-        contractOwner = msg.sender;
-    }
-
-    /********************************************************************************************/
-    /*                                       FUNCTION MODIFIERS                                 */
-    /********************************************************************************************/
-
-    // Modifiers help avoid duplication of code. They are typically used to validate something
-    // before a function is allowed to be executed.
-
-    /**
-    * @dev Modifier that requires the "operational" boolean variable to be "true"
-    *      This is used on all state changing functions to pause the contract in 
-    *      the event there is an issue that needs to be fixed
-    */
-    modifier requireIsOperational(){
-        require(operational, "Contract is currently not operational");
-        _;
-        // All modifiers require an "_" which indicates where the function body will be added
-    }
-
-    /**
-    * @dev Modifier that requires the "ContractOwner" account to be the function caller
-    */
-    modifier requireContractOwner(){
-        require(msg.sender == contractOwner, "Caller is not contract owner");
-        _;
-    }
-
-    /********************************************************************************************/
-    /*                                       UTILITY FUNCTIONS                                  */
-    /********************************************************************************************/
-
-    /**
-    * @dev Get operating status of contract
-    *
-    * @return A bool that is the current operating status
-    */
-    function isOperational() external view override returns (bool){
-        return operational;
-    }
-
-
-    /**
-    * @dev Sets contract operations on/off
-    *
-    * When operational mode is disabled, all write transactions except for this one will fail
-    */
-    function setOperatingStatus(bool mode) external override requireContractOwner {
-        operational = mode;
-    }
-
-    /********************************************************************************************/
-    /*                                     SMART CONTRACT FUNCTIONS                             */
-    /********************************************************************************************/
-
-    /**
-     * @dev Add an airline to the registration queue
-     *      Can only be called from FlightSuretyApp contract
-     *
-     */
-    function registerInsurer() external pure override {
-    }
-
-    /**
-     * @dev Add an airline to pay the insurance fee
-     *      Can only be called from FlightSuretyApp contract
-     *
-     */
-    function payInsurerFee() external payable override {
-    }
-
-
-    /**
-     * @dev Buy insurance for a flight
-     *
-     */
-    function buyInsurance() external payable override {
-
-    }
-
-    /**
-     *  @dev Transfers eligible payout funds to insuree
-     *
-    */
-    function withdrawInsuranceCredit() external pure override {
+    constructor() OwnableContract(){
     }
 
     /**
