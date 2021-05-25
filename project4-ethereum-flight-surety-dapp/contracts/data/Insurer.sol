@@ -24,6 +24,7 @@ abstract contract Insurer is BaseInsurer {
     event InsurerStateChanged(address insurrerAddress, string name, uint state);
 
     uint16 private constant numberOfFullyQualifiedInsurersRequiredForMultiParityConsensus = 5;
+
     uint16 fullyQualifiedInsurersCtr;
     mapping(address => InsurerProfile) private insurers;
 
@@ -71,13 +72,14 @@ abstract contract Insurer is BaseInsurer {
     function payInsurerFee() external payable override changeBackPlease(insurerFee) {
         require(insurers[msg.sender].state == InsurerState.APPROVED, "Insurer is not yet approved or has been already approved");
         require(msg.value >= insurerFee, "Insufficient insurer's fee");
-        insurers[msg.sender].state = InsurerState.FULLY_QUALIFIED;
+
+    insurers[msg.sender].state = InsurerState.FULLY_QUALIFIED;
         fullyQualifiedInsurersCtr++;
-        triggerStateChange(msg.sender);
+
+    triggerStateChange(msg.sender);
     }
 
     function triggerStateChange(address insurerAddress) private {
         emit InsurerStateChanged(insurerAddress, insurers[insurerAddress].name, uint(insurers[insurerAddress].state));
     }
 }
-
