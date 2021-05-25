@@ -5,7 +5,7 @@ import "./BaseInsurer.sol";
 
 abstract contract Insurer is BaseInsurer {
 
-    uint private insurerFee = 1 ether;
+    uint private constant insurerFee = 1 ether;
 
     enum InsurerState{
         UNREGISTERED, // 0
@@ -17,10 +17,14 @@ abstract contract Insurer is BaseInsurer {
     struct InsurerProfile {
         string name;
         InsurerState state;
+        uint16 approversCtr;
+        mapping(address => bool) approvers;
     }
 
     event InsurerStateChanged(address insurrerAddress, string name, uint state);
 
+    uint16 private constant numberOfFullyQualifiedInsurersRequiredForMultiParityConsensus = 5;
+    uint16 fullyQualifiedInsurersCtr;
     mapping(address => InsurerProfile) private insurers;
 
     modifier requiredFullyQualifiedInsurer(){
@@ -31,17 +35,31 @@ abstract contract Insurer is BaseInsurer {
     function registerInsurer(address insurerAddress, string memory insurerName) external override requiredFullyQualifiedInsurer {
         require(insurers[insurerAddress].state == InsurerState.UNREGISTERED, "Insurer is already registered");
 
-        insurers[insurerAddress] = InsurerProfile({
-        name : insurerName,
-        state : InsurerState.REGISTERED
-        });
+        insurers[insurerAddress].name = insurerName;
+        insurers[insurerAddress].state = InsurerState.REGISTERED;
+
         triggerStateChange(insurerAddress);
     }
 
     function approveInsurer(address insurerAddress) external override requiredFullyQualifiedInsurer {
         require(insurers[insurerAddress].state == InsurerState.REGISTERED, "Insurer is not yet registered or has been already approved");
-        insurers[insurerAddress].state = InsurerState.APPROVED;
-        triggerStateChange(insurerAddress);
+        require(insurers[insurerAddress].approvers[msg.sender] == false, "Insurer has been already approved by this caller");
+
+        insurers[insurerAddress].approvers[msg.sender] = true;
+        insurers[insurerAddress].approversCtr++;
+
+        if (isInsurerApproved(insurerAddress)) {
+            insurers[insurerAddress].state = InsurerState.APPROVED;
+            triggerStateChange(insurerAddress);
+        }
+    }
+
+    function isInsurerApproved(address insurerAddress) private view returns (bool) {
+        if (fullyQualifiedInsurersCtr < numberOfFullyQualifiedInsurersRequiredForMultiParityConsensus) {
+            return true;
+        }
+
+        return insurers[insurerAddress].approversCtr * 2 >= fullyQualifiedInsurersCtr;
     }
 
     modifier changeBackPlease(uint amountRequested) {
@@ -54,6 +72,7 @@ abstract contract Insurer is BaseInsurer {
         require(insurers[msg.sender].state == InsurerState.APPROVED, "Insurer is not yet approved or has been already approved");
         require(msg.value >= insurerFee, "Insufficient insurer's fee");
         insurers[msg.sender].state = InsurerState.FULLY_QUALIFIED;
+        fullyQualifiedInsurersCtr++;
         triggerStateChange(msg.sender);
     }
 
