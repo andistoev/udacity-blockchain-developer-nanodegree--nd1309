@@ -3,8 +3,9 @@ pragma solidity ^0.8.4;
 
 import "../shared/BaseInsuree.sol";
 import "../shared/PayableContract.sol";
+import "./OperationalContract.sol";
 
-abstract contract Insuree is BaseInsuree, PayableContract {
+abstract contract Insuree is PayableContract, OperationalContract, BaseInsuree {
 
     uint private constant MAX_INSURANCE_PRICE = 1 ether;
 
@@ -26,10 +27,13 @@ abstract contract Insuree is BaseInsuree, PayableContract {
 
     mapping(string => mapping(address => InsurancePolicy)) private insurancePolicies;
 
-    function buyInsurance(string calldata insuredObjectId) external payable override giveChangeBack(MAX_INSURANCE_PRICE) {
+    /**
+    * API
+    */
+
+    function buyInsurance(string calldata insuredObjectId) external payable override requireIsOperational giveChangeBack(MAX_INSURANCE_PRICE) {
         require(bytes(insuredObjectId).length > 0, 'InsuredObjectId is invalid identifier');
         require(msg.value > 0, "Insurance policy's price can not be 0");
-
         require(insurancePolicies[insuredObjectId][msg.sender].state == InsurancePolicyState.AVAILABLE, "The same policy can not be bought twice");
 
         insurancePolicies[insuredObjectId][msg.sender] = InsurancePolicy(
@@ -41,6 +45,24 @@ abstract contract Insuree is BaseInsuree, PayableContract {
         triggerInsurancePolicyStateChange(insuredObjectId, msg.sender);
     }
 
+    function withdrawInsuranceCredit(string memory insuredObjectId) external payable override requireIsOperational {
+        InsurancePolicy storage insurancePolicy = insurancePolicies[insuredObjectId][msg.sender];
+
+        require(insurancePolicy.state == InsurancePolicyState.CREDIT_APPROVED, "Credit retrieval is not approved or it has been already withdrawn");
+        require(insurancePolicy.amountWithdrawn == 0, "Credit can not be withdrawn twice");
+
+        insurancePolicy.amountWithdrawn = insurancePolicy.amountPaid * 3 / 2;
+        insurancePolicy.state = InsurancePolicyState.CREDIT_WITHDRAWN;
+
+        triggerInsurancePolicyStateChange(insuredObjectId, msg.sender);
+
+        payTo(msg.sender, insurancePolicy.amountWithdrawn, "Insurance policy credit withdrawn failed.");
+    }
+
+    /**
+    * Modifiers and private methods
+    */
+
     function getInsureePaidAmount() private view returns (uint){
         if (msg.value >= MAX_INSURANCE_PRICE) {
             return MAX_INSURANCE_PRICE;
@@ -49,21 +71,8 @@ abstract contract Insuree is BaseInsuree, PayableContract {
         return msg.value;
     }
 
-    function withdrawInsuranceCredit(string memory insuredObjectId) external payable override {
-        InsurancePolicy storage insurancePolicy = insurancePolicies[insuredObjectId][msg.sender];
-
-        require(insurancePolicy.state == InsurancePolicyState.CREDIT_APPROVED, "Credit retrieval is not approved or it has been already withdrawn");
-
-        uint creditAmount = insurancePolicy.amountPaid * 3 / 2;
-        insurancePolicy.amountWithdrawn = creditAmount;
-        insurancePolicy.state = InsurancePolicyState.CREDIT_WITHDRAWN;
-
-        payTo(msg.sender, creditAmount, "Insurance policy credit withdrawn failed.");
-
-        triggerInsurancePolicyStateChange(insuredObjectId, msg.sender);
-    }
-
     function triggerInsurancePolicyStateChange(string memory insuredObjectId, address insureeAddress) private {
         emit InsurancePolicyStateChanged(insureeAddress, insuredObjectId, uint(insurancePolicies[insuredObjectId][insureeAddress].state));
     }
+
 }

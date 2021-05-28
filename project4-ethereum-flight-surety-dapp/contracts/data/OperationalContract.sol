@@ -8,6 +8,10 @@ abstract contract OperationalContract is BaseOperationalContract, OwnableContrac
 
     bool private operational = true;
 
+    /**
+    * API
+    */
+
     function isContractOperational() external view override returns (bool){
         return operational;
     }
@@ -19,6 +23,10 @@ abstract contract OperationalContract is BaseOperationalContract, OwnableContrac
     function resumeContract() external override requireContractOwner {
         operational = true;
     }
+
+    /**
+    * Modifiers and private methods
+    */
 
     modifier requireIsOperational() {
         require(operational, "Contract is currently not operational");
