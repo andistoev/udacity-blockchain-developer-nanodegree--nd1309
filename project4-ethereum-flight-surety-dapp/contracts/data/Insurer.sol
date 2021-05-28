@@ -64,14 +64,12 @@ abstract contract Insurer is BaseInsurer, PayableContract {
         return insurers[insurerAddress].approversCtr * 2 >= fullyQualifiedInsurersCtr;
     }
 
-    function payInsurerFee() external payable override {
+    function payInsurerFee() external payable override giveChangeBack(INSURER_FEE) {
         require(insurers[msg.sender].state == InsurerState.APPROVED, "Insurer is not yet approved or has been already approved");
         require(msg.value >= INSURER_FEE, "Insufficient insurer's fee");
 
         insurers[msg.sender].state = InsurerState.FULLY_QUALIFIED;
         fullyQualifiedInsurersCtr++;
-
-        giveChangeBack(INSURER_FEE);
 
         triggerInsurerStateChange(msg.sender);
     }

@@ -26,7 +26,7 @@ abstract contract Insuree is BaseInsuree, PayableContract {
 
     mapping(string => mapping(address => InsurancePolicy)) private insurancePolicies;
 
-    function buyInsurance(string calldata insuredObjectId) external payable override {
+    function buyInsurance(string calldata insuredObjectId) external payable override giveChangeBack(MAX_INSURANCE_PRICE) {
         require(bytes(insuredObjectId).length > 0, 'InsuredObjectId is invalid identifier');
         require(msg.value > 0, "Insurance policy's price can not be 0");
 
@@ -37,8 +37,6 @@ abstract contract Insuree is BaseInsuree, PayableContract {
             getInsureePaidAmount(),
             0
         );
-
-        giveChangeBack(MAX_INSURANCE_PRICE);
 
         triggerInsurancePolicyStateChange(insuredObjectId, msg.sender);
     }

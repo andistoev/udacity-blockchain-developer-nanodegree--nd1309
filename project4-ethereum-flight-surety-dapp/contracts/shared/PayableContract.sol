@@ -3,7 +3,8 @@ pragma solidity ^0.8.4;
 
 abstract contract PayableContract {
 
-    function giveChangeBack(uint amountRequested) internal {
+    modifier giveChangeBack(uint amountRequested) {
+        _;
         if (msg.value > amountRequested) {
             payTo(msg.sender, msg.value - amountRequested, "Can not give change back");
         }

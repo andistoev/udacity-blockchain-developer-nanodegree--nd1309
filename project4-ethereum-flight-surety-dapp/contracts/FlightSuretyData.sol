@@ -4,14 +4,14 @@ pragma solidity ^0.8.4;
 import "./shared/BaseFlightSuretyData.sol";
 
 import "./shared/OwnableContract.sol";
-import "./shared/PayableContract.sol";
 
 import "./data/OperationalContract.sol";
-import "./data/Insurer.sol";
-import "./data/Insuree.sol";
 import "./data/CallableContract.sol";
 
-contract FlightSuretyData is OwnableContract, PayableContract, OperationalContract, CallableContract, Insurer, Insuree {
+import "./data/Insurer.sol";
+import "./data/Insuree.sol";
+
+contract FlightSuretyData is OwnableContract, OperationalContract, CallableContract, Insurer, Insuree, BaseFlightSuretyData {
 
     constructor() OwnableContract(){
     }
