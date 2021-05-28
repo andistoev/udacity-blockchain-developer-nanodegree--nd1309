@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.4;
 
-import "./BaseCallableContract.sol";
+import "../shared/BaseCallableContract.sol";
 import "../shared/OwnableContract.sol";
 
 abstract contract CallableContract is BaseCallableContract, OwnableContract {
@@ -16,7 +16,7 @@ abstract contract CallableContract is BaseCallableContract, OwnableContract {
         delete authorizedContracts[dataContract];
     }
 
-    modifier requiredAuthorizedCaller(){
+    modifier requiredAuthorizedCaller() {
         require(authorizedContracts[msg.sender], "Caller is not authorized");
         _;
     }

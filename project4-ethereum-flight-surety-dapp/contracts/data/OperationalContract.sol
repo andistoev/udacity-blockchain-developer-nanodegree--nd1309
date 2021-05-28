@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.4;
 
-import "./BaseOperationalContract.sol";
+import "../shared/BaseOperationalContract.sol";
 import "../shared/OwnableContract.sol";
 
 abstract contract OperationalContract is BaseOperationalContract, OwnableContract {
@@ -20,7 +20,7 @@ abstract contract OperationalContract is BaseOperationalContract, OwnableContrac
         operational = true;
     }
 
-    modifier requireIsOperational(){
+    modifier requireIsOperational() {
         require(operational, "Contract is currently not operational");
         _;
     }

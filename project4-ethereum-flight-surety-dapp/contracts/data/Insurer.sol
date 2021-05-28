@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.4;
 
-import "./BaseInsurer.sol";
-import "./PayableContract.sol";
+import "../shared/BaseInsurer.sol";
+import "../shared/PayableContract.sol";
 
 abstract contract Insurer is BaseInsurer, PayableContract {
 
@@ -64,12 +64,14 @@ abstract contract Insurer is BaseInsurer, PayableContract {
         return insurers[insurerAddress].approversCtr * 2 >= fullyQualifiedInsurersCtr;
     }
 
-    function payInsurerFee() external payable override giveChangeBack(INSURER_FEE) {
+    function payInsurerFee() external payable override {
         require(insurers[msg.sender].state == InsurerState.APPROVED, "Insurer is not yet approved or has been already approved");
         require(msg.value >= INSURER_FEE, "Insufficient insurer's fee");
 
         insurers[msg.sender].state = InsurerState.FULLY_QUALIFIED;
         fullyQualifiedInsurersCtr++;
+
+        giveChangeBack(INSURER_FEE);
 
         triggerInsurerStateChange(msg.sender);
     }

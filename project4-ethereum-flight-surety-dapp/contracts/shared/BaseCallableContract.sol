@@ -5,4 +5,5 @@ interface BaseCallableContract {
     function authorizeContractCaller(address dataContract) external;
 
     function deauthorizeContractCaller(address dataContract) external;
+
 }

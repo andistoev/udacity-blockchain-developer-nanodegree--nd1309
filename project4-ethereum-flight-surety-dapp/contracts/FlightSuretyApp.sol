@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.4;
 
-import "./BaseFlightSuretyData.sol";
+import "./shared/BaseFlightSuretyData.sol";
 import "./shared/OwnableContract.sol";
 
 /************************************************** */
