@@ -2,7 +2,7 @@
 pragma solidity ^0.8.4;
 
 import "./BaseFlightSuretyData.sol";
-import "./data/OwnableContract.sol";
+import "./shared/OwnableContract.sol";
 import "./data/OperationalContract.sol";
 import "./data/Insurer.sol";
 import "./data/Insuree.sol";

@@ -2,7 +2,7 @@
 pragma solidity ^0.8.4;
 
 import "./BaseOperationalContract.sol";
-import "./OwnableContract.sol";
+import "../shared/OwnableContract.sol";
 
 abstract contract OperationalContract is BaseOperationalContract, OwnableContract {
 
