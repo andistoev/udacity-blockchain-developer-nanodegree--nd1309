@@ -23,8 +23,6 @@ abstract contract InsurerManager is PayableContract, OperationalContract, BaseIn
         mapping(address => bool) approvers;
     }
 
-    event InsurerStateChanged(address insurerAddress, string name, uint state);
-
     uint16 private constant NUMBER_OF_FULLY_QUALIFIED_INSURERS_REQUIRED_FOR_MULTI_PARITY_CONSENSUS = 5;
 
     uint16 fullyQualifiedInsurersCtr;
@@ -33,6 +31,8 @@ abstract contract InsurerManager is PayableContract, OperationalContract, BaseIn
     /**
     * API
     */
+
+    event InsurerStateChanged(address insurerAddress, string name, uint state);
 
     function registerInsurer(address insurerAddress, string memory insurerName) external override requireIsOperational requiredFullyQualifiedInsurer {
         require(insurers[insurerAddress].state == InsurerState.UNREGISTERED, "Insurer is already registered");

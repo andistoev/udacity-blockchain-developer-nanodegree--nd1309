@@ -23,13 +23,14 @@ abstract contract InsuranceManager is PayableContract, OperationalContract, Base
         uint amountWithdrawn;
     }
 
-    event InsurancePolicyStateChanged(address insureeAddress, string name, uint state);
-
+    // insuredObjectId => mapping(insureeAddress => insurancePolicy)
     mapping(string => mapping(address => InsurancePolicy)) private insurancePolicies;
 
     /**
     * API
     */
+
+    event InsurancePolicyStateChanged(address insureeAddress, string name, uint state);
 
     function buyInsurance(string calldata insuredObjectId) external payable override requireIsOperational giveChangeBack(MAX_INSURANCE_PRICE) {
         require(bytes(insuredObjectId).length > 0, 'InsuredObjectId is invalid identifier');
