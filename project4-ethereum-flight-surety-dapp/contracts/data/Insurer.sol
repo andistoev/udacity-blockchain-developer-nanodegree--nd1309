@@ -2,10 +2,11 @@
 pragma solidity ^0.8.4;
 
 import "./BaseInsurer.sol";
+import "./PayableContract.sol";
 
-abstract contract Insurer is BaseInsurer {
+abstract contract Insurer is BaseInsurer, PayableContract {
 
-    uint private constant insurerFee = 1 ether;
+    uint private constant INSURER_FEE = 10 ether;
 
     enum InsurerState{
         UNREGISTERED, // 0
@@ -21,9 +22,9 @@ abstract contract Insurer is BaseInsurer {
         mapping(address => bool) approvers;
     }
 
-    event InsurerStateChanged(address insurrerAddress, string name, uint state);
+    event InsurerStateChanged(address insurerAddress, string name, uint state);
 
-    uint16 private constant numberOfFullyQualifiedInsurersRequiredForMultiParityConsensus = 5;
+    uint16 private constant NUMBER_OF_FULLY_QUALIFIED_INSURERS_REQUIRED_FOR_MULTI_PARITY_CONSENSUS = 5;
 
     uint16 fullyQualifiedInsurersCtr;
     mapping(address => InsurerProfile) private insurers;
@@ -39,7 +40,7 @@ abstract contract Insurer is BaseInsurer {
         insurers[insurerAddress].name = insurerName;
         insurers[insurerAddress].state = InsurerState.REGISTERED;
 
-        triggerStateChange(insurerAddress);
+        triggerInsurerStateChange(insurerAddress);
     }
 
     function approveInsurer(address insurerAddress) external override requiredFullyQualifiedInsurer {
@@ -51,35 +52,29 @@ abstract contract Insurer is BaseInsurer {
 
         if (isInsurerApproved(insurerAddress)) {
             insurers[insurerAddress].state = InsurerState.APPROVED;
-            triggerStateChange(insurerAddress);
+            triggerInsurerStateChange(insurerAddress);
         }
     }
 
     function isInsurerApproved(address insurerAddress) private view returns (bool) {
-        if (fullyQualifiedInsurersCtr < numberOfFullyQualifiedInsurersRequiredForMultiParityConsensus) {
+        if (fullyQualifiedInsurersCtr < NUMBER_OF_FULLY_QUALIFIED_INSURERS_REQUIRED_FOR_MULTI_PARITY_CONSENSUS) {
             return true;
         }
 
         return insurers[insurerAddress].approversCtr * 2 >= fullyQualifiedInsurersCtr;
     }
 
-    modifier changeBackPlease(uint amountRequested) {
-        _;
-        uint amountToReturn = msg.value - amountRequested;
-        payable(msg.sender).transfer(amountToReturn);
-    }
-
-    function payInsurerFee() external payable override changeBackPlease(insurerFee) {
+    function payInsurerFee() external payable override giveChangeBack(INSURER_FEE) {
         require(insurers[msg.sender].state == InsurerState.APPROVED, "Insurer is not yet approved or has been already approved");
-        require(msg.value >= insurerFee, "Insufficient insurer's fee");
+        require(msg.value >= INSURER_FEE, "Insufficient insurer's fee");
 
-    insurers[msg.sender].state = InsurerState.FULLY_QUALIFIED;
+        insurers[msg.sender].state = InsurerState.FULLY_QUALIFIED;
         fullyQualifiedInsurersCtr++;
 
-    triggerStateChange(msg.sender);
+        triggerInsurerStateChange(msg.sender);
     }
 
-    function triggerStateChange(address insurerAddress) private {
+    function triggerInsurerStateChange(address insurerAddress) private {
         emit InsurerStateChanged(insurerAddress, insurers[insurerAddress].name, uint(insurers[insurerAddress].state));
     }
 }

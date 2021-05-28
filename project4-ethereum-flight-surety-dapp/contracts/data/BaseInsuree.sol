@@ -2,7 +2,7 @@
 pragma solidity ^0.8.4;
 
 interface BaseInsuree {
-    function buyInsurance() external payable;
+    function buyInsurance(string calldata insuredObjectId) external payable;
 
-    function withdrawInsuranceCredit() external pure;
+    function withdrawInsuranceCredit(string calldata insuredObjectId) external payable;
 }
