@@ -1,17 +1,17 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.4;
 
-import "./shared/BaseFlightSuretyData.sol";
-
 import "./shared/OwnableContract.sol";
 
 import "./data/OperationalContract.sol";
 import "./data/CallableContract.sol";
 
-import "./data/Insurer.sol";
-import "./data/Insuree.sol";
+import "./data/InsurerManager.sol";
+import "./data/InsuranceManager.sol";
 
-contract FlightSuretyData is OwnableContract, OperationalContract, CallableContract, Insurer, Insuree, BaseFlightSuretyData {
+import "./shared/BaseFlightSuretyData.sol";
+
+contract FlightSuretyData is OwnableContract, OperationalContract, CallableContract, InsurerManager, InsuranceManager, BaseFlightSuretyData {
 
     constructor() OwnableContract(){
     }
@@ -21,19 +21,11 @@ contract FlightSuretyData is OwnableContract, OperationalContract, CallableContr
      *      resulting in insurance payouts, the contract should be self-sustaining
      *
      */
-    function fund() public payable {
-    }
 
-    /**
-    * @dev Fallback function for funding smart contract.
-    *
-    */
     fallback() external payable {
-        fund();
     }
 
     receive() external payable {
-        fund();
     }
 
 

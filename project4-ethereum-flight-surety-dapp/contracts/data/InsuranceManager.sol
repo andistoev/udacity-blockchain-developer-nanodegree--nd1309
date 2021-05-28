@@ -1,11 +1,11 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.4;
 
-import "../shared/BaseInsuree.sol";
+import "../shared/BaseInsuranceManager.sol";
 import "../shared/PayableContract.sol";
 import "./OperationalContract.sol";
 
-abstract contract Insuree is PayableContract, OperationalContract, BaseInsuree {
+abstract contract InsuranceManager is PayableContract, OperationalContract, BaseInsuranceManager {
 
     uint private constant MAX_INSURANCE_PRICE = 1 ether;
 
