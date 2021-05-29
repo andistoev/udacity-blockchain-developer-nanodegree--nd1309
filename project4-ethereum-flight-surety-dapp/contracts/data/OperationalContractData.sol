@@ -4,7 +4,7 @@ pragma solidity ^0.8.4;
 import "../shared/BaseOperationalContract.sol";
 import "../shared/OwnableContract.sol";
 
-abstract contract OperationalContract is BaseOperationalContract, OwnableContract {
+abstract contract OperationalContractData is BaseOperationalContract, OwnableContract {
 
     bool private operational = true;
 
