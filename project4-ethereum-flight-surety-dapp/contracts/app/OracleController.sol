@@ -2,8 +2,9 @@
 pragma solidity ^0.8.4;
 
 import "../shared/OwnableContract.sol";
+import "./AppInsuranceController.sol";
 
-abstract contract OracleController is OwnableContract {
+abstract contract OracleController is OwnableContract, AppInsuranceController {
 
     uint8 public constant ORACLE_RANDOM_INDEX_CEIL = 10;
 
@@ -101,9 +102,6 @@ abstract contract OracleController is OwnableContract {
     /**
     * Modifiers and private methods
     */
-
-    function processFlightStatusInfoUpdated(address airline, string memory flight, uint256 timestamp, uint8 statusCode) private pure {
-    }
 
     function getOracleKey(uint8 index, address airline, string calldata flight, uint256 timestamp) pure private returns (bytes32){
         return keccak256(abi.encodePacked(index, airline, flight, timestamp));
