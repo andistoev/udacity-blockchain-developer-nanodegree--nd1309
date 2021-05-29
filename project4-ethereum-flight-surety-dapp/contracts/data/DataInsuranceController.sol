@@ -24,8 +24,13 @@ abstract contract DataInsuranceController is PayableContract, DataOperationalCon
         uint amountWithdrawn;
     }
 
-    // insuredObjectKey => mapping(insureeAddress => insurancePolicy)
-    mapping(bytes32 => mapping(address => InsurancePolicy)) private insurancePolicies;
+    struct InsuredObject {
+        bool registered;
+        mapping(address => InsurancePolicy) insurancePolicies;
+    }
+
+    // key = insuredObjectKey
+    mapping(bytes32 => InsuredObject) private insuredObjects;
 
     /**
     * API
@@ -35,9 +40,11 @@ abstract contract DataInsuranceController is PayableContract, DataOperationalCon
 
     function buyInsurance(bytes32 insuredObjectKey) external payable override requireIsOperational requiredAuthorizedCaller giveChangeBack(MAX_INSURANCE_PRICE) {
         require(msg.value > 0, "Insurance policy's price can not be 0");
-        require(insurancePolicies[insuredObjectKey][msg.sender].state == InsurancePolicyState.AVAILABLE, "The same policy can not be bought twice");
 
-        insurancePolicies[insuredObjectKey][msg.sender] = InsurancePolicy(
+        InsuredObject storage insuredObject = insuredObjects[insuredObjectKey];
+        require(insuredObject.insurancePolicies[msg.sender].state == InsurancePolicyState.AVAILABLE, "The same policy can not be bought twice");
+
+        insuredObject.insurancePolicies[msg.sender] = InsurancePolicy(
             InsurancePolicyState.OPEN,
             getInsureePaidAmount(),
             0
@@ -48,7 +55,9 @@ abstract contract DataInsuranceController is PayableContract, DataOperationalCon
 
     function closeAllInsurances(bytes32 insuredObjectKey) external override requireIsOperational requiredAuthorizedCaller {
         address insureeAddress = address(0);
-        InsurancePolicy storage insurancePolicy = insurancePolicies[insuredObjectKey][insureeAddress];
+
+        InsuredObject storage insuredObject = insuredObjects[insuredObjectKey];
+        InsurancePolicy storage insurancePolicy = insuredObject.insurancePolicies[insureeAddress];
         require(insurancePolicy.state == InsurancePolicyState.OPEN, "Insurance can not be closed or it has been already closed");
 
         insurancePolicy.state = InsurancePolicyState.CLOSED_NO_MONEY_BACK;
@@ -56,14 +65,17 @@ abstract contract DataInsuranceController is PayableContract, DataOperationalCon
 
     function approveAllInsuranceCreditWithdraws(bytes32 insuredObjectKey) external override requireIsOperational requiredAuthorizedCaller {
         address insureeAddress = address(0);
-        InsurancePolicy storage insurancePolicy = insurancePolicies[insuredObjectKey][insureeAddress];
+
+        InsuredObject storage insuredObject = insuredObjects[insuredObjectKey];
+        InsurancePolicy storage insurancePolicy = insuredObject.insurancePolicies[insureeAddress];
         require(insurancePolicy.state == InsurancePolicyState.OPEN, "Credit retrieval can not be approved or it has been already approved");
 
         insurancePolicy.state = InsurancePolicyState.CREDIT_APPROVED;
     }
 
     function withdrawInsuranceCredit(bytes32 insuredObjectKey) external payable override requireIsOperational requiredAuthorizedCaller {
-        InsurancePolicy storage insurancePolicy = insurancePolicies[insuredObjectKey][msg.sender];
+        InsuredObject storage insuredObject = insuredObjects[insuredObjectKey];
+        InsurancePolicy storage insurancePolicy = insuredObject.insurancePolicies[msg.sender];
 
         require(insurancePolicy.state == InsurancePolicyState.CREDIT_APPROVED, "Credit retrieval is not approved or it has been already withdrawn");
         require(insurancePolicy.amountWithdrawn == 0, "Credit can not be withdrawn twice");
@@ -89,7 +101,8 @@ abstract contract DataInsuranceController is PayableContract, DataOperationalCon
     }
 
     function triggerInsurancePolicyStateChange(bytes32 insuredObjectKey, address insureeAddress) private {
-        emit InsurancePolicyStateChanged(insureeAddress, insuredObjectKey, uint(insurancePolicies[insuredObjectKey][insureeAddress].state));
+        InsuredObject storage insuredObject = insuredObjects[insuredObjectKey];
+        emit InsurancePolicyStateChanged(insureeAddress, insuredObjectKey, uint(insuredObject.insurancePolicies[insureeAddress].state));
     }
 
 }
