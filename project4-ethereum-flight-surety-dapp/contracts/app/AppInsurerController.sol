@@ -11,6 +11,10 @@ abstract contract AppInsurerController is PayableContract, BaseInsurerController
     * API
     */
 
+    function registerAirline() external pure returns (bool success, uint256 votes){
+        return (success, 0);
+    }
+
     function registerInsurer(address insurerAddress, string memory insurerName) external override {
         dataContract.registerInsurer(insurerAddress, insurerName);
     }

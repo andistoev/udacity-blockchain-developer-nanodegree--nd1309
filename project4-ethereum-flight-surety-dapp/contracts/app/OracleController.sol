@@ -67,9 +67,9 @@ abstract contract OracleController is OwnableContract, AppInsuranceController {
         uint8 index = getRandomIndex(msg.sender, ORACLE_RANDOM_INDEX_CEIL);
 
         // Generate a unique key for storing the request
-        bytes32 key = getOracleKey(index, airline, flight, timestamp);
+        bytes32 oracleKey = getOracleKey(index, airline, flight, timestamp);
 
-        OracleFlightStatusInfo storage oracleFlightStatusInfo = oracleFlightStatusInfos[key];
+        OracleFlightStatusInfo storage oracleFlightStatusInfo = oracleFlightStatusInfos[oracleKey];
         require(oracleFlightStatusInfo.requester == address(0), "The same oracle request to request flight information can not be done twice");
 
         oracleFlightStatusInfo.isOpen = true;
@@ -85,15 +85,15 @@ abstract contract OracleController is OwnableContract, AppInsuranceController {
     function submitOracleFlightStatusInfo(uint8 index, address airline, string calldata flight, uint256 timestamp, uint8 statusCode) external {
         require((oracles[msg.sender].indexes[0] == index) || (oracles[msg.sender].indexes[1] == index) || (oracles[msg.sender].indexes[2] == index), "Index does not match oracle request");
 
-        bytes32 key = getOracleKey(index, airline, flight, timestamp);
-        require(oracleFlightStatusInfos[key].isOpen, "Flight or timestamp do not match oracle request");
+        bytes32 oracleKey = getOracleKey(index, airline, flight, timestamp);
+        require(oracleFlightStatusInfos[oracleKey].isOpen, "Flight or timestamp do not match oracle request");
 
-        oracleFlightStatusInfos[key].responses[statusCode].push(msg.sender);
+        oracleFlightStatusInfos[oracleKey].responses[statusCode].push(msg.sender);
 
         emit OracleFlightStatusInfoSubmitted(airline, flight, timestamp, statusCode);
 
-        if (oracleFlightStatusInfos[key].responses[statusCode].length >= MIN_ORACLE_RESPONSES_REQUIRED_FOR_VALIDATION) {
-            oracleFlightStatusInfos[key].isOpen = false;
+        if (oracleFlightStatusInfos[oracleKey].responses[statusCode].length >= MIN_ORACLE_RESPONSES_REQUIRED_FOR_VALIDATION) {
+            oracleFlightStatusInfos[oracleKey].isOpen = false;
             processFlightStatusInfoUpdated(airline, flight, timestamp, statusCode);
             emit FlightStatusInfoUpdated(airline, flight, timestamp, statusCode);
         }
@@ -105,10 +105,6 @@ abstract contract OracleController is OwnableContract, AppInsuranceController {
 
     function getOracleKey(uint8 index, address airline, string calldata flight, uint256 timestamp) pure private returns (bytes32){
         return keccak256(abi.encodePacked(index, airline, flight, timestamp));
-    }
-
-    function getFlightKey(address airline, string calldata flight, uint256 timestamp) pure private returns (bytes32){
-        return keccak256(abi.encodePacked(airline, flight, timestamp));
     }
 
     function generateThreeNonDuplicatedIndexes(address account, uint8 randomNumberIndexCeil) private returns (uint8[3] memory){
