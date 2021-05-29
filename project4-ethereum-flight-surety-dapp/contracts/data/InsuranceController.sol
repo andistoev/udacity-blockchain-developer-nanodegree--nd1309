@@ -5,7 +5,7 @@ import "../shared/BaseInsuranceController.sol";
 import "../shared/PayableContract.sol";
 import "./DataOperationalContract.sol";
 
-abstract contract InsuranceController is PayableContract, DataOperationalContract, BaseInsuranceController {
+abstract contract InsuranceController is PayableContract, DataOperationalContract, BaseInsuranceController, DataContract {
 
     uint private constant MAX_INSURANCE_PRICE = 1 ether;
 
@@ -32,7 +32,7 @@ abstract contract InsuranceController is PayableContract, DataOperationalContrac
 
     event InsurancePolicyStateChanged(address insureeAddress, string name, uint state);
 
-    function buyInsurance(string calldata insuredObjectId) external payable override requireIsOperational giveChangeBack(MAX_INSURANCE_PRICE) {
+    function buyInsurance(string calldata insuredObjectId) external payable override requireIsOperational requiredAuthorizedCaller giveChangeBack(MAX_INSURANCE_PRICE) {
         require(bytes(insuredObjectId).length > 0, 'InsuredObjectId is invalid identifier');
         require(msg.value > 0, "Insurance policy's price can not be 0");
         require(insurancePolicies[insuredObjectId][msg.sender].state == InsurancePolicyState.AVAILABLE, "The same policy can not be bought twice");
@@ -46,7 +46,7 @@ abstract contract InsuranceController is PayableContract, DataOperationalContrac
         triggerInsurancePolicyStateChange(insuredObjectId, msg.sender);
     }
 
-    function withdrawInsuranceCredit(string memory insuredObjectId) external payable override requireIsOperational {
+    function withdrawInsuranceCredit(string memory insuredObjectId) external payable override requireIsOperational requiredAuthorizedCaller {
         InsurancePolicy storage insurancePolicy = insurancePolicies[insuredObjectId][msg.sender];
 
         require(insurancePolicy.state == InsurancePolicyState.CREDIT_APPROVED, "Credit retrieval is not approved or it has been already withdrawn");

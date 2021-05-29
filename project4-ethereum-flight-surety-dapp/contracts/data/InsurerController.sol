@@ -5,7 +5,7 @@ import "../shared/BaseInsurerController.sol";
 import "../shared/PayableContract.sol";
 import "./DataOperationalContract.sol";
 
-abstract contract InsurerController is PayableContract, DataOperationalContract, BaseInsurerController {
+abstract contract InsurerController is PayableContract, DataOperationalContract, BaseInsurerController, DataContract {
 
     uint private constant INSURER_FEE = 10 ether;
 
@@ -34,7 +34,7 @@ abstract contract InsurerController is PayableContract, DataOperationalContract,
 
     event InsurerStateChanged(address insurerAddress, string name, uint state);
 
-    function registerInsurer(address insurerAddress, string memory insurerName) external override requireIsOperational requiredFullyQualifiedInsurer {
+    function registerInsurer(address insurerAddress, string memory insurerName) external override requireIsOperational requiredFullyQualifiedInsurer requiredAuthorizedCaller {
         require(insurers[insurerAddress].state == InsurerState.UNREGISTERED, "Insurer is already registered");
 
         insurers[insurerAddress].name = insurerName;
@@ -43,7 +43,7 @@ abstract contract InsurerController is PayableContract, DataOperationalContract,
         triggerInsurerStateChange(insurerAddress);
     }
 
-    function approveInsurer(address insurerAddress) external override requireIsOperational requiredFullyQualifiedInsurer {
+    function approveInsurer(address insurerAddress) external override requireIsOperational requiredFullyQualifiedInsurer requiredAuthorizedCaller {
         require(insurers[insurerAddress].state == InsurerState.REGISTERED, "Insurer is not yet registered or has been already approved");
         require(insurers[insurerAddress].approvers[msg.sender] == false, "Insurer has been already approved by this caller");
 
@@ -56,7 +56,7 @@ abstract contract InsurerController is PayableContract, DataOperationalContract,
         }
     }
 
-    function payInsurerFee() external payable override requireIsOperational giveChangeBack(INSURER_FEE) {
+    function payInsurerFee() external payable override requireIsOperational giveChangeBack(INSURER_FEE) requiredAuthorizedCaller {
         require(insurers[msg.sender].state == InsurerState.APPROVED, "Insurer is not yet approved or has been already approved");
         require(msg.value >= INSURER_FEE, "Insufficient insurer's fee");
 
