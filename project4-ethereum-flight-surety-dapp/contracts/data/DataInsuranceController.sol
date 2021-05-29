@@ -27,6 +27,7 @@ abstract contract DataInsuranceController is PayableContract, DataOperationalCon
     struct InsuredObject {
         bool registered;
         mapping(address => InsurancePolicy) insurancePolicies;
+        address[] insureeAddresses;
     }
 
     // key = insuredObjectKey
@@ -38,10 +39,16 @@ abstract contract DataInsuranceController is PayableContract, DataOperationalCon
 
     event InsurancePolicyStateChanged(address insureeAddress, bytes32 insuredObjectKey, uint state);
 
+    function registerInsuredObject(bytes32 insuredObjectKey) external override requireIsOperational requiredAuthorizedCaller {
+        require(!insuredObjects[insuredObjectKey].registered, "An insured object can not be registered twice");
+        insuredObjects[insuredObjectKey].registered = true;
+    }
+
     function buyInsurance(bytes32 insuredObjectKey) external payable override requireIsOperational requiredAuthorizedCaller giveChangeBack(MAX_INSURANCE_PRICE) {
         require(msg.value > 0, "Insurance policy's price can not be 0");
 
         InsuredObject storage insuredObject = insuredObjects[insuredObjectKey];
+        require(insuredObject.registered, "The insured object is not registered");
         require(insuredObject.insurancePolicies[msg.sender].state == InsurancePolicyState.AVAILABLE, "The same policy can not be bought twice");
 
         insuredObject.insurancePolicies[msg.sender] = InsurancePolicy(
@@ -50,33 +57,40 @@ abstract contract DataInsuranceController is PayableContract, DataOperationalCon
             0
         );
 
+        insuredObject.insureeAddresses.push(msg.sender);
+
         triggerInsurancePolicyStateChange(insuredObjectKey, msg.sender);
     }
 
     function closeAllInsurances(bytes32 insuredObjectKey) external override requireIsOperational requiredAuthorizedCaller {
-        address insureeAddress = address(0);
-
         InsuredObject storage insuredObject = insuredObjects[insuredObjectKey];
-        InsurancePolicy storage insurancePolicy = insuredObject.insurancePolicies[insureeAddress];
-        require(insurancePolicy.state == InsurancePolicyState.OPEN, "Insurance can not be closed or it has been already closed");
+        require(insuredObject.registered, "The insured object is not registered");
 
-        insurancePolicy.state = InsurancePolicyState.CLOSED_NO_MONEY_BACK;
+        for (uint i = 0; i < insuredObject.insureeAddresses.length; i++) {
+            address insureeAddress = insuredObject.insureeAddresses[i];
+            InsurancePolicy storage insurancePolicy = insuredObject.insurancePolicies[insureeAddress];
+            require(insurancePolicy.state == InsurancePolicyState.OPEN, "Insurance can not be closed or it has been already closed");
+            insurancePolicy.state = InsurancePolicyState.CLOSED_NO_MONEY_BACK;
+        }
     }
 
     function approveAllInsuranceCreditWithdraws(bytes32 insuredObjectKey) external override requireIsOperational requiredAuthorizedCaller {
-        address insureeAddress = address(0);
-
         InsuredObject storage insuredObject = insuredObjects[insuredObjectKey];
-        InsurancePolicy storage insurancePolicy = insuredObject.insurancePolicies[insureeAddress];
-        require(insurancePolicy.state == InsurancePolicyState.OPEN, "Credit retrieval can not be approved or it has been already approved");
+        require(insuredObject.registered, "The insured object is not registered");
 
-        insurancePolicy.state = InsurancePolicyState.CREDIT_APPROVED;
+        for (uint i = 0; i < insuredObject.insureeAddresses.length; i++) {
+            address insureeAddress = insuredObject.insureeAddresses[i];
+            InsurancePolicy storage insurancePolicy = insuredObject.insurancePolicies[insureeAddress];
+            require(insurancePolicy.state == InsurancePolicyState.OPEN, "Credit retrieval can not be approved or it has been already approved");
+            insurancePolicy.state = InsurancePolicyState.CREDIT_APPROVED;
+        }
     }
 
     function withdrawInsuranceCredit(bytes32 insuredObjectKey) external payable override requireIsOperational requiredAuthorizedCaller {
         InsuredObject storage insuredObject = insuredObjects[insuredObjectKey];
-        InsurancePolicy storage insurancePolicy = insuredObject.insurancePolicies[msg.sender];
+        require(insuredObject.registered, "The insured object is not registered");
 
+        InsurancePolicy storage insurancePolicy = insuredObject.insurancePolicies[msg.sender];
         require(insurancePolicy.state == InsurancePolicyState.CREDIT_APPROVED, "Credit retrieval is not approved or it has been already withdrawn");
         require(insurancePolicy.amountWithdrawn == 0, "Credit can not be withdrawn twice");
 

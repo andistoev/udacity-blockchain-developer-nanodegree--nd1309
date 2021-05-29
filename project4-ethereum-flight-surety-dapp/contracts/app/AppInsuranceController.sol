@@ -28,8 +28,9 @@ abstract contract AppInsuranceController is PayableContract, AppContract {
     */
 
 
-    function registerFlight() external pure {
-
+    function registerFlight(address airline, string memory flight, uint256 timestamp) external {
+        bytes32 insuredObjectKey = getFlightKey(airline, flight, timestamp);
+        dataContract.registerInsuredObject(insuredObjectKey);
     }
 
     function buyFlightInsurance(address airline, string memory flight, uint256 timestamp) external payable {
