@@ -3,9 +3,9 @@ pragma solidity ^0.8.4;
 
 import "./shared/BaseFlightSuretyData.sol";
 import "./shared/OwnableContract.sol";
-import "./app/OracleManager.sol";
+import "./app/OracleController.sol";
 
-contract FlightSuretyApp is OwnableContract, OracleManager {
+contract FlightSuretyApp is OwnableContract, OracleController {
 
     /********************************************************************************************/
     /*                                          EVENTS                                          */

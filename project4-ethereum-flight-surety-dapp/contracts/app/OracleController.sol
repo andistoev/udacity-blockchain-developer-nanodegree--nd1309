@@ -3,7 +3,7 @@ pragma solidity ^0.8.4;
 
 import "../shared/OwnableContract.sol";
 
-abstract contract OracleManager is OwnableContract {
+abstract contract OracleController is OwnableContract {
 
     uint8 public constant ORACLE_RANDOM_INDEX_CEIL = 10;
 
