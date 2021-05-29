@@ -2,11 +2,11 @@
 pragma solidity ^0.8.4;
 
 import "./BaseOperationalContract.sol";
-import "./BaseCallableContract.sol";
+import "./BaseDataContract.sol";
 import "./BaseInsurerController.sol";
 import "./BaseInsuranceController.sol";
 
-interface BaseFlightSuretyData is BaseOperationalContract, BaseCallableContract, BaseInsurerController, BaseInsuranceController {
+interface BaseFlightSuretyData is BaseOperationalContract, BaseDataContract, BaseInsurerController, BaseInsuranceController {
 }
 
 

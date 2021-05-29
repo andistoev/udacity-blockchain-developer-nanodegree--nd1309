@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.4;
 
-import "../shared/BaseCallableContract.sol";
+import "../shared/BaseDataContract.sol";
 import "../shared/OwnableContract.sol";
 
-abstract contract CallableContract is BaseCallableContract, OwnableContract {
+abstract contract DataContract is BaseDataContract, OwnableContract {
 
     mapping(address => bool) private authorizedContracts;
 
