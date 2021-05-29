@@ -2,9 +2,10 @@
 pragma solidity ^0.8.4;
 
 import "../shared/OwnableContract.sol";
+import "../shared/PayableContract.sol";
 import "./AppInsuranceController.sol";
 
-abstract contract OracleController is OwnableContract, AppInsuranceController {
+abstract contract OracleController is OwnableContract, PayableContract, AppInsuranceController {
 
     uint8 public constant ORACLE_RANDOM_INDEX_CEIL = 10;
 
@@ -54,6 +55,13 @@ abstract contract OracleController is OwnableContract, AppInsuranceController {
             true,
             indexes
         );
+    }
+
+    function unregisterOracle() external payable {
+        require(oracles[msg.sender].isRegistered, "Only a registered oracle can be unregistered");
+        delete oracles[msg.sender];
+
+        payTo(msg.sender, ORACLE_REGISTRATION_FEE, "Can not pay back the registration fee for oracle");
     }
 
     function getMyIndexes() view external returns (uint8[3] memory){
