@@ -5,7 +5,7 @@ import "../shared/BaseInsuranceController.sol";
 import "../shared/PayableContract.sol";
 import "./DataOperationalContract.sol";
 
-abstract contract InsuranceController is PayableContract, DataOperationalContract, BaseInsuranceController, DataContract {
+abstract contract DataInsuranceController is PayableContract, DataOperationalContract, BaseInsuranceController, DataContract {
 
     uint private constant MAX_INSURANCE_PRICE = 1 ether;
 

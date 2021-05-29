@@ -5,7 +5,7 @@ import "../shared/BaseInsurerController.sol";
 import "../shared/PayableContract.sol";
 import "./DataOperationalContract.sol";
 
-abstract contract InsurerController is PayableContract, DataOperationalContract, BaseInsurerController, DataContract {
+abstract contract DataInsurerController is PayableContract, DataOperationalContract, BaseInsurerController, DataContract {
 
     uint private constant INSURER_FEE = 10 ether;
 
