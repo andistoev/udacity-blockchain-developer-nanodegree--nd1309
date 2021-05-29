@@ -5,14 +5,14 @@ import "../shared/BaseFlightSuretyData.sol";
 
 abstract contract AppContract {
 
-    BaseFlightSuretyData private flightSuretyData;
+    BaseFlightSuretyData internal dataContract;
 
     /**
     * API
     */
 
-    constructor(address flightSuretyDataAddress) {
-        flightSuretyData = BaseFlightSuretyData(flightSuretyDataAddress);
+    constructor(address dataContractAddress) {
+        dataContract = BaseFlightSuretyData(dataContractAddress);
     }
 
     /**

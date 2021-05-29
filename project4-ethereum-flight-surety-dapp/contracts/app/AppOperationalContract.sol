@@ -3,25 +3,24 @@ pragma solidity ^0.8.4;
 
 import "../shared/BaseOperationalContract.sol";
 import "../shared/OwnableContract.sol";
+import "./AppContract.sol";
 
-abstract contract AppOperationalContract is BaseOperationalContract, OwnableContract {
-
-    bool private operational = true;
+abstract contract AppOperationalContract is BaseOperationalContract, OwnableContract, AppContract {
 
     /**
     * API
     */
 
     function isContractOperational() external view override returns (bool){
-        return operational;
+        return dataContract.isContractOperational();
     }
 
     function pauseContract() external override requireContractOwner {
-        operational = false;
+        dataContract.pauseContract();
     }
 
     function resumeContract() external override requireContractOwner {
-        operational = true;
+        dataContract.resumeContract();
     }
 
     /**
@@ -29,7 +28,7 @@ abstract contract AppOperationalContract is BaseOperationalContract, OwnableCont
     */
 
     modifier requireIsOperational() {
-        require(operational, "Contract is currently not operational");
+        require(dataContract.isContractOperational(), "Contract is currently not operational");
         _;
     }
 }
