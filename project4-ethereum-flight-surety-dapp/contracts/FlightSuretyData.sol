@@ -5,7 +5,6 @@ import "./shared/OwnableContract.sol";
 
 import "./data/DataOperationalContract.sol";
 import "./data/DataContract.sol";
-
 import "./data/DataInsurerController.sol";
 import "./data/DataInsuranceController.sol";
 
