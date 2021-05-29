@@ -1,12 +1,11 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.4;
 
-import "./shared/BaseFlightSuretyData.sol";
-import "./shared/OwnableContract.sol";
+import "./app/AppContract.sol";
 import "./app/OracleController.sol";
 import "./app/FlightInsuranceController.sol";
 
-contract FlightSuretyApp is OracleController, FlightInsuranceController {
+contract FlightSuretyApp is AppContract, OracleController, FlightInsuranceController {
 
     // Modifiers help avoid duplication of code. They are typically used to validate something
     // before a function is allowed to be executed.
@@ -16,7 +15,6 @@ contract FlightSuretyApp is OracleController, FlightInsuranceController {
     *      This is used on all state changing functions to pause the contract in 
     *      the event there is an issue that needs to be fixed
     */
-    BaseFlightSuretyData private flightSuretyData;
 
     modifier requireIsOperational(){
         // Modify to call data contract's status
@@ -25,8 +23,7 @@ contract FlightSuretyApp is OracleController, FlightInsuranceController {
         // All modifiers require an "_" which indicates where the function body will be added
     }
 
-    constructor(address flightSuretyDataAddress) OwnableContract(){
-        flightSuretyData = BaseFlightSuretyData(flightSuretyDataAddress);
+    constructor(address flightSuretyDataAddress) OwnableContract() AppContract(flightSuretyDataAddress) {
     }
 
 

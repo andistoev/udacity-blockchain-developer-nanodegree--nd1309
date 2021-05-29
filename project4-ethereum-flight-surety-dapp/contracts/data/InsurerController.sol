@@ -3,9 +3,9 @@ pragma solidity ^0.8.4;
 
 import "../shared/BaseInsurerController.sol";
 import "../shared/PayableContract.sol";
-import "./OperationalContractData.sol";
+import "./DataOperationalContract.sol";
 
-abstract contract InsurerController is PayableContract, OperationalContractData, BaseInsurerController {
+abstract contract InsurerController is PayableContract, DataOperationalContract, BaseInsurerController {
 
     uint private constant INSURER_FEE = 10 ether;
 

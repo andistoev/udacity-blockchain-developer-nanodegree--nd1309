@@ -3,9 +3,9 @@ pragma solidity ^0.8.4;
 
 import "../shared/BaseInsuranceController.sol";
 import "../shared/PayableContract.sol";
-import "./OperationalContractData.sol";
+import "./DataOperationalContract.sol";
 
-abstract contract InsuranceController is PayableContract, OperationalContractData, BaseInsuranceController {
+abstract contract InsuranceController is PayableContract, DataOperationalContract, BaseInsuranceController {
 
     uint private constant MAX_INSURANCE_PRICE = 1 ether;
 
