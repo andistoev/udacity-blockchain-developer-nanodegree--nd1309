@@ -25,7 +25,7 @@ abstract contract OracleController is OwnableContract {
     struct OracleFlightStatusInfo {
         address requester;
         bool isOpen;
-        mapping(uint8 => address[]) responses;
+        mapping(uint8 => address[]) responses; // key = statusCode
     }
 
     // key = hash(index, flight, timestamp)
