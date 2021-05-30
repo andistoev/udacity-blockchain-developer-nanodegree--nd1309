@@ -3,10 +3,10 @@ pragma solidity ^0.8.4;
 
 import "../shared/PayableContract.sol";
 import "./DataOperationalContract.sol";
-import "../shared/BaseInsuranceController.sol";
+import "../shared/BaseDataInsuranceController.sol";
 import "./DataContract.sol";
 
-abstract contract DataInsuranceController is PayableContract, DataOperationalContract, BaseInsuranceController, DataContract {
+abstract contract DataInsuranceController is PayableContract, DataOperationalContract, BaseDataInsuranceController, DataContract {
 
     // contract owner can change this any time
     uint private minInsurancePrice = 1 wei;

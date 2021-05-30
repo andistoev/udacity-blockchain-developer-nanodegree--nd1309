@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.4;
 
-interface BaseInsuranceController {
+interface BaseDataInsuranceController {
     function setInsurancePriceBoundaries(uint minInsurancePriceBoundary, uint maxInsurancePriceBoundary) external;
 
     function registerInsuredObject(bytes32 insuredObjectKey) external;

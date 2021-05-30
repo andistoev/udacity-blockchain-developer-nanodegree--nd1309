@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.4;
 
-interface BaseInsurerController {
+interface BaseDataInsurerController {
     function registerInsurer(address insurerAddress, string memory insurerName) external;
 
     function approveInsurer(address insurerAddress) external;

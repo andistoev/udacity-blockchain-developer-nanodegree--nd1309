@@ -1,11 +1,11 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.4;
 
-import "../shared/BaseInsurerController.sol";
+import "../shared/BaseDataInsurerController.sol";
 import "../shared/PayableContract.sol";
 import "./DataOperationalContract.sol";
 
-abstract contract DataInsurerController is PayableContract, DataOperationalContract, BaseInsurerController, DataContract {
+abstract contract DataInsurerController is PayableContract, DataOperationalContract, BaseDataInsurerController, DataContract {
 
     uint private constant INSURER_FEE = 10 ether;
     uint16 private constant NUMBER_OF_FULLY_QUALIFIED_INSURERS_REQUIRED_FOR_MULTI_PARITY_CONSENSUS = 5;
