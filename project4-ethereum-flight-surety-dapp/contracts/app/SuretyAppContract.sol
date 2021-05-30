@@ -22,7 +22,7 @@ abstract contract SuretyAppContract is BaseSuretyAppContract, PayableContract {
     }
 
     receive() external payable {
-        payTo(address(suretyDataContract), msg.value, "Can not fund suretyDataContract");
+        payTo(address(suretyDataContract), msg.value, "Cannot fund suretyDataContract");
     }
 
 }

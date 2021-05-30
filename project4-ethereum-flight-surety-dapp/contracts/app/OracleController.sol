@@ -61,7 +61,7 @@ abstract contract OracleController is BaseFlightStatusInfoUpdatedHandler, Ownabl
         require(oracles[msg.sender].isRegistered, "Only a registered oracle can be unregistered");
         delete oracles[msg.sender];
 
-        payTo(msg.sender, ORACLE_REGISTRATION_FEE, "Can not pay back the registration fee for oracle");
+        payTo(msg.sender, ORACLE_REGISTRATION_FEE, "Cannot pay back the registration fee for oracle");
     }
 
     function getMyIndexes() view external returns (uint8[3] memory){
@@ -78,7 +78,7 @@ abstract contract OracleController is BaseFlightStatusInfoUpdatedHandler, Ownabl
         bytes32 oracleKey = getOracleKey(index, airline, flight, timestamp);
 
         OracleFlightStatusInfo storage oracleFlightStatusInfo = oracleFlightStatusInfos[oracleKey];
-        require(oracleFlightStatusInfo.requester == address(0), "The same oracle request to request flight information can not be done twice");
+        require(oracleFlightStatusInfo.requester == address(0), "The same oracle request to request flight information cannot be done twice");
 
         oracleFlightStatusInfo.isOpen = true;
         oracleFlightStatusInfo.requester = msg.sender;

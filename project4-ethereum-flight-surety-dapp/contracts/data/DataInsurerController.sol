@@ -42,7 +42,7 @@ abstract contract DataInsurerController is PayableContract, DataOperationalContr
 
     function registerTheFirstFullyQualifiedInsurer(address insurerAddress, string memory insurerName) external override requireAuthorizedCaller {
         require(fullyQualifiedInsurersCtr == 0, "The first fully-qualified insurer can be registered only at contract setup phase");
-        require(insurers[insurerAddress].state == InsurerState.UNREGISTERED, "Insurer can not be registered twice");
+        require(insurers[insurerAddress].state == InsurerState.UNREGISTERED, "Insurer cannot be registered twice");
 
         insurers[insurerAddress].name = insurerName;
         insurers[insurerAddress].state = InsurerState.FULLY_QUALIFIED;
@@ -53,7 +53,7 @@ abstract contract DataInsurerController is PayableContract, DataOperationalContr
     }
 
     function registerInsurer(address approverInsurerAddress, address insurerAddress, string memory insurerName) external override requireIsOperational requireFullyQualifiedInsurer(approverInsurerAddress) requireAuthorizedCaller {
-        require(insurers[insurerAddress].state == InsurerState.UNREGISTERED, "Insurer can not be registered twice");
+        require(insurers[insurerAddress].state == InsurerState.UNREGISTERED, "Insurer cannot be registered twice");
 
         insurers[insurerAddress].name = insurerName;
         insurers[insurerAddress].state = InsurerState.REGISTERED;
