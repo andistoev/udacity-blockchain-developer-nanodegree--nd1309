@@ -1,27 +1,10 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.4;
 
-import "../shared/BaseOperationalContract.sol";
 import "./base/BaseAppContract.sol";
 import "../shared/OwnableContract.sol";
 
-abstract contract AppOperationalContract is BaseOperationalContract, BaseAppContract, OwnableContract {
-
-    /**
-    * API
-    */
-
-    function isContractOperational() external view override returns (bool){
-        return getSuretyDataContract().isContractOperational();
-    }
-
-    function pauseContract() external override requireContractOwner {
-        getSuretyDataContract().pauseContract();
-    }
-
-    function resumeContract() external override requireContractOwner {
-        getSuretyDataContract().resumeContract();
-    }
+abstract contract AppOperationalContract is BaseAppContract, OwnableContract {
 
     /**
     * Modifiers and private methods
