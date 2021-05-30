@@ -53,21 +53,21 @@ abstract contract AppInsuranceController is BaseOracleListenerHandler, BaseAppIn
             STATUS_CODE_UNKNOWN
         );
 
-        getSuretyDataContract().registerInsuredObject(insuredObjectKey);
+        suretyDataContract.registerInsuredObject(insuredObjectKey);
     }
 
     function buyFlightInsurance(address airlineAddress, string memory flightNumber, uint256 departureTime) external payable {
         bytes32 insuredObjectKey = getFlightKey(airlineAddress, flightNumber, departureTime);
         require(flights[insuredObjectKey].isRegistered, "The flight has not been registered");
 
-        getSuretyDataContract().buyInsurance{value : msg.value}(msg.sender, insuredObjectKey);
+        suretyDataContract.buyInsurance{value : msg.value}(msg.sender, insuredObjectKey);
     }
 
     function withdrawFlightInsuranceCredit(address airlineAddress, string memory flightNumber, uint256 departureTime) external {
         bytes32 insuredObjectKey = getFlightKey(airlineAddress, flightNumber, departureTime);
         require(flights[insuredObjectKey].isRegistered, "The flight has not been registered");
 
-        getSuretyDataContract().withdrawInsuranceCredit(msg.sender, insuredObjectKey);
+        suretyDataContract.withdrawInsuranceCredit(msg.sender, insuredObjectKey);
     }
 
     /**
@@ -79,10 +79,10 @@ abstract contract AppInsuranceController is BaseOracleListenerHandler, BaseAppIn
         require(flights[insuredObjectKey].isRegistered, "The flight has not been registered");
 
         if (statusCode == STATUS_CODE_LATE_AIRLINE) {
-            getSuretyDataContract().approveAllInsuranceCreditWithdraws(insuredObjectKey);
+            suretyDataContract.approveAllInsuranceCreditWithdraws(insuredObjectKey);
         }
         else {
-            getSuretyDataContract().closeAllInsurances(insuredObjectKey);
+            suretyDataContract.closeAllInsurances(insuredObjectKey);
         }
     }
 

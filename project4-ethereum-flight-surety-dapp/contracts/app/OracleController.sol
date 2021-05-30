@@ -4,8 +4,9 @@ pragma solidity ^0.8.4;
 import "./base/BaseOracleListenerHandler.sol";
 import "../shared/OwnableContract.sol";
 import "../shared/PayableContract.sol";
+import "./base/BaseAppContract.sol";
 
-abstract contract OracleController is BaseOracleListenerHandler, OwnableContract, PayableContract {
+abstract contract OracleController is BaseOracleListenerHandler, BaseAppContract, OwnableContract, PayableContract {
 
     uint8 public constant ORACLE_RANDOM_INDEX_CEIL = 10;
 
