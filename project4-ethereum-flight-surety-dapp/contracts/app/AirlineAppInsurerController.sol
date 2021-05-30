@@ -1,17 +1,18 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.4;
 
+import "./BaseAirlineAppInsurerController.sol";
+import "../shared/OwnableContract.sol";
 import "../shared/PayableContract.sol";
 import "./AppContract.sol";
-import "./BaseAirlineAppInsurerController.sol";
 
-abstract contract AirlineAppInsurerController is BaseAirlineAppInsurerController, PayableContract, AppContract {
+abstract contract AirlineAppInsurerController is BaseAirlineAppInsurerController, OwnableContract, PayableContract, AppContract {
 
     /**
     * API
     */
 
-    function registerTheFirstAirline(address airlineAddress, string memory airlineName) external {
+    function registerTheFirstAirline(address airlineAddress, string memory airlineName) external requireContractOwner {
         require(!registeredAirlines[airlineAddress], "Airline can not be registered twice");
 
         registeredAirlines[airlineAddress] = true;
