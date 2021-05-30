@@ -22,7 +22,7 @@ contract('Oracles', async (accounts) => {
     it('can register oracles', async () => {
 
         // ARRANGE
-        let fee = await config.flightSuretyApp.REGISTRATION_FEE.call();
+        let fee = await config.flightSuretyApp.ORACLE_REGISTRATION_FEE.call();
 
         // ACT
         for (let a = 1; a < TEST_ORACLES_COUNT; a++) {
@@ -39,7 +39,7 @@ contract('Oracles', async (accounts) => {
         let timestamp = Math.floor(Date.now() / 1000);
 
         // Submit a request for oracles to get status information for a flight
-        await config.flightSuretyApp.fetchFlightStatus(config.firstAirline, flight, timestamp);
+        await config.flightSuretyApp.requestOracleFlightStatusInfo(config.firstAirline, flight, timestamp);
         // ACT
 
         // Since the Index assigned to each test account is opaque by design
