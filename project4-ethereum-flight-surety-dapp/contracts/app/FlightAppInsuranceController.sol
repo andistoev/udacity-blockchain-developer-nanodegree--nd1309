@@ -7,6 +7,9 @@ import "./AirlineAppInsurerController.sol";
 
 abstract contract FlightAppInsuranceController is PayableContract, AppContract, AirlineAppInsurerController {
 
+    uint internal constant MIN_INSURANCE_PRICE = 1 wei;
+    uint internal constant MAX_INSURANCE_PRICE = 1 ether;
+
     // Flight status codees
     uint8 private constant STATUS_CODE_UNKNOWN = 0;
     uint8 private constant STATUS_CODE_ON_TIME = 10;

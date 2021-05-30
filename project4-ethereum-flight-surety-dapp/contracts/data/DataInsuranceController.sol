@@ -8,7 +8,9 @@ import "./DataContract.sol";
 
 abstract contract DataInsuranceController is PayableContract, DataOperationalContract, BaseInsuranceController, DataContract {
 
-    uint private constant MAX_INSURANCE_PRICE = 1 ether;
+    // contract owner can change this any time
+    uint private minInsurancePrice = 1 wei;
+    uint private maxInsurancePrice = 1 ether;
 
     enum InsurancePolicyState{
         AVAILABLE, // 0
@@ -39,13 +41,18 @@ abstract contract DataInsuranceController is PayableContract, DataOperationalCon
 
     event InsurancePolicyStateChanged(address insureeAddress, bytes32 insuredObjectKey, uint state);
 
+    function setInsurancePriceBoundaries(uint minInsurancePriceBoundary, uint maxInsurancePriceBoundary) external override requireContractOwner {
+        minInsurancePrice = minInsurancePriceBoundary;
+        maxInsurancePrice = maxInsurancePriceBoundary;
+    }
+
     function registerInsuredObject(bytes32 insuredObjectKey) external override requireIsOperational requiredAuthorizedCaller {
         require(!insuredObjects[insuredObjectKey].isRegistered, "An insured object can not be registered twice");
         insuredObjects[insuredObjectKey].isRegistered = true;
     }
 
-    function buyInsurance(bytes32 insuredObjectKey) external payable override requireIsOperational requiredAuthorizedCaller giveChangeBack(MAX_INSURANCE_PRICE) {
-        require(msg.value > 0, "Insurance policy's price can not be 0");
+    function buyInsurance(bytes32 insuredObjectKey) external payable override requireIsOperational requiredAuthorizedCaller giveChangeBack(maxInsurancePrice) {
+        require(msg.value >= minInsurancePrice, "The criteria for minimal insurance price not met");
 
         InsuredObject storage insuredObject = insuredObjects[insuredObjectKey];
         require(insuredObject.isRegistered, "The insured object is not registered");
@@ -107,8 +114,8 @@ abstract contract DataInsuranceController is PayableContract, DataOperationalCon
     */
 
     function getInsureePaidAmount() private view returns (uint){
-        if (msg.value >= MAX_INSURANCE_PRICE) {
-            return MAX_INSURANCE_PRICE;
+        if (msg.value >= maxInsurancePrice) {
+            return maxInsurancePrice;
         }
 
         return msg.value;
