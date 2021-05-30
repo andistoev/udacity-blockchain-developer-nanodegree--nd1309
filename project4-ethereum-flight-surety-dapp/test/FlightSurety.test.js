@@ -1,4 +1,4 @@
-const {expectThrow} = require('./helpers/expectThrow');
+const truffleAssert = require('truffle-assertions');
 
 var Test = require('../config/testConfig.js');
 var BigNumber = require('bignumber.js');
@@ -26,8 +26,9 @@ contract('Flight Surety Tests', async (accounts) => {
         });
 
         it(`can block access to pauseContract() for non-Contract Owner account`, async function () {
-            await expectThrow(
-                dataContract.pauseContract({from: config.testAddresses[2]}), "Caller is not contract owner"
+            await truffleAssert.reverts(
+                dataContract.pauseContract({from: config.testAddresses[2]}),
+                "Caller is not contract owner"
             );
             assertIsContractOperational(true);
         });
@@ -52,8 +53,9 @@ contract('Flight Surety Tests', async (accounts) => {
 
     describe('Test Airline Registration', function () {
         it('cannot register an Airline using registerAirline() if it is not funded', async () => {
-            await expectThrow(
-                config.flightSuretyApp.registerAirline(accounts[2], {from: config.firstAirline}), "Caller is not a fully qualified insurer"
+            await truffleAssert.reverts(
+                config.flightSuretyApp.registerAirline(accounts[2], {from: config.firstAirline}),
+                "Caller is not a fully qualified insurer"
             );
         });
     });
