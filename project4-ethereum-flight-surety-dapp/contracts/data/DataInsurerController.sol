@@ -34,7 +34,7 @@ abstract contract DataInsurerController is PayableContract, DataOperationalContr
     * API
     */
 
-    event InsurerStateChanged(address insurerAddress, string name, uint state);
+    event InsurerStateChanged(address insurerAddress, string insurerName, uint state);
 
     function setInsurerConfigParams(uint _insurerFee, uint _numberOfFullyQualifiedInsurersRequiredForMultiParityConsensus) external override requireContractOwner {
         insurerFee = _insurerFee;
