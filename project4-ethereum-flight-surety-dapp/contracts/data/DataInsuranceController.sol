@@ -78,6 +78,7 @@ abstract contract DataInsuranceController is PayableContract, DataOperationalCon
             InsurancePolicy storage insurancePolicy = insuredObject.insurancePolicies[insureeAddress];
             require(insurancePolicy.state == InsurancePolicyState.OPEN, "Insurance can not be closed or it has been already closed");
             insurancePolicy.state = InsurancePolicyState.CLOSED_NO_MONEY_BACK;
+            triggerInsurancePolicyStateChange(insuredObjectKey, insureeAddress);
         }
     }
 
@@ -90,6 +91,7 @@ abstract contract DataInsuranceController is PayableContract, DataOperationalCon
             InsurancePolicy storage insurancePolicy = insuredObject.insurancePolicies[insureeAddress];
             require(insurancePolicy.state == InsurancePolicyState.OPEN, "Credit retrieval can not be approved or it has been already approved");
             insurancePolicy.state = InsurancePolicyState.CREDIT_APPROVED;
+            triggerInsurancePolicyStateChange(insuredObjectKey, insureeAddress);
         }
     }
 
@@ -104,9 +106,8 @@ abstract contract DataInsuranceController is PayableContract, DataOperationalCon
         insurancePolicy.amountWithdrawn = insurancePolicy.amountPaid * 3 / 2;
         insurancePolicy.state = InsurancePolicyState.CREDIT_WITHDRAWN;
 
-        triggerInsurancePolicyStateChange(insuredObjectKey, msg.sender);
-
         payTo(msg.sender, insurancePolicy.amountWithdrawn, "Insurance policy credit withdrawn failed.");
+        triggerInsurancePolicyStateChange(insuredObjectKey, msg.sender);
     }
 
     /**
