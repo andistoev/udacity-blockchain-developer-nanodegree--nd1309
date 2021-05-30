@@ -74,9 +74,10 @@ abstract contract DataInsurerController is PayableContract, DataOperationalContr
         }
     }
 
-    function payInsurerFee() external payable override requireIsOperational giveChangeBack(insurerFee) requireAuthorizedCaller {
+    function payInsurerFee() external payable override requireIsOperational requireAuthorizedCaller {
+        require(msg.value == insurerFee, "Invalid insurer fee paid");
+
         require(insurers[msg.sender].state == InsurerState.APPROVED, "Insurer is not yet approved or has been already approved");
-        require(msg.value >= insurerFee, "Insufficient insurer's fee");
 
         insurers[msg.sender].state = InsurerState.FULLY_QUALIFIED;
         insurers[msg.sender].amountPaid = getInsurerPaidAmount();

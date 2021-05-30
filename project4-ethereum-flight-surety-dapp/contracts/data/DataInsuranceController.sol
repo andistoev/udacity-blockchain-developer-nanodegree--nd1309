@@ -51,8 +51,8 @@ abstract contract DataInsuranceController is PayableContract, DataOperationalCon
         insuredObjects[insuredObjectKey].isRegistered = true;
     }
 
-    function buyInsurance(bytes32 insuredObjectKey) external payable override requireIsOperational requireAuthorizedCaller giveChangeBack(maxInsurancePrice) {
-        require(msg.value >= minInsurancePrice, "The criteria for minimal insurance price not met");
+    function buyInsurance(bytes32 insuredObjectKey) external payable override requireIsOperational requireAuthorizedCaller {
+        require(msg.value >= minInsurancePrice && msg.value <= maxInsurancePrice, "Invalid insurance price paid");
 
         InsuredObject storage insuredObject = insuredObjects[insuredObjectKey];
         require(insuredObject.isRegistered, "The insured object is not registered");
