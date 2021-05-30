@@ -3,9 +3,9 @@ pragma solidity ^0.8.4;
 
 import "../shared/OwnableContract.sol";
 import "../shared/PayableContract.sol";
-import "./AppInsuranceController.sol";
+import "./FlightAppInsuranceController.sol";
 
-abstract contract OracleController is OwnableContract, PayableContract, AppInsuranceController {
+abstract contract OracleController is OwnableContract, PayableContract, FlightAppInsuranceController {
 
     uint8 public constant ORACLE_RANDOM_INDEX_CEIL = 10;
 

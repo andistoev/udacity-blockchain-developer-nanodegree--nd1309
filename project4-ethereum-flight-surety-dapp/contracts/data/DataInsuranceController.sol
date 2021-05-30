@@ -25,7 +25,7 @@ abstract contract DataInsuranceController is PayableContract, DataOperationalCon
     }
 
     struct InsuredObject {
-        bool registered;
+        bool isRegistered;
         mapping(address => InsurancePolicy) insurancePolicies;
         address[] insureeAddresses;
     }
@@ -40,15 +40,15 @@ abstract contract DataInsuranceController is PayableContract, DataOperationalCon
     event InsurancePolicyStateChanged(address insureeAddress, bytes32 insuredObjectKey, uint state);
 
     function registerInsuredObject(bytes32 insuredObjectKey) external override requireIsOperational requiredAuthorizedCaller {
-        require(!insuredObjects[insuredObjectKey].registered, "An insured object can not be registered twice");
-        insuredObjects[insuredObjectKey].registered = true;
+        require(!insuredObjects[insuredObjectKey].isRegistered, "An insured object can not be registered twice");
+        insuredObjects[insuredObjectKey].isRegistered = true;
     }
 
     function buyInsurance(bytes32 insuredObjectKey) external payable override requireIsOperational requiredAuthorizedCaller giveChangeBack(MAX_INSURANCE_PRICE) {
         require(msg.value > 0, "Insurance policy's price can not be 0");
 
         InsuredObject storage insuredObject = insuredObjects[insuredObjectKey];
-        require(insuredObject.registered, "The insured object is not registered");
+        require(insuredObject.isRegistered, "The insured object is not registered");
         require(insuredObject.insurancePolicies[msg.sender].state == InsurancePolicyState.AVAILABLE, "The same policy can not be bought twice");
 
         insuredObject.insurancePolicies[msg.sender] = InsurancePolicy(
@@ -64,7 +64,7 @@ abstract contract DataInsuranceController is PayableContract, DataOperationalCon
 
     function closeAllInsurances(bytes32 insuredObjectKey) external override requireIsOperational requiredAuthorizedCaller {
         InsuredObject storage insuredObject = insuredObjects[insuredObjectKey];
-        require(insuredObject.registered, "The insured object is not registered");
+        require(insuredObject.isRegistered, "The insured object is not registered");
 
         for (uint i = 0; i < insuredObject.insureeAddresses.length; i++) {
             address insureeAddress = insuredObject.insureeAddresses[i];
@@ -76,7 +76,7 @@ abstract contract DataInsuranceController is PayableContract, DataOperationalCon
 
     function approveAllInsuranceCreditWithdraws(bytes32 insuredObjectKey) external override requireIsOperational requiredAuthorizedCaller {
         InsuredObject storage insuredObject = insuredObjects[insuredObjectKey];
-        require(insuredObject.registered, "The insured object is not registered");
+        require(insuredObject.isRegistered, "The insured object is not registered");
 
         for (uint i = 0; i < insuredObject.insureeAddresses.length; i++) {
             address insureeAddress = insuredObject.insureeAddresses[i];
@@ -88,7 +88,7 @@ abstract contract DataInsuranceController is PayableContract, DataOperationalCon
 
     function withdrawInsuranceCredit(bytes32 insuredObjectKey) external payable override requireIsOperational requiredAuthorizedCaller {
         InsuredObject storage insuredObject = insuredObjects[insuredObjectKey];
-        require(insuredObject.registered, "The insured object is not registered");
+        require(insuredObject.isRegistered, "The insured object is not registered");
 
         InsurancePolicy storage insurancePolicy = insuredObject.insurancePolicies[msg.sender];
         require(insurancePolicy.state == InsurancePolicyState.CREDIT_APPROVED, "Credit retrieval is not approved or it has been already withdrawn");

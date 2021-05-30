@@ -5,7 +5,7 @@ import "../shared/PayableContract.sol";
 import "../shared/BaseInsurerController.sol";
 import "./AppContract.sol";
 
-abstract contract AppInsurerController is PayableContract, BaseInsurerController, AppContract {
+abstract contract AirlineAppInsurerController is PayableContract, BaseInsurerController, AppContract {
 
     /**
     * API

@@ -5,10 +5,10 @@ import "./shared/OwnableContract.sol";
 
 import "./app/AppContract.sol";
 import "./app/OracleController.sol";
-import "./app/AppInsurerController.sol";
-import "./app/AppInsuranceController.sol";
+import "./app/AirlineAppInsurerController.sol";
+import "./app/FlightAppInsuranceController.sol";
 
-contract FlightSuretyApp is OwnableContract, AppContract, AppInsurerController, AppInsuranceController, OracleController {
+contract FlightSuretyApp is OwnableContract, AppContract, AirlineAppInsurerController, FlightAppInsuranceController, OracleController {
 
     constructor(address flightSuretyDataAddress) OwnableContract() AppContract(flightSuretyDataAddress) {
     }
