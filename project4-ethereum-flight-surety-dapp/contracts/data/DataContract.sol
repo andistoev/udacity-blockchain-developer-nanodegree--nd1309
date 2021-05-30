@@ -43,7 +43,7 @@ abstract contract DataContract is BaseDataContract, OwnableContract {
     * Modifiers and private methods
     */
 
-    modifier requiredAuthorizedCaller() {
+    modifier requireAuthorizedCaller() {
         require(authorizedContracts[msg.sender], "Caller is not authorized");
         _;
     }

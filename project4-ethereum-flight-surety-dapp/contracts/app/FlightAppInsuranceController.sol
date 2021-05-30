@@ -36,7 +36,7 @@ abstract contract FlightAppInsuranceController is BaseFlightStatusInfoUpdatedHan
     * API
     */
 
-    function registerFlight(address airlineAddress, string memory flightNumber, uint256 departureTime) external requiredRegisteredAirline(airlineAddress) {
+    function registerFlight(address airlineAddress, string memory flightNumber, uint256 departureTime) external requireRegisteredAirline(airlineAddress) {
         bytes32 insuredObjectKey = getFlightKey(airlineAddress, flightNumber, departureTime);
         require(!flights[insuredObjectKey].isRegistered, "The same flight can not be registered twice");
 

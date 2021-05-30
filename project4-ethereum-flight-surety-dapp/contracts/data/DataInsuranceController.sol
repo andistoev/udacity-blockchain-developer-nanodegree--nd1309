@@ -46,12 +46,12 @@ abstract contract DataInsuranceController is PayableContract, DataOperationalCon
         maxInsurancePrice = _maxInsurancePrice;
     }
 
-    function registerInsuredObject(bytes32 insuredObjectKey) external override requireIsOperational requiredAuthorizedCaller {
+    function registerInsuredObject(bytes32 insuredObjectKey) external override requireIsOperational requireAuthorizedCaller {
         require(!insuredObjects[insuredObjectKey].isRegistered, "An insured object can not be registered twice");
         insuredObjects[insuredObjectKey].isRegistered = true;
     }
 
-    function buyInsurance(bytes32 insuredObjectKey) external payable override requireIsOperational requiredAuthorizedCaller giveChangeBack(maxInsurancePrice) {
+    function buyInsurance(bytes32 insuredObjectKey) external payable override requireIsOperational requireAuthorizedCaller giveChangeBack(maxInsurancePrice) {
         require(msg.value >= minInsurancePrice, "The criteria for minimal insurance price not met");
 
         InsuredObject storage insuredObject = insuredObjects[insuredObjectKey];
@@ -69,7 +69,7 @@ abstract contract DataInsuranceController is PayableContract, DataOperationalCon
         triggerInsurancePolicyStateChange(insuredObjectKey, msg.sender);
     }
 
-    function closeAllInsurances(bytes32 insuredObjectKey) external override requireIsOperational requiredAuthorizedCaller {
+    function closeAllInsurances(bytes32 insuredObjectKey) external override requireIsOperational requireAuthorizedCaller {
         InsuredObject storage insuredObject = insuredObjects[insuredObjectKey];
         require(insuredObject.isRegistered, "The insured object is not registered");
 
@@ -82,7 +82,7 @@ abstract contract DataInsuranceController is PayableContract, DataOperationalCon
         }
     }
 
-    function approveAllInsuranceCreditWithdraws(bytes32 insuredObjectKey) external override requireIsOperational requiredAuthorizedCaller {
+    function approveAllInsuranceCreditWithdraws(bytes32 insuredObjectKey) external override requireIsOperational requireAuthorizedCaller {
         InsuredObject storage insuredObject = insuredObjects[insuredObjectKey];
         require(insuredObject.isRegistered, "The insured object is not registered");
 
@@ -95,7 +95,7 @@ abstract contract DataInsuranceController is PayableContract, DataOperationalCon
         }
     }
 
-    function withdrawInsuranceCredit(bytes32 insuredObjectKey) external payable override requireIsOperational requiredAuthorizedCaller {
+    function withdrawInsuranceCredit(bytes32 insuredObjectKey) external payable override requireIsOperational requireAuthorizedCaller {
         InsuredObject storage insuredObject = insuredObjects[insuredObjectKey];
         require(insuredObject.isRegistered, "The insured object is not registered");
 

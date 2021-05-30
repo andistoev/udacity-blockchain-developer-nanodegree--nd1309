@@ -20,10 +20,5 @@ abstract contract AppContract is PayableContract {
         payTo(address(suretyDataContract), msg.value, "Can not fund suretyDataContract");
     }
 
-    /**
-    * Modifiers and private methods
-    */
-
-
 }
 

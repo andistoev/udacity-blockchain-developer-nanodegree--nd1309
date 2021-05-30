@@ -26,11 +26,11 @@ abstract contract AirlineAppInsurerController is BaseAirlineAppInsurerController
         suretyDataContract.registerInsurer(airlineAddress, airlineName);
     }
 
-    function approveAirline(address airlineAddress) external requiredRegisteredAirline(airlineAddress) {
+    function approveAirline(address airlineAddress) external requireRegisteredAirline(airlineAddress) {
         suretyDataContract.approveInsurer(airlineAddress);
     }
 
-    function payAirlineInsurerFee() external payable requiredRegisteredAirline(msg.sender) {
+    function payAirlineInsurerFee() external payable requireRegisteredAirline(msg.sender) {
         suretyDataContract.payInsurerFee();
     }
 

@@ -40,7 +40,7 @@ abstract contract DataInsurerController is PayableContract, DataOperationalContr
         numberOfFullyQualifiedInsurersRequiredForMultiParityConsensus = _numberOfFullyQualifiedInsurersRequiredForMultiParityConsensus;
     }
 
-    function registerTheFirstFullyQualifiedInsurer(address insurerAddress, string memory insurerName) external override requiredAuthorizedCaller {
+    function registerTheFirstFullyQualifiedInsurer(address insurerAddress, string memory insurerName) external override requireAuthorizedCaller {
         require(fullyQualifiedInsurersCtr == 0, "The first fully-qualified insurer can be registered only at contract setup phase");
         require(insurers[insurerAddress].state == InsurerState.UNREGISTERED, "Insurer can not be registered twice");
 
@@ -52,7 +52,7 @@ abstract contract DataInsurerController is PayableContract, DataOperationalContr
         triggerInsurerStateChange(insurerAddress);
     }
 
-    function registerInsurer(address insurerAddress, string memory insurerName) external override requireIsOperational requiredFullyQualifiedInsurer requiredAuthorizedCaller {
+    function registerInsurer(address insurerAddress, string memory insurerName) external override requireIsOperational requireFullyQualifiedInsurer requireAuthorizedCaller {
         require(insurers[insurerAddress].state == InsurerState.UNREGISTERED, "Insurer can not be registered twice");
 
         insurers[insurerAddress].name = insurerName;
@@ -61,7 +61,7 @@ abstract contract DataInsurerController is PayableContract, DataOperationalContr
         triggerInsurerStateChange(insurerAddress);
     }
 
-    function approveInsurer(address insurerAddress) external override requireIsOperational requiredFullyQualifiedInsurer requiredAuthorizedCaller {
+    function approveInsurer(address insurerAddress) external override requireIsOperational requireFullyQualifiedInsurer requireAuthorizedCaller {
         require(insurers[insurerAddress].state == InsurerState.REGISTERED, "Insurer is not yet registered or has been already approved");
         require(insurers[insurerAddress].approvers[msg.sender] == false, "Insurer has been already approved by this caller");
 
@@ -74,7 +74,7 @@ abstract contract DataInsurerController is PayableContract, DataOperationalContr
         }
     }
 
-    function payInsurerFee() external payable override requireIsOperational giveChangeBack(insurerFee) requiredAuthorizedCaller {
+    function payInsurerFee() external payable override requireIsOperational giveChangeBack(insurerFee) requireAuthorizedCaller {
         require(insurers[msg.sender].state == InsurerState.APPROVED, "Insurer is not yet approved or has been already approved");
         require(msg.value >= insurerFee, "Insufficient insurer's fee");
 
@@ -89,7 +89,7 @@ abstract contract DataInsurerController is PayableContract, DataOperationalContr
     * Modifiers and private methods
     */
 
-    modifier requiredFullyQualifiedInsurer(){
+    modifier requireFullyQualifiedInsurer(){
         require(insurers[msg.sender].state == InsurerState.FULLY_QUALIFIED, "Caller is not a fully qualified insurer");
         _;
     }
