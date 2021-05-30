@@ -4,7 +4,7 @@ pragma solidity ^0.8.4;
 import "../shared/BaseSuretyData.sol";
 import "../shared/PayableContract.sol";
 
-abstract contract AppContract is PayableContract {
+abstract contract SuretyAppContract is PayableContract {
 
     BaseSuretyData internal suretyDataContract;
 

@@ -2,11 +2,11 @@
 pragma solidity ^0.8.4;
 
 import "../shared/PayableContract.sol";
-import "./AppContract.sol";
+import "./SuretyAppContract.sol";
 import "./BaseFlightStatusInfoUpdatedHandler.sol";
 import "./BaseAirlineAppInsurerController.sol";
 
-abstract contract FlightAppInsuranceController is BaseFlightStatusInfoUpdatedHandler, BaseAirlineAppInsurerController, PayableContract, AppContract {
+abstract contract FlightAppInsuranceController is BaseFlightStatusInfoUpdatedHandler, BaseAirlineAppInsurerController, PayableContract, SuretyAppContract {
 
     uint internal constant MIN_INSURANCE_PRICE = 1 wei;
     uint internal constant MAX_INSURANCE_PRICE = 1 ether;

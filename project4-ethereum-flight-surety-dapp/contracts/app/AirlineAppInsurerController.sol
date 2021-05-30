@@ -4,9 +4,9 @@ pragma solidity ^0.8.4;
 import "./BaseAirlineAppInsurerController.sol";
 import "../shared/OwnableContract.sol";
 import "../shared/PayableContract.sol";
-import "./AppContract.sol";
+import "./SuretyAppContract.sol";
 
-abstract contract AirlineAppInsurerController is BaseAirlineAppInsurerController, OwnableContract, PayableContract, AppContract {
+abstract contract AirlineAppInsurerController is BaseAirlineAppInsurerController, OwnableContract, PayableContract, SuretyAppContract {
 
     /**
     * API
