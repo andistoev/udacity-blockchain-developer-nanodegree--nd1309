@@ -2,7 +2,7 @@
 pragma solidity ^0.8.4;
 
 interface BaseDataInsuranceController {
-    function setInsurancePriceBoundaries(uint minInsurancePriceBoundary, uint maxInsurancePriceBoundary) external;
+    function setInsuranceConfigParams(uint _minInsurancePrice, uint _maxInsurancePrice) external;
 
     function registerInsuredObject(bytes32 insuredObjectKey) external;
 

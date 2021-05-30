@@ -8,7 +8,7 @@ import "./DataContract.sol";
 
 abstract contract DataInsuranceController is PayableContract, DataOperationalContract, BaseDataInsuranceController, DataContract {
 
-    // contract owner can change this any time
+    // configurable parameters by contract owner
     uint private minInsurancePrice = 1 wei;
     uint private maxInsurancePrice = 1 ether;
 
@@ -41,9 +41,9 @@ abstract contract DataInsuranceController is PayableContract, DataOperationalCon
 
     event InsurancePolicyStateChanged(address insureeAddress, bytes32 insuredObjectKey, uint state);
 
-    function setInsurancePriceBoundaries(uint minInsurancePriceBoundary, uint maxInsurancePriceBoundary) external override requireContractOwner {
-        minInsurancePrice = minInsurancePriceBoundary;
-        maxInsurancePrice = maxInsurancePriceBoundary;
+    function setInsuranceConfigParams(uint _minInsurancePrice, uint _maxInsurancePrice) external override requireContractOwner {
+        minInsurancePrice = _minInsurancePrice;
+        maxInsurancePrice = _maxInsurancePrice;
     }
 
     function registerInsuredObject(bytes32 insuredObjectKey) external override requireIsOperational requiredAuthorizedCaller {

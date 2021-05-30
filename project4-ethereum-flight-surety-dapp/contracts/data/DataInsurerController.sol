@@ -7,8 +7,9 @@ import "./DataOperationalContract.sol";
 
 abstract contract DataInsurerController is PayableContract, DataOperationalContract, BaseDataInsurerController, DataContract {
 
-    uint private constant INSURER_FEE = 10 ether;
-    uint16 private constant NUMBER_OF_FULLY_QUALIFIED_INSURERS_REQUIRED_FOR_MULTI_PARITY_CONSENSUS = 5;
+    // configurable parameters by contract owner
+    uint private insurerFee = 10 ether;
+    uint private numberOfFullyQualifiedInsurersRequiredForMultiParityConsensus = 5;
 
     enum InsurerState{
         UNREGISTERED, // 0
@@ -20,6 +21,7 @@ abstract contract DataInsurerController is PayableContract, DataOperationalContr
     struct InsurerProfile {
         string name;
         InsurerState state;
+        uint amountPaid;
         uint16 approversCtr;
         mapping(address => bool) approvers;
     }
@@ -32,6 +34,11 @@ abstract contract DataInsurerController is PayableContract, DataOperationalContr
     */
 
     event InsurerStateChanged(address insurerAddress, string name, uint state);
+
+    function setInsurerConfigParams(uint _insurerFee, uint _numberOfFullyQualifiedInsurersRequiredForMultiParityConsensus) external override requireContractOwner {
+        insurerFee = _insurerFee;
+        numberOfFullyQualifiedInsurersRequiredForMultiParityConsensus = _numberOfFullyQualifiedInsurersRequiredForMultiParityConsensus;
+    }
 
     function registerInsurer(address insurerAddress, string memory insurerName) external override requireIsOperational requiredFullyQualifiedInsurer requiredAuthorizedCaller {
         require(insurers[insurerAddress].state == InsurerState.UNREGISTERED, "Insurer is already registered");
@@ -55,11 +62,12 @@ abstract contract DataInsurerController is PayableContract, DataOperationalContr
         }
     }
 
-    function payInsurerFee() external payable override requireIsOperational giveChangeBack(INSURER_FEE) requiredAuthorizedCaller {
+    function payInsurerFee() external payable override requireIsOperational giveChangeBack(insurerFee) requiredAuthorizedCaller {
         require(insurers[msg.sender].state == InsurerState.APPROVED, "Insurer is not yet approved or has been already approved");
-        require(msg.value >= INSURER_FEE, "Insufficient insurer's fee");
+        require(msg.value >= insurerFee, "Insufficient insurer's fee");
 
         insurers[msg.sender].state = InsurerState.FULLY_QUALIFIED;
+        insurers[msg.sender].amountPaid = getInsurerPaidAmount();
         fullyQualifiedInsurersCtr++;
 
         triggerInsurerStateChange(msg.sender);
@@ -74,8 +82,16 @@ abstract contract DataInsurerController is PayableContract, DataOperationalContr
         _;
     }
 
+    function getInsurerPaidAmount() private view returns (uint){
+        if (msg.value >= insurerFee) {
+            return insurerFee;
+        }
+
+        return msg.value;
+    }
+
     function isInsurerApproved(address insurerAddress) private view returns (bool) {
-        if (fullyQualifiedInsurersCtr < NUMBER_OF_FULLY_QUALIFIED_INSURERS_REQUIRED_FOR_MULTI_PARITY_CONSENSUS) {
+        if (fullyQualifiedInsurersCtr < numberOfFullyQualifiedInsurersRequiredForMultiParityConsensus) {
             return true;
         }
 
