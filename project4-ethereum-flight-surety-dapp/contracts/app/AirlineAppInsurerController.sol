@@ -31,7 +31,7 @@ abstract contract AirlineAppInsurerController is BaseAirlineAppInsurerController
     }
 
     function payAirlineInsurerFee() external payable requireRegisteredAirline(msg.sender) {
-        getSuretyDataContract().payInsurerFee();
+        getSuretyDataContract().payInsurerFee(msg.sender);
     }
 
 }

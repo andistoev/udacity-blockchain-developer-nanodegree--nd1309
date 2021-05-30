@@ -10,5 +10,5 @@ interface BaseDataInsurerController {
 
     function approveInsurer(address approverInsurerAddress, address insurerAddress) external;
 
-    function payInsurerFee() external payable;
+    function payInsurerFee(address insurerAddress) external payable;
 }
