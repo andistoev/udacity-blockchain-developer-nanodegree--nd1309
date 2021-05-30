@@ -6,7 +6,7 @@ contract('Flight Surety Tests', async (accounts) => {
     var config;
     before('setup contract', async () => {
         config = await Test.Config(accounts);
-        await config.flightSuretyData.authorizeCaller(config.flightSuretyApp.address);
+        await config.flightSuretyData.authorizeContractCaller(config.flightSuretyApp.address);
     });
 
     /****************************************************************************************/
@@ -16,17 +16,17 @@ contract('Flight Surety Tests', async (accounts) => {
     it(`(multiparty) has correct initial isOperational() value`, async function () {
 
         // Get operating status
-        let status = await config.flightSuretyData.isOperational.call();
+        let status = await config.flightSuretyData.isContractOperational.call();
         assert.equal(status, true, "Incorrect initial operating status value");
 
     });
 
-    it(`(multiparty) can block access to setOperatingStatus() for non-Contract Owner account`, async function () {
+    it(`(multiparty) can block access to pauseContract() for non-Contract Owner account`, async function () {
 
         // Ensure that access is denied for non-Contract Owner account
         let accessDenied = false;
         try {
-            await config.flightSuretyData.setOperatingStatus(false, {from: config.testAddresses[2]});
+            await config.flightSuretyData.pauseContract({from: config.testAddresses[2]});
         } catch (e) {
             accessDenied = true;
         }
@@ -34,12 +34,12 @@ contract('Flight Surety Tests', async (accounts) => {
 
     });
 
-    it(`(multiparty) can allow access to setOperatingStatus() for Contract Owner account`, async function () {
+    it(`(multiparty) can allow access to pauseContract() for Contract Owner account`, async function () {
 
         // Ensure that access is allowed for Contract Owner account
         let accessDenied = false;
         try {
-            await config.flightSuretyData.setOperatingStatus(false);
+            await config.flightSuretyData.pauseContract();
         } catch (e) {
             accessDenied = true;
         }
@@ -49,7 +49,7 @@ contract('Flight Surety Tests', async (accounts) => {
 
     it(`(multiparty) can block access to functions using requireIsOperational when operating status is false`, async function () {
 
-        await config.flightSuretyData.setOperatingStatus(false);
+        await config.flightSuretyData.pauseContract();
 
         let reverted = false;
         try {
@@ -60,7 +60,7 @@ contract('Flight Surety Tests', async (accounts) => {
         assert.equal(reverted, true, "Access not blocked for requireIsOperational");
 
         // Set it back for other tests to work
-        await config.flightSuretyData.setOperatingStatus(true);
+        await config.flightSuretyData.resumeContract();
 
     });
 
