@@ -38,9 +38,9 @@ Run:
 
 ## Develop Back-End
 
-To deploy the smart contracts locally:
+To deploy the smart contracts locally with 50 account with default 5000 ether per account:
 
-`ganache-cli -m "candy maple cake sugar pudding cream honey rich smooth crumble sweet treat" -a 50`
+`ganache-cli -m "candy maple cake sugar pudding cream honey rich smooth crumble sweet treat" -a 50 -e 5000`
 
 `truffle migrate`
 

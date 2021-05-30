@@ -10,6 +10,7 @@ contract('Flight Surety Tests', async (accounts) => {
     let appContract;
     let dataContract;
 
+    let eventType;
     let eventCapture;
 
     const InsurerState = {
@@ -21,8 +22,11 @@ contract('Flight Surety Tests', async (accounts) => {
 
     before('setup contract', async () => {
         config = await ConfigTests.Config(accounts);
+
         appContract = config.flightSuretyApp;
         dataContract = config.flightSuretyData;
+
+        eventType = config.eventType;
         eventCapture = config.eventCapture;
     });
 
@@ -81,7 +85,7 @@ contract('Flight Surety Tests', async (accounts) => {
 
             // then
             assert.equal(eventCapture.events.length, 1);
-            assert.equal(eventCapture.events[0].type, "InsurerStateChanged");
+            assert.equal(eventCapture.events[0].type, eventType.InsurerStateChanged);
             assert.equal(eventCapture.events[0].params.state.toNumber(), InsurerState.FULLY_QUALIFIED);
         });
 

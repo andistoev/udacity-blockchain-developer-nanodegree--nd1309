@@ -37,7 +37,8 @@ const ConfigTests = async function (accounts) {
         testAddresses: testAddresses,
         flightSuretyData: flightSuretyData,
         flightSuretyApp: flightSuretyApp,
-        eventCapture: EventCapture
+        eventCapture: EventCapture,
+        eventType: EventType
     }
 }
 
@@ -48,6 +49,15 @@ module.exports = {
 /*
  * Event handlers
  */
+
+const EventType = {
+    InsurerStateChanged: "InsurerStateChanged",
+    InsurancePolicyStateChanged: "InsurancePolicyStateChanged",
+    FundingReceived: "FundingReceived",
+    OracleFlightStatusInfoRequested: "OracleFlightStatusInfoRequested",
+    OracleFlightStatusInfoSubmitted: "OracleFlightStatusInfoSubmitted",
+    FlightStatusInfoUpdated: "FlightStatusInfoUpdated"
+};
 
 const EventCapture = {
 
@@ -67,39 +77,41 @@ const EventCapture = {
         this.events = [];
     },
 
-    addEvent: function (type, resultArgs) {
+    consumeEvent: function (type, resultArgs, msg) {
+        console.log(` => Received event ${type} <${msg}>`);
+
         let event = {type: type, params: resultArgs};
         this.events.push(event);
     },
 
     insurerStateChangedHandler: function (error, result) {
-        console.log(` => Consumed event InsurerStateChanged <airlineAddress: ${result.args.insurerAddress}, airlineName: ${result.args.insurerAddress}, state: ${result.args.state}>`);
-        EventCapture.addEvent("InsurerStateChanged", result.args);
+        let msg = `airlineAddress: ${result.args.insurerAddress}, airlineName: ${result.args.insurerAddress}, state: ${result.args.state}`;
+        EventCapture.consumeEvent(EventType.InsurerStateChanged, result.args, msg);
     },
 
     insurancePolicyStateChangedHandler: function (error, result) {
-        console.log(` => Consumed event InsurancePolicyStateChanged <insureeAddress: ${result.args.insureeAddress}, insuredFlightKey: ${result.args.insuredObjectKey}, state: ${result.args.state}>`);
-        EventCapture.addEvent("InsurancePolicyStateChanged", result.args);
+        let msg = `insureeAddress: ${result.args.insureeAddress}, insuredFlightKey: ${result.args.insuredObjectKey}, state: ${result.args.state}`;
+        EventCapture.consumeEvent(EventType.InsurancePolicyStateChanged, result.args, msg);
     },
 
     fundingReceivedHandler: function (error, result) {
-        console.log(` => Consumed event FundingReceived <sponsorAddress: ${result.args.sponsorAddress}, amountPaid: ${result.args.amountPaid}>`);
-        EventCapture.addEvent("FundingReceived", result.args);
+        let msg = `sponsorAddress: ${result.args.sponsorAddress}, amountPaid: ${result.args.amountPaid}`;
+        EventCapture.consumeEvent(EventType.FundingReceived, result.args, msg);
     },
 
     oracleFlightStatusInfoRequestedHandler: function (error, result) {
-        console.log(` => Consumed event OracleFlightStatusInfoRequested <index: ${result.args.index.toNumber()}, airlineAddress: ${result.args.airlineAddress}, flightNumber: ${result.args.flightNumber}, departureTime: ${result.args.departureTime.toNumber()}>`);
-        EventCapture.addEvent("OracleFlightStatusInfoRequested", result.args);
+        let msg = `index: ${result.args.index.toNumber()}, airlineAddress: ${result.args.airlineAddress}, flightNumber: ${result.args.flightNumber}, departureTime: ${result.args.departureTime.toNumber()}`;
+        EventCapture.consumeEvent(EventType.OracleFlightStatusInfoRequested, result.args, msg);
     },
 
     oracleFlightStatusInfoSubmittedHandler: function (error, result) {
-        console.log(` => Consumed event OracleFlightStatusInfoSubmitted <airlineAddress: ${result.args.airlineAddress}, flightNumber: ${result.args.flightNumber}, departureTime: ${result.args.departureTime.toNumber()}, flightStatus: ${result.args.flightStatus}>`);
-        EventCapture.addEvent("OracleFlightStatusInfoSubmitted", result.args);
+        let msg = `airlineAddress: ${result.args.airlineAddress}, flightNumber: ${result.args.flightNumber}, departureTime: ${result.args.departureTime.toNumber()}, flightStatus: ${result.args.flightStatus}`;
+        EventCapture.consumeEvent(EventType.OracleFlightStatusInfoSubmitted, result.args, msg);
     },
 
     flightStatusInfoUpdatedHandler: function (error, result) {
-        console.log(` => Consumed event FlightStatusInfoUpdated <airlineAddress: ${result.args.airlineAddress}, flightNumber: ${result.args.flightNumber}, departureTime: ${result.args.departureTime.toNumber()}, flightStatus: ${result.args.flightStatus}>`);
-        EventCapture.addEvent("FlightStatusInfoUpdated", result.args);
+        console.log(`airlineAddress: ${result.args.airlineAddress}, flightNumber: ${result.args.flightNumber}, departureTime: ${result.args.departureTime.toNumber()}, flightStatus: ${result.args.flightStatus}`);
+        EventCapture.consumeEvent(EventType.FlightStatusInfoUpdated, result.args, msg);
     }
 }
 
