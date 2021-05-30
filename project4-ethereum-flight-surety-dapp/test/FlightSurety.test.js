@@ -16,62 +16,46 @@ contract('Flight Surety Tests', async (accounts) => {
         dataContract = config.flightSuretyData;
     });
 
-    /****************************************************************************************/
-    /* Operations and Settings                                                              */
-    /****************************************************************************************/
+    /***********************************************************************************/
+    /* Operational Status                                                              */
+    /***********************************************************************************/
 
-    it(`(multiparty) has correct initial isContractOperational() value`, async function () {
-        assert.equal(await config.flightSuretyData.isContractOperational.call(), true, "Incorrect initial operating status value");
-    });
+    describe('Test Operational Status', function () {
+        it(`has correct initial isContractOperational() value`, async function () {
+            assertIsContractOperational(true);
+        });
 
-    it(`(multiparty) can block access to pauseContract() for non-Contract Owner account`, async function () {
-        await expectThrow(
-            dataContract.pauseContract({from: config.testAddresses[2]}), "Caller is not contract owner"
-        );
-        assert.equal(await config.flightSuretyData.isContractOperational.call(), true, "Incorrect initial operating status value");
-    });
+        it(`can block access to pauseContract() for non-Contract Owner account`, async function () {
+            await expectThrow(
+                dataContract.pauseContract({from: config.testAddresses[2]}), "Caller is not contract owner"
+            );
+            assertIsContractOperational(true);
+        });
 
-    it(`(multiparty) can allow access to pauseContract() for Contract Owner account`, async function () {
-        dataContract.pauseContract();
-        assert.equal(await config.flightSuretyData.isContractOperational.call(), false, "Incorrect initial operating status value");
-    });
+        it(`can allow access to pauseContract() and resumeContract() for Contract Owner account`, async function () {
+            dataContract.pauseContract();
+            assertIsContractOperational(false);
 
-    it(`(multiparty) can block access to functions using requireIsOperational when operating status is false`, async function () {
+            dataContract.resumeContract();
+            assertIsContractOperational(true);
+        });
 
-        await config.flightSuretyData.pauseContract();
-
-        let reverted = false;
-        try {
-            await config.flightSurety.setTestingMode(true);
-        } catch (e) {
-            reverted = true;
+        async function assertIsContractOperational(expectedStatus) {
+            let status = await config.flightSuretyData.isContractOperational.call();
+            assert.equal(status, expectedStatus, "Incorrected operational status");
         }
-        assert.equal(reverted, true, "Access not blocked for requireIsOperational");
-
-        // Set it back for other tests to work
-        await config.flightSuretyData.resumeContract();
-
     });
 
-    it('(airline) cannot register an Airline using registerAirline() if it is not funded', async () => {
+    /***********************************************************************************/
+    /* Airline Registration                                                            */
+    /***********************************************************************************/
 
-        // ARRANGE
-        let newAirline = accounts[2];
-
-        let reverted = false;
-
-        // ACT
-        try {
-            await config.flightSuretyApp.registerAirline(newAirline, {from: config.firstAirline});
-        } catch (e) {
-            reverted = true;
-        }
-
-        //let result = await config.flightSuretyData.isAirline.call(newAirline);
-
-        // ASSERT
-        assert.equal(reverted, true, "Airline should not be able to register another airline if it hasn't provided funding");
-
+    describe('Test Airline Registration', function () {
+        it('cannot register an Airline using registerAirline() if it is not funded', async () => {
+            await expectThrow(
+                config.flightSuretyApp.registerAirline(accounts[2], {from: config.firstAirline}), "Caller is not a fully qualified insurer"
+            );
+        });
     });
 
 });
