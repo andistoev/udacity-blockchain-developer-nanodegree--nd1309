@@ -95,19 +95,19 @@ abstract contract DataInsuranceController is PayableContract, DataOperationalCon
         }
     }
 
-    function withdrawInsuranceCredit(bytes32 insuredObjectKey) external payable override requireIsOperational requireAuthorizedCaller {
+    function withdrawInsuranceCredit(address insureeAddress, bytes32 insuredObjectKey) external payable override requireIsOperational requireAuthorizedCaller {
         InsuredObject storage insuredObject = insuredObjects[insuredObjectKey];
         require(insuredObject.isRegistered, "The insured object is not registered");
 
-        InsurancePolicy storage insurancePolicy = insuredObject.insurancePolicies[msg.sender];
+        InsurancePolicy storage insurancePolicy = insuredObject.insurancePolicies[insureeAddress];
         require(insurancePolicy.state == InsurancePolicyState.CREDIT_APPROVED, "Credit retrieval is not approved or it has been already withdrawn");
         require(insurancePolicy.amountWithdrawn == 0, "Credit can not be withdrawn twice");
 
         insurancePolicy.amountWithdrawn = insurancePolicy.amountPaid * 3 / 2;
         insurancePolicy.state = InsurancePolicyState.CREDIT_WITHDRAWN;
 
-        payTo(msg.sender, insurancePolicy.amountWithdrawn, "Insurance policy credit withdrawn failed.");
-        triggerInsurancePolicyStateChange(insuredObjectKey, msg.sender);
+        payTo(insureeAddress, insurancePolicy.amountWithdrawn, "Insurance policy credit withdrawn failed.");
+        triggerInsurancePolicyStateChange(insuredObjectKey, insureeAddress);
     }
 
     /**

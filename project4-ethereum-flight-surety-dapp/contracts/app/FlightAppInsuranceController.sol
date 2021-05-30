@@ -62,7 +62,7 @@ abstract contract FlightAppInsuranceController is BaseFlightStatusInfoUpdatedHan
         bytes32 insuredObjectKey = getFlightKey(airlineAddress, flightNumber, departureTime);
         require(flights[insuredObjectKey].isRegistered, "The flight has not been registered");
 
-        getSuretyDataContract().withdrawInsuranceCredit(insuredObjectKey);
+        getSuretyDataContract().withdrawInsuranceCredit(msg.sender, insuredObjectKey);
     }
 
     /**
