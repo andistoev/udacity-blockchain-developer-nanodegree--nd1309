@@ -30,7 +30,7 @@ abstract contract OracleController is BaseOracleListenerHandler, OwnableContract
         mapping(uint8 => address[]) responses; // key = statusCode
     }
 
-    // key = hash(index, flight, timestamp)
+    // key = hash(index, flightNumber, departureTime)
     mapping(bytes32 => OracleFlightStatusInfo) private oracleFlightStatusInfos;
 
     /**
@@ -38,13 +38,13 @@ abstract contract OracleController is BaseOracleListenerHandler, OwnableContract
     */
 
     // old name: OracleRequest
-    event OracleFlightStatusInfoRequested(uint8 index, address airline, string flight, uint256 timestamp);
+    event OracleFlightStatusInfoRequested(uint8 index, address airlineAddress, string flightNumber, uint256 departureTime);
 
     // old name: OracleReport
-    event OracleFlightStatusInfoSubmitted(address airline, string flight, uint256 timestamp, uint8 status);
+    event OracleFlightStatusInfoSubmitted(address airlineAddress, string flightNumber, uint256 departureTime, uint8 flightStatus);
 
     // old name: FlightStatusInfo
-    event FlightStatusInfoUpdated(address airline, string flight, uint256 timestamp, uint8 status);
+    event FlightStatusInfoUpdated(address airlineAddress, string flightNumber, uint256 departureTime, uint8 flightStatus);
 
     function registerOracle() external payable {
         require(msg.value >= ORACLE_REGISTRATION_FEE, "Registration fee is required");
@@ -70,12 +70,12 @@ abstract contract OracleController is BaseOracleListenerHandler, OwnableContract
         return oracles[msg.sender].indexes;
     }
 
-    // Generate a request for oracles to fetch flight information
-    function requestOracleFlightStatusInfo(address airline, string calldata flight, uint256 timestamp) external {
+    // Generate a request for oracles to fetch flightNumber information
+    function requestOracleFlightStatusInfo(address airlineAddress, string calldata flightNumber, uint256 departureTime) external {
         uint8 index = getRandomIndex(msg.sender, ORACLE_RANDOM_INDEX_CEIL);
 
         // Generate a unique key for storing the request
-        bytes32 oracleKey = getOracleKey(index, airline, flight, timestamp);
+        bytes32 oracleKey = getOracleKey(index, airlineAddress, flightNumber, departureTime);
 
         OracleFlightStatusInfo storage oracleFlightStatusInfo = oracleFlightStatusInfos[oracleKey];
         require(oracleFlightStatusInfo.requester == address(0), "The same oracle request to request flight information cannot be done twice");
@@ -83,27 +83,27 @@ abstract contract OracleController is BaseOracleListenerHandler, OwnableContract
         oracleFlightStatusInfo.isOpen = true;
         oracleFlightStatusInfo.requester = msg.sender;
 
-        emit OracleFlightStatusInfoRequested(index, airline, flight, timestamp);
+        emit OracleFlightStatusInfoRequested(index, airlineAddress, flightNumber, departureTime);
     }
 
     // Called by oracle when a response is available to an outstanding request
     // For the response to be accepted, there must be a pending request that is open
     // and matches one of the three Indexes randomly assigned to the oracle at the
     // time of registration (i.e. uninvited oracles are not welcome)
-    function submitOracleFlightStatusInfo(uint8 index, address airline, string calldata flight, uint256 timestamp, uint8 statusCode) external {
+    function submitOracleFlightStatusInfo(uint8 index, address airlineAddress, string calldata flightNumber, uint256 departureTime, uint8 statusCode) external {
         require((oracles[msg.sender].indexes[0] == index) || (oracles[msg.sender].indexes[1] == index) || (oracles[msg.sender].indexes[2] == index), "Index does not match oracle request");
 
-        bytes32 oracleKey = getOracleKey(index, airline, flight, timestamp);
-        require(oracleFlightStatusInfos[oracleKey].isOpen, "Flight or timestamp do not match oracle request");
+        bytes32 oracleKey = getOracleKey(index, airlineAddress, flightNumber, departureTime);
+        require(oracleFlightStatusInfos[oracleKey].isOpen, "Flight or departureTime do not match oracle request");
 
         oracleFlightStatusInfos[oracleKey].responses[statusCode].push(msg.sender);
 
-        emit OracleFlightStatusInfoSubmitted(airline, flight, timestamp, statusCode);
+        emit OracleFlightStatusInfoSubmitted(airlineAddress, flightNumber, departureTime, statusCode);
 
         if (oracleFlightStatusInfos[oracleKey].responses[statusCode].length >= MIN_ORACLE_RESPONSES_REQUIRED_FOR_VALIDATION) {
             oracleFlightStatusInfos[oracleKey].isOpen = false;
-            processFlightStatusInfoUpdated(airline, flight, timestamp, statusCode);
-            emit FlightStatusInfoUpdated(airline, flight, timestamp, statusCode);
+            processFlightStatusInfoUpdated(airlineAddress, flightNumber, departureTime, statusCode);
+            emit FlightStatusInfoUpdated(airlineAddress, flightNumber, departureTime, statusCode);
         }
     }
 
@@ -111,8 +111,8 @@ abstract contract OracleController is BaseOracleListenerHandler, OwnableContract
     * Modifiers and private methods
     */
 
-    function getOracleKey(uint8 index, address airline, string calldata flight, uint256 timestamp) pure private returns (bytes32){
-        return keccak256(abi.encodePacked(index, airline, flight, timestamp));
+    function getOracleKey(uint8 index, address airlineAddress, string calldata flightNumber, uint256 departureTime) pure private returns (bytes32){
+        return keccak256(abi.encodePacked(index, airlineAddress, flightNumber, departureTime));
     }
 
     function generateThreeNonDuplicatedIndexes(address account, uint8 randomNumberIndexCeil) private returns (uint8[3] memory){
