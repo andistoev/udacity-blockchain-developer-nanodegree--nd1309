@@ -39,7 +39,7 @@ abstract contract AppInsuranceController is BaseOracleListenerHandler, BaseAppIn
     * API
     */
 
-    function registerFlight(address airlineAddress, string memory flightNumber, uint256 departureTime, string memory origin, string memory destination) external requireRegisteredAirline(airlineAddress) {
+    function registerFlight(address airlineAddress, string memory flightNumber, uint256 departureTime, string memory origin, string memory destination) external requireRegisteredAirline(airlineAddress) requireIsOperational {
         bytes32 insuredObjectKey = getFlightKey(airlineAddress, flightNumber, departureTime);
         require(!flights[insuredObjectKey].isRegistered, "The same flight cannot be registered twice");
 
@@ -56,14 +56,14 @@ abstract contract AppInsuranceController is BaseOracleListenerHandler, BaseAppIn
         suretyDataContract.registerInsuredObject(insuredObjectKey);
     }
 
-    function buyFlightInsurance(address airlineAddress, string memory flightNumber, uint256 departureTime) external payable {
+    function buyFlightInsurance(address airlineAddress, string memory flightNumber, uint256 departureTime) external payable requireIsOperational {
         bytes32 insuredObjectKey = getFlightKey(airlineAddress, flightNumber, departureTime);
         require(flights[insuredObjectKey].isRegistered, "The flight has not been registered");
 
         suretyDataContract.buyInsurance{value : msg.value}(msg.sender, insuredObjectKey);
     }
 
-    function withdrawFlightInsuranceCredit(address airlineAddress, string memory flightNumber, uint256 departureTime) external {
+    function withdrawFlightInsuranceCredit(address airlineAddress, string memory flightNumber, uint256 departureTime) external requireIsOperational {
         bytes32 insuredObjectKey = getFlightKey(airlineAddress, flightNumber, departureTime);
         require(flights[insuredObjectKey].isRegistered, "The flight has not been registered");
 

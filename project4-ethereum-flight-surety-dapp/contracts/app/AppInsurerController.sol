@@ -19,18 +19,18 @@ abstract contract AppInsurerController is BaseAppInsurerController, BaseAppContr
         suretyDataContract.registerTheFirstInsurer(airlineAddress, airlineName);
     }
 
-    function registerAirline(address airlineAddress, string memory airlineName) external {
+    function registerAirline(address airlineAddress, string memory airlineName) external requireIsOperational {
         require(!registeredAirlines[airlineAddress], "Airline cannot be registered twice");
 
         registeredAirlines[airlineAddress] = true;
         suretyDataContract.registerInsurer(msg.sender, airlineAddress, airlineName);
     }
 
-    function approveAirline(address airlineAddress) external requireRegisteredAirline(airlineAddress) {
+    function approveAirline(address airlineAddress) external requireRegisteredAirline(airlineAddress) requireIsOperational {
         suretyDataContract.approveInsurer(msg.sender, airlineAddress);
     }
 
-    function payAirlineInsurerFee() external payable requireRegisteredAirline(msg.sender) {
+    function payAirlineInsurerFee() external payable requireRegisteredAirline(msg.sender) requireIsOperational {
         suretyDataContract.payInsurerFee{value : msg.value}(msg.sender);
     }
 
