@@ -6,7 +6,7 @@ interface BaseDataInsuranceController {
 
     function registerInsuredObject(bytes32 insuredObjectKey) external;
 
-    function buyInsurance(bytes32 insuredObjectKey) external payable;
+    function buyInsurance(address insureeAddress, bytes32 insuredObjectKey) external payable;
 
     function closeAllInsurances(bytes32 insuredObjectKey) external;
 

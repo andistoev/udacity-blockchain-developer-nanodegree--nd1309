@@ -51,15 +51,15 @@ abstract contract FlightAppInsuranceController is BaseFlightStatusInfoUpdatedHan
         getSuretyDataContract().registerInsuredObject(insuredObjectKey);
     }
 
-    function buyFlightInsurance(address airline, string memory flightNumber, uint256 departureTime) external payable {
-        bytes32 insuredObjectKey = getFlightKey(airline, flightNumber, departureTime);
+    function buyFlightInsurance(address airlineAddress, string memory flightNumber, uint256 departureTime) external payable {
+        bytes32 insuredObjectKey = getFlightKey(airlineAddress, flightNumber, departureTime);
         require(flights[insuredObjectKey].isRegistered, "The flight has not been registered");
 
-        getSuretyDataContract().buyInsurance(insuredObjectKey);
+        getSuretyDataContract().buyInsurance(msg.sender, insuredObjectKey);
     }
 
-    function withdrawFlightInsuranceCredit(address airline, string memory flightNumber, uint256 departureTime) external payable {
-        bytes32 insuredObjectKey = getFlightKey(airline, flightNumber, departureTime);
+    function withdrawFlightInsuranceCredit(address airlineAddress, string memory flightNumber, uint256 departureTime) external payable {
+        bytes32 insuredObjectKey = getFlightKey(airlineAddress, flightNumber, departureTime);
         require(flights[insuredObjectKey].isRegistered, "The flight has not been registered");
 
         getSuretyDataContract().withdrawInsuranceCredit(insuredObjectKey);
@@ -69,8 +69,8 @@ abstract contract FlightAppInsuranceController is BaseFlightStatusInfoUpdatedHan
     * Modifiers and private methods
     */
 
-    function processFlightStatusInfoUpdated(address airline, string memory flightNumber, uint256 departureTime, uint8 statusCode) internal override {
-        bytes32 insuredObjectKey = getFlightKey(airline, flightNumber, departureTime);
+    function processFlightStatusInfoUpdated(address airlineAddress, string memory flightNumber, uint256 departureTime, uint8 statusCode) internal override {
+        bytes32 insuredObjectKey = getFlightKey(airlineAddress, flightNumber, departureTime);
         require(flights[insuredObjectKey].isRegistered, "The flight has not been registered");
 
         if (statusCode == STATUS_CODE_LATE_AIRLINE) {

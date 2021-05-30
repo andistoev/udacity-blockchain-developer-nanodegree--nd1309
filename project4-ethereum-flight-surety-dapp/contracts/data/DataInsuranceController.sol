@@ -51,22 +51,22 @@ abstract contract DataInsuranceController is PayableContract, DataOperationalCon
         insuredObjects[insuredObjectKey].isRegistered = true;
     }
 
-    function buyInsurance(bytes32 insuredObjectKey) external payable override requireIsOperational requireAuthorizedCaller {
+    function buyInsurance(address insureeAddress, bytes32 insuredObjectKey) external payable override requireIsOperational requireAuthorizedCaller {
         require(msg.value >= minInsurancePrice && msg.value <= maxInsurancePrice, "Invalid insurance price paid");
 
         InsuredObject storage insuredObject = insuredObjects[insuredObjectKey];
         require(insuredObject.isRegistered, "The insured object is not registered");
-        require(insuredObject.insurancePolicies[msg.sender].state == InsurancePolicyState.AVAILABLE, "The same policy can not be bought twice");
+        require(insuredObject.insurancePolicies[insureeAddress].state == InsurancePolicyState.AVAILABLE, "The same policy can not be bought twice");
 
-        insuredObject.insurancePolicies[msg.sender] = InsurancePolicy(
+        insuredObject.insurancePolicies[insureeAddress] = InsurancePolicy(
             InsurancePolicyState.OPEN,
             getInsureePaidAmount(),
             0
         );
 
-        insuredObject.insureeAddresses.push(msg.sender);
+        insuredObject.insureeAddresses.push(insureeAddress);
 
-        triggerInsurancePolicyStateChange(insuredObjectKey, msg.sender);
+        triggerInsurancePolicyStateChange(insuredObjectKey, insureeAddress);
     }
 
     function closeAllInsurances(bytes32 insuredObjectKey) external override requireIsOperational requireAuthorizedCaller {
