@@ -16,7 +16,7 @@ abstract contract AppInsurerController is BaseAppInsurerController, BaseAppContr
         require(!registeredAirlines[airlineAddress], "Airline cannot be registered twice");
 
         registeredAirlines[airlineAddress] = true;
-        getSuretyDataContract().registerTheFirstFullyQualifiedInsurer(airlineAddress, airlineName);
+        getSuretyDataContract().registerTheFirstInsurer(airlineAddress, airlineName);
     }
 
     function registerAirline(address airlineAddress, string memory airlineName) external {

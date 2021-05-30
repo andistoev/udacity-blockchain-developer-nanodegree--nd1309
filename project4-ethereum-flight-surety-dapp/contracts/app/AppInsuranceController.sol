@@ -45,14 +45,11 @@ abstract contract AppInsuranceController is BaseOracleListenerHandler, BaseAppIn
 
         flights[insuredObjectKey] = Flight(
             true,
-
             airlineAddress,
             flightNumber,
             departureTime,
-
             origin,
             destination,
-
             STATUS_CODE_UNKNOWN
         );
 
