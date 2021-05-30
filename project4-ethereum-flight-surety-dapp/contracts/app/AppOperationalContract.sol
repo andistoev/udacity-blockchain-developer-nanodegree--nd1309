@@ -2,25 +2,26 @@
 pragma solidity ^0.8.4;
 
 import "../shared/BaseOperationalContract.sol";
+import "./BaseSuretyAppContract.sol";
 import "../shared/OwnableContract.sol";
-import "./AppContract.sol";
 
-abstract contract AppOperationalContract is BaseOperationalContract, OwnableContract, AppContract {
+
+abstract contract AppOperationalContract is BaseOperationalContract, BaseSuretyAppContract, OwnableContract {
 
     /**
     * API
     */
 
     function isContractOperational() external view override returns (bool){
-        return suretyDataContract.isContractOperational();
+        return getSuretyDataContract().isContractOperational();
     }
 
     function pauseContract() external override requireContractOwner {
-        suretyDataContract.pauseContract();
+        getSuretyDataContract().pauseContract();
     }
 
     function resumeContract() external override requireContractOwner {
-        suretyDataContract.resumeContract();
+        getSuretyDataContract().resumeContract();
     }
 
     /**
@@ -28,7 +29,7 @@ abstract contract AppOperationalContract is BaseOperationalContract, OwnableCont
     */
 
     modifier requireIsOperational() {
-        require(suretyDataContract.isContractOperational(), "Contract is currently not operational");
+        require(getSuretyDataContract().isContractOperational(), "Contract is currently not operational");
         _;
     }
 }

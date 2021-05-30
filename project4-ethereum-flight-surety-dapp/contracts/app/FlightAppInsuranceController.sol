@@ -1,12 +1,12 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.4;
 
-import "../shared/PayableContract.sol";
-import "./SuretyAppContract.sol";
+import "./BaseSuretyAppContract.sol";
 import "./BaseFlightStatusInfoUpdatedHandler.sol";
 import "./BaseAirlineAppInsurerController.sol";
+import "../shared/PayableContract.sol";
 
-abstract contract FlightAppInsuranceController is BaseFlightStatusInfoUpdatedHandler, BaseAirlineAppInsurerController, PayableContract, SuretyAppContract {
+abstract contract FlightAppInsuranceController is BaseFlightStatusInfoUpdatedHandler, BaseAirlineAppInsurerController, BaseSuretyAppContract, PayableContract {
 
     uint internal constant MIN_INSURANCE_PRICE = 1 wei;
     uint internal constant MAX_INSURANCE_PRICE = 1 ether;
@@ -48,21 +48,21 @@ abstract contract FlightAppInsuranceController is BaseFlightStatusInfoUpdatedHan
             STATUS_CODE_UNKNOWN
         );
 
-        suretyDataContract.registerInsuredObject(insuredObjectKey);
+        getSuretyDataContract().registerInsuredObject(insuredObjectKey);
     }
 
     function buyFlightInsurance(address airline, string memory flightNumber, uint256 departureTime) external payable {
         bytes32 insuredObjectKey = getFlightKey(airline, flightNumber, departureTime);
         require(flights[insuredObjectKey].isRegistered, "The flight has not been registered");
 
-        suretyDataContract.buyInsurance(insuredObjectKey);
+        getSuretyDataContract().buyInsurance(insuredObjectKey);
     }
 
     function withdrawFlightInsuranceCredit(address airline, string memory flightNumber, uint256 departureTime) external payable {
         bytes32 insuredObjectKey = getFlightKey(airline, flightNumber, departureTime);
         require(flights[insuredObjectKey].isRegistered, "The flight has not been registered");
 
-        suretyDataContract.withdrawInsuranceCredit(insuredObjectKey);
+        getSuretyDataContract().withdrawInsuranceCredit(insuredObjectKey);
     }
 
     /**
@@ -74,10 +74,10 @@ abstract contract FlightAppInsuranceController is BaseFlightStatusInfoUpdatedHan
         require(flights[insuredObjectKey].isRegistered, "The flight has not been registered");
 
         if (statusCode == STATUS_CODE_LATE_AIRLINE) {
-            suretyDataContract.approveAllInsuranceCreditWithdraws(insuredObjectKey);
+            getSuretyDataContract().approveAllInsuranceCreditWithdraws(insuredObjectKey);
         }
         else {
-            suretyDataContract.closeAllInsurances(insuredObjectKey);
+            getSuretyDataContract().closeAllInsurances(insuredObjectKey);
         }
     }
 

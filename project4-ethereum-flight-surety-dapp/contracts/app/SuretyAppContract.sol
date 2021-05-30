@@ -1,12 +1,13 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.4;
 
+import "./BaseSuretyAppContract.sol";
 import "../shared/BaseSuretyData.sol";
 import "../shared/PayableContract.sol";
 
-abstract contract SuretyAppContract is PayableContract {
+abstract contract SuretyAppContract is BaseSuretyAppContract, PayableContract {
 
-    BaseSuretyData internal suretyDataContract;
+    BaseSuretyData private suretyDataContract;
 
     /**
     * API
@@ -14,6 +15,10 @@ abstract contract SuretyAppContract is PayableContract {
 
     constructor(address suretyDataContractAddress) {
         suretyDataContract = BaseSuretyData(suretyDataContractAddress);
+    }
+
+    function getSuretyDataContract() internal view override returns (BaseSuretyData) {
+        return suretyDataContract;
     }
 
     receive() external payable {
