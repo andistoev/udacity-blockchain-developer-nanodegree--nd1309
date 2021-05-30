@@ -25,6 +25,14 @@ var Config = async function (accounts) {
     let flightSuretyData = await FlightSuretyData.new();
     let flightSuretyApp = await FlightSuretyApp.new(flightSuretyData.address);
 
+    await flightSuretyData.InsurerStateChanged(insurerStateChangedHandler);
+    await flightSuretyData.InsurancePolicyStateChanged(insurancePolicyStateChangedHandler);
+    await flightSuretyData.FundingReceived(fundingReceivedHandler);
+
+    await flightSuretyApp.OracleFlightStatusInfoRequested(oracleFlightStatusInfoRequestedHandler);
+    await flightSuretyApp.OracleFlightStatusInfoSubmitted(oracleFlightStatusInfoSubmittedHandler);
+    await flightSuretyApp.FlightStatusInfoUpdated(flightStatusInfoUpdatedHandler);
+
     await flightSuretyData.authorizeContractCaller(flightSuretyApp.address);
     await flightSuretyApp.registerTheFirstAirline(firstAirline, "First Airline");
 
@@ -41,3 +49,31 @@ var Config = async function (accounts) {
 module.exports = {
     Config: Config
 };
+
+/*
+ * Event handlers
+ */
+
+function insurerStateChangedHandler(error, result) {
+    console.log(` => Consumed event InsurerStateChanged <airlineAddress: ${result.args.insurerAddress}, airlineName: ${result.args.insurerAddress}, state: ${result.args.state}>`);
+}
+
+function insurancePolicyStateChangedHandler(error, result) {
+    console.log(` => Consumed event InsurancePolicyStateChanged <insureeAddress: ${result.args.insureeAddress}, insuredFlightKey: ${result.args.insuredObjectKey}, state: ${result.args.state}>`);
+}
+
+function fundingReceivedHandler(error, result) {
+    console.log(` => Consumed event FundingReceived <sponsorAddress: ${result.args.sponsorAddress}, amountPaid: ${result.args.amountPaid}>`);
+}
+
+function oracleFlightStatusInfoRequestedHandler(error, result) {
+    console.log(` => Consumed event OracleFlightStatusInfoRequested <index: ${result.args.index.toNumber()}, airlineAddress: ${result.args.airlineAddress}, flightNumber: ${result.args.flightNumber}, departureTime: ${result.args.departureTime.toNumber()}>`);
+}
+
+function oracleFlightStatusInfoSubmittedHandler(error, result) {
+    console.log(` => Consumed event OracleFlightStatusInfoSubmitted <airlineAddress: ${result.args.airlineAddress}, flightNumber: ${result.args.flightNumber}, departureTime: ${result.args.departureTime.toNumber()}, flightStatus: ${result.args.flightStatus}>`);
+}
+
+function flightStatusInfoUpdatedHandler(error, result) {
+    console.log(` => Consumed event FlightStatusInfoUpdated <airlineAddress: ${result.args.airlineAddress}, flightNumber: ${result.args.flightNumber}, departureTime: ${result.args.departureTime.toNumber()}, flightStatus: ${result.args.flightStatus}>`);
+}
