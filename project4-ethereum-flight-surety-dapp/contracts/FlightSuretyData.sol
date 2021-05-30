@@ -8,9 +8,9 @@ import "./data/DataContract.sol";
 import "./data/DataInsurerController.sol";
 import "./data/DataInsuranceController.sol";
 
-import "./shared/BaseFlightSuretyData.sol";
+import "./shared/BaseSuretyData.sol";
 
-contract FlightSuretyData is OwnableContract, DataOperationalContract, DataContract, DataInsurerController, DataInsuranceController, BaseFlightSuretyData {
+contract FlightSuretyData is OwnableContract, DataOperationalContract, DataContract, DataInsurerController, DataInsuranceController, BaseSuretyData {
 
     constructor() OwnableContract(){
     }

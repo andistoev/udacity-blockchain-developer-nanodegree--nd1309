@@ -1,18 +1,18 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.4;
 
-import "../shared/BaseFlightSuretyData.sol";
+import "../shared/BaseSuretyData.sol";
 
 abstract contract AppContract {
 
-    BaseFlightSuretyData internal dataContract;
+    BaseSuretyData internal suretyDataContract;
 
     /**
     * API
     */
 
-    constructor(address dataContractAddress) {
-        dataContract = BaseFlightSuretyData(dataContractAddress);
+    constructor(address suretyDataContractAddress) {
+        suretyDataContract = BaseSuretyData(suretyDataContractAddress);
     }
 
     /**

@@ -6,7 +6,7 @@ import "./BaseDataContract.sol";
 import "./BaseDataInsurerController.sol";
 import "./BaseDataInsuranceController.sol";
 
-interface BaseFlightSuretyData is BaseOperationalContract, BaseDataContract, BaseDataInsurerController, BaseDataInsuranceController {
+interface BaseSuretyData is BaseOperationalContract, BaseDataContract, BaseDataInsurerController, BaseDataInsuranceController {
 }
 
 

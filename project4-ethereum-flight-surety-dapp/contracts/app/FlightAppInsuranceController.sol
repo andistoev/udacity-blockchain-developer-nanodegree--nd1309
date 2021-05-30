@@ -47,21 +47,21 @@ abstract contract FlightAppInsuranceController is PayableContract, AppContract, 
             STATUS_CODE_UNKNOWN
         );
 
-        dataContract.registerInsuredObject(insuredObjectKey);
+        suretyDataContract.registerInsuredObject(insuredObjectKey);
     }
 
     function buyFlightInsurance(address airline, string memory flightNumber, uint256 departureTime) external payable {
         bytes32 insuredObjectKey = getFlightKey(airline, flightNumber, departureTime);
         require(flights[insuredObjectKey].isRegistered, "The flight has not been registered");
 
-        dataContract.buyInsurance(insuredObjectKey);
+        suretyDataContract.buyInsurance(insuredObjectKey);
     }
 
     function withdrawFlightInsuranceCredit(address airline, string memory flightNumber, uint256 departureTime) external payable {
         bytes32 insuredObjectKey = getFlightKey(airline, flightNumber, departureTime);
         require(flights[insuredObjectKey].isRegistered, "The flight has not been registered");
 
-        dataContract.withdrawInsuranceCredit(insuredObjectKey);
+        suretyDataContract.withdrawInsuranceCredit(insuredObjectKey);
     }
 
     /**
@@ -73,10 +73,10 @@ abstract contract FlightAppInsuranceController is PayableContract, AppContract, 
         require(flights[insuredObjectKey].isRegistered, "The flight has not been registered");
 
         if (statusCode == STATUS_CODE_LATE_AIRLINE) {
-            dataContract.approveAllInsuranceCreditWithdraws(insuredObjectKey);
+            suretyDataContract.approveAllInsuranceCreditWithdraws(insuredObjectKey);
         }
         else {
-            dataContract.closeAllInsurances(insuredObjectKey);
+            suretyDataContract.closeAllInsurances(insuredObjectKey);
         }
     }
 

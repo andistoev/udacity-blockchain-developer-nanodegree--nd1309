@@ -17,15 +17,15 @@ abstract contract AirlineAppInsurerController is PayableContract, AppContract {
         require(!registeredAirlines[airlineAddress], "Airline can not be registered twice");
 
         registeredAirlines[airlineAddress] = true;
-        dataContract.registerInsurer(airlineAddress, airlineName);
+        suretyDataContract.registerInsurer(airlineAddress, airlineName);
     }
 
     function approveAirline(address airlineAddress) external requiredRegisteredAirline(airlineAddress) {
-        dataContract.approveInsurer(airlineAddress);
+        suretyDataContract.approveInsurer(airlineAddress);
     }
 
     function payAirlineInsurerFee() external payable requiredRegisteredAirline(msg.sender) {
-        dataContract.payInsurerFee();
+        suretyDataContract.payInsurerFee();
     }
 
     /**

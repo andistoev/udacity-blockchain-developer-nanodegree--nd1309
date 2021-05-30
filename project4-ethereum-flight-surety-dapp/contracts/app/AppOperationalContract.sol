@@ -12,15 +12,15 @@ abstract contract AppOperationalContract is BaseOperationalContract, OwnableCont
     */
 
     function isContractOperational() external view override returns (bool){
-        return dataContract.isContractOperational();
+        return suretyDataContract.isContractOperational();
     }
 
     function pauseContract() external override requireContractOwner {
-        dataContract.pauseContract();
+        suretyDataContract.pauseContract();
     }
 
     function resumeContract() external override requireContractOwner {
-        dataContract.resumeContract();
+        suretyDataContract.resumeContract();
     }
 
     /**
@@ -28,7 +28,7 @@ abstract contract AppOperationalContract is BaseOperationalContract, OwnableCont
     */
 
     modifier requireIsOperational() {
-        require(dataContract.isContractOperational(), "Contract is currently not operational");
+        require(suretyDataContract.isContractOperational(), "Contract is currently not operational");
         _;
     }
 }
