@@ -47,7 +47,7 @@ abstract contract OracleController is BaseOracleListenerHandler, BaseAppContract
     // old name: FlightStatusInfo
     event FlightStatusInfoUpdated(address airlineAddress, string flightNumber, uint256 departureTime, uint8 flightStatus);
 
-    function registerOracle() external payable {
+    function registerOracle() external payable requireIsOperational {
         require(msg.value >= ORACLE_REGISTRATION_FEE, "Registration fee is required");
 
         uint8[3] memory indexes = generateThreeNonDuplicatedIndexes(msg.sender, ORACLE_RANDOM_INDEX_CEIL);
@@ -58,7 +58,7 @@ abstract contract OracleController is BaseOracleListenerHandler, BaseAppContract
         );
     }
 
-    function unregisterOracle() external {
+    function unregisterOracle() external requireIsOperational {
         require(oracles[msg.sender].isRegistered, "Only a registered oracle can be unregistered");
         delete oracles[msg.sender];
 
@@ -72,7 +72,7 @@ abstract contract OracleController is BaseOracleListenerHandler, BaseAppContract
     }
 
     // Generate a request for oracles to fetch flightNumber information
-    function requestOracleFlightStatusInfo(address airlineAddress, string calldata flightNumber, uint256 departureTime) external {
+    function requestOracleFlightStatusInfo(address airlineAddress, string calldata flightNumber, uint256 departureTime) external requireIsOperational {
         uint8 index = getRandomIndex(msg.sender, ORACLE_RANDOM_INDEX_CEIL);
 
         // Generate a unique key for storing the request
@@ -91,7 +91,7 @@ abstract contract OracleController is BaseOracleListenerHandler, BaseAppContract
     // For the response to be accepted, there must be a pending request that is open
     // and matches one of the three Indexes randomly assigned to the oracle at the
     // time of registration (i.e. uninvited oracles are not welcome)
-    function submitOracleFlightStatusInfo(uint8 index, address airlineAddress, string calldata flightNumber, uint256 departureTime, uint8 statusCode) external {
+    function submitOracleFlightStatusInfo(uint8 index, address airlineAddress, string calldata flightNumber, uint256 departureTime, uint8 statusCode) external requireIsOperational {
         require((oracles[msg.sender].indexes[0] == index) || (oracles[msg.sender].indexes[1] == index) || (oracles[msg.sender].indexes[2] == index), "Index does not match oracle request");
 
         bytes32 oracleKey = getOracleKey(index, airlineAddress, flightNumber, departureTime);
