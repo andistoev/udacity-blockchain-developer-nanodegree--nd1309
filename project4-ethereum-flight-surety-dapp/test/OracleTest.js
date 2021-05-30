@@ -4,6 +4,7 @@ var Test = require('../config/testConfig.js');
 contract('Oracles', async (accounts) => {
 
     const TEST_ORACLES_COUNT = 20;
+
     var config;
     before('setup contract', async () => {
         config = await Test.Config(accounts);
@@ -17,7 +18,6 @@ contract('Oracles', async (accounts) => {
         const STATUS_CODE_LATE_OTHER = 50;
 
     });
-
 
     it('can register oracles', async () => {
 

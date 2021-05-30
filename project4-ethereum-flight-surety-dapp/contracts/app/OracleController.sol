@@ -1,11 +1,11 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.4;
 
-import "./BaseFlightStatusInfoUpdatedHandler.sol";
+import "./base/BaseOracleListenerHandler.sol";
 import "../shared/OwnableContract.sol";
 import "../shared/PayableContract.sol";
 
-abstract contract OracleController is BaseFlightStatusInfoUpdatedHandler, OwnableContract, PayableContract {
+abstract contract OracleController is BaseOracleListenerHandler, OwnableContract, PayableContract {
 
     uint8 public constant ORACLE_RANDOM_INDEX_CEIL = 10;
 

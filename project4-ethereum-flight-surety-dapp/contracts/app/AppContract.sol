@@ -1,11 +1,11 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.4;
 
-import "./BaseSuretyAppContract.sol";
+import "./base/BaseAppContract.sol";
 import "../shared/BaseSuretyData.sol";
 import "../shared/PayableContract.sol";
 
-abstract contract SuretyAppContract is BaseSuretyAppContract, PayableContract {
+abstract contract AppContract is BaseAppContract, PayableContract {
 
     BaseSuretyData private suretyDataContract;
 

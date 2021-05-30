@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.4;
 
-abstract contract BaseAirlineAppInsurerController {
+abstract contract BaseAppInsurerController {
 
     // key => address
     mapping(address => bool) internal registeredAirlines;

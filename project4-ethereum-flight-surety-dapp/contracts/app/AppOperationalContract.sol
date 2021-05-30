@@ -2,11 +2,10 @@
 pragma solidity ^0.8.4;
 
 import "../shared/BaseOperationalContract.sol";
-import "./BaseSuretyAppContract.sol";
+import "./base/BaseAppContract.sol";
 import "../shared/OwnableContract.sol";
 
-
-abstract contract AppOperationalContract is BaseOperationalContract, BaseSuretyAppContract, OwnableContract {
+abstract contract AppOperationalContract is BaseOperationalContract, BaseAppContract, OwnableContract {
 
     /**
     * API

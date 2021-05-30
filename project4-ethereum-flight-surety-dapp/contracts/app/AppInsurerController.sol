@@ -1,12 +1,12 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.4;
 
-import "./BaseAirlineAppInsurerController.sol";
+import "./base/BaseAppInsurerController.sol";
+import "./base/BaseAppContract.sol";
 import "../shared/OwnableContract.sol";
 import "../shared/PayableContract.sol";
-import "./BaseSuretyAppContract.sol";
 
-abstract contract AirlineAppInsurerController is BaseAirlineAppInsurerController, BaseSuretyAppContract, OwnableContract, PayableContract {
+abstract contract AppInsurerController is BaseAppInsurerController, BaseAppContract, OwnableContract, PayableContract {
 
     /**
     * API

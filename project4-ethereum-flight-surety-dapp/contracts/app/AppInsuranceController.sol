@@ -1,12 +1,12 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.4;
 
-import "./BaseSuretyAppContract.sol";
-import "./BaseFlightStatusInfoUpdatedHandler.sol";
-import "./BaseAirlineAppInsurerController.sol";
+import "./base/BaseAppContract.sol";
+import "./base/BaseOracleListenerHandler.sol";
+import "./base/BaseAppInsurerController.sol";
 import "../shared/PayableContract.sol";
 
-abstract contract FlightAppInsuranceController is BaseFlightStatusInfoUpdatedHandler, BaseAirlineAppInsurerController, BaseSuretyAppContract, PayableContract {
+abstract contract AppInsuranceController is BaseOracleListenerHandler, BaseAppInsurerController, BaseAppContract, PayableContract {
 
     uint internal constant MIN_INSURANCE_PRICE = 1 wei;
     uint internal constant MAX_INSURANCE_PRICE = 1 ether;
