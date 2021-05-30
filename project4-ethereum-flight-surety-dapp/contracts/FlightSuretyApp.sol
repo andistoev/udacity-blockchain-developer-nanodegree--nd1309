@@ -12,5 +12,4 @@ contract FlightSuretyApp is OwnableContract, AppContract, AirlineAppInsurerContr
 
     constructor(address flightSuretyDataAddress) OwnableContract() AppContract(flightSuretyDataAddress) {
     }
-
 }   

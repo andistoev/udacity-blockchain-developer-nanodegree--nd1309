@@ -15,18 +15,5 @@ contract FlightSuretyData is OwnableContract, DataOperationalContract, DataContr
     constructor() OwnableContract(){
     }
 
-    /**
-     * @dev Initial funding for the insurance. Unless there are too many delayed flights
-     *      resulting in insurance payouts, the contract should be self-sustaining
-     *
-     */
-
-    fallback() external payable {
-    }
-
-    receive() external payable {
-    }
-
-
 }
 
