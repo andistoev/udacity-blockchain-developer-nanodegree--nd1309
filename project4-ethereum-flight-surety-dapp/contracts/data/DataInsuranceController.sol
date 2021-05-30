@@ -95,7 +95,7 @@ abstract contract DataInsuranceController is PayableContract, DataOperationalCon
         }
     }
 
-    function withdrawInsuranceCredit(address insureeAddress, bytes32 insuredObjectKey) external payable override requireIsOperational requireAuthorizedCaller {
+    function withdrawInsuranceCredit(address insureeAddress, bytes32 insuredObjectKey) external override requireIsOperational requireAuthorizedCaller {
         InsuredObject storage insuredObject = insuredObjects[insuredObjectKey];
         require(insuredObject.isRegistered, "The insured object is not registered");
 

@@ -57,7 +57,7 @@ abstract contract OracleController is BaseFlightStatusInfoUpdatedHandler, Ownabl
         );
     }
 
-    function unregisterOracle() external payable {
+    function unregisterOracle() external {
         require(oracles[msg.sender].isRegistered, "Only a registered oracle can be unregistered");
         delete oracles[msg.sender];
 

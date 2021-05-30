@@ -12,5 +12,5 @@ interface BaseDataInsuranceController {
 
     function approveAllInsuranceCreditWithdraws(bytes32 insuredObjectKey) external;
 
-    function withdrawInsuranceCredit(address insureeAddress, bytes32 insuredObjectKey) external payable;
+    function withdrawInsuranceCredit(address insureeAddress, bytes32 insuredObjectKey) external;
 }

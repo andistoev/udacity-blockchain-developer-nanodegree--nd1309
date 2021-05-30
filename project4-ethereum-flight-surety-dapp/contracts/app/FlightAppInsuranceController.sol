@@ -58,7 +58,7 @@ abstract contract FlightAppInsuranceController is BaseFlightStatusInfoUpdatedHan
         getSuretyDataContract().buyInsurance(msg.sender, insuredObjectKey);
     }
 
-    function withdrawFlightInsuranceCredit(address airlineAddress, string memory flightNumber, uint256 departureTime) external payable {
+    function withdrawFlightInsuranceCredit(address airlineAddress, string memory flightNumber, uint256 departureTime) external {
         bytes32 insuredObjectKey = getFlightKey(airlineAddress, flightNumber, departureTime);
         require(flights[insuredObjectKey].isRegistered, "The flight has not been registered");
 
