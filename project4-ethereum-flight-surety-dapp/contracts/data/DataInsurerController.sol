@@ -40,8 +40,20 @@ abstract contract DataInsurerController is PayableContract, DataOperationalContr
         numberOfFullyQualifiedInsurersRequiredForMultiParityConsensus = _numberOfFullyQualifiedInsurersRequiredForMultiParityConsensus;
     }
 
+    function registerTheFirstFullyQualifiedInsurer(address insurerAddress, string memory insurerName) external override requiredAuthorizedCaller {
+        require(fullyQualifiedInsurersCtr == 0, "The first fully-qualified insurer can be registered only at contract setup phase");
+        require(insurers[insurerAddress].state == InsurerState.UNREGISTERED, "Insurer can not be registered twice");
+
+        insurers[insurerAddress].name = insurerName;
+        insurers[insurerAddress].state = InsurerState.FULLY_QUALIFIED;
+
+        fullyQualifiedInsurersCtr = 1;
+
+        triggerInsurerStateChange(insurerAddress);
+    }
+
     function registerInsurer(address insurerAddress, string memory insurerName) external override requireIsOperational requiredFullyQualifiedInsurer requiredAuthorizedCaller {
-        require(insurers[insurerAddress].state == InsurerState.UNREGISTERED, "Insurer is already registered");
+        require(insurers[insurerAddress].state == InsurerState.UNREGISTERED, "Insurer can not be registered twice");
 
         insurers[insurerAddress].name = insurerName;
         insurers[insurerAddress].state = InsurerState.REGISTERED;

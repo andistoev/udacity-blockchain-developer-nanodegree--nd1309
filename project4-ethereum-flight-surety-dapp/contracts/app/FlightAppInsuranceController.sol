@@ -4,8 +4,9 @@ pragma solidity ^0.8.4;
 import "../shared/PayableContract.sol";
 import "./AppContract.sol";
 import "./AirlineAppInsurerController.sol";
+import "./BaseFlightStatusInfoUpdatedHandler.sol";
 
-abstract contract FlightAppInsuranceController is PayableContract, AppContract, AirlineAppInsurerController {
+abstract contract FlightAppInsuranceController is BaseFlightStatusInfoUpdatedHandler, PayableContract, AppContract, AirlineAppInsurerController {
 
     uint internal constant MIN_INSURANCE_PRICE = 1 wei;
     uint internal constant MAX_INSURANCE_PRICE = 1 ether;
@@ -68,7 +69,7 @@ abstract contract FlightAppInsuranceController is PayableContract, AppContract, 
     * Modifiers and private methods
     */
 
-    function processFlightStatusInfoUpdated(address airline, string memory flightNumber, uint256 departureTime, uint8 statusCode) internal {
+    function processFlightStatusInfoUpdated(address airline, string memory flightNumber, uint256 departureTime, uint8 statusCode) internal override {
         bytes32 insuredObjectKey = getFlightKey(airline, flightNumber, departureTime);
         require(flights[insuredObjectKey].isRegistered, "The flight has not been registered");
 

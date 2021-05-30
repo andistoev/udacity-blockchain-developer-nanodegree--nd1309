@@ -13,6 +13,13 @@ abstract contract AirlineAppInsurerController is PayableContract, AppContract {
     * API
     */
 
+    function registerTheFirstAirline(address airlineAddress, string memory airlineName) external {
+        require(!registeredAirlines[airlineAddress], "Airline can not be registered twice");
+
+        registeredAirlines[airlineAddress] = true;
+        suretyDataContract.registerTheFirstFullyQualifiedInsurer(airlineAddress, airlineName);
+    }
+
     function registerAirline(address airlineAddress, string memory airlineName) external {
         require(!registeredAirlines[airlineAddress], "Airline can not be registered twice");
 
