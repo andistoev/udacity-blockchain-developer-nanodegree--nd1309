@@ -46,9 +46,9 @@ To deploy the smart contracts locally:
 
 To test it:
 
-`npm run test1` or `truffle test ./test/OracleTest.js`
+`npm run test1` or `truffle test ./test/Oracle.test.js`
 
-`npm run test2` or `truffle test ./test/FlightSuretyTest.js`
+`npm run test2` or `truffle test ./test/FlightSurety.test.js`
 
 To run the oracles:
 

@@ -1,11 +1,19 @@
+const {expectThrow} = require('./helpers/expectThrow');
+
 var Test = require('../config/testConfig.js');
 var BigNumber = require('bignumber.js');
 
 contract('Flight Surety Tests', async (accounts) => {
 
-    var config;
+    let config;
+
+    let appContract;
+    let dataContract;
+
     before('setup contract', async () => {
         config = await Test.Config(accounts);
+        appContract = config.flightSuretyApp;
+        dataContract = config.flightSuretyData;
     });
 
     /****************************************************************************************/
@@ -13,37 +21,19 @@ contract('Flight Surety Tests', async (accounts) => {
     /****************************************************************************************/
 
     it(`(multiparty) has correct initial isContractOperational() value`, async function () {
-
-        // Get operating status
-        let status = await config.flightSuretyData.isContractOperational.call();
-        assert.equal(status, true, "Incorrect initial operating status value");
-
+        assert.equal(await config.flightSuretyData.isContractOperational.call(), true, "Incorrect initial operating status value");
     });
 
     it(`(multiparty) can block access to pauseContract() for non-Contract Owner account`, async function () {
-
-        // Ensure that access is denied for non-Contract Owner account
-        let accessDenied = false;
-        try {
-            await config.flightSuretyData.pauseContract({from: config.testAddresses[2]});
-        } catch (e) {
-            accessDenied = true;
-        }
-        assert.equal(accessDenied, true, "Access not restricted to Contract Owner");
-
+        await expectThrow(
+            dataContract.pauseContract({from: config.testAddresses[2]}), "Caller is not contract owner"
+        );
+        assert.equal(await config.flightSuretyData.isContractOperational.call(), true, "Incorrect initial operating status value");
     });
 
     it(`(multiparty) can allow access to pauseContract() for Contract Owner account`, async function () {
-
-        // Ensure that access is allowed for Contract Owner account
-        let accessDenied = false;
-        try {
-            await config.flightSuretyData.pauseContract();
-        } catch (e) {
-            accessDenied = true;
-        }
-        assert.equal(accessDenied, false, "Access not restricted to Contract Owner");
-
+        dataContract.pauseContract();
+        assert.equal(await config.flightSuretyData.isContractOperational.call(), false, "Incorrect initial operating status value");
     });
 
     it(`(multiparty) can block access to functions using requireIsOperational when operating status is false`, async function () {
