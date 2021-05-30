@@ -85,8 +85,14 @@ const EventCapture = {
     },
 
     insurerStateChangedHandler: function (error, result) {
-        let msg = `airlineAddress: ${result.args.insurerAddress}, airlineName: ${result.args.insurerAddress}, state: ${result.args.state}`;
+        let msg = `airlineAddress: ${result.args.insurerAddress}, airlineName: ${result.args.insurerName}, state: ${result.args.state}`;
         EventCapture.consumeEvent(EventType.InsurerStateChanged, result.args, msg);
+    },
+
+    assertInsurerStateChanged: function (eventIdx, expectedEventType, exectedInsurerAddress, expectedState) {
+        assert.equal(this.events[eventIdx].type, expectedEventType);
+        assert.equal(this.events[eventIdx].params.insurerAddress, exectedInsurerAddress);
+        assert.equal(this.events[eventIdx].params.state.toNumber(), expectedState);
     },
 
     insurancePolicyStateChangedHandler: function (error, result) {

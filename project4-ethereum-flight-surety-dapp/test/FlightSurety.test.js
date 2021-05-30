@@ -85,8 +85,7 @@ contract('Flight Surety Tests', async (accounts) => {
 
             // then
             assert.equal(eventCapture.events.length, 1);
-            assert.equal(eventCapture.events[0].type, eventType.InsurerStateChanged);
-            assert.equal(eventCapture.events[0].params.state.toNumber(), InsurerState.FULLY_QUALIFIED);
+            eventCapture.assertInsurerStateChanged(0, eventType.InsurerStateChanged, config.firstAirline, InsurerState.FULLY_QUALIFIED);
         });
 
         /*
