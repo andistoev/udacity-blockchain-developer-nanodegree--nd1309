@@ -27,7 +27,7 @@ abstract contract DataInsurerController is PayableContract, DataOperationalContr
         mapping(address => bool) approvers;
     }
 
-    uint16 fullyQualifiedInsurersCtr;
+    uint fullyQualifiedInsurersCtr;
     mapping(address => InsurerProfile) private insurers;
 
     /**

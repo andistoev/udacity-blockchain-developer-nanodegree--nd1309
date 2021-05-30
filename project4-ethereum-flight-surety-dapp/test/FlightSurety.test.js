@@ -66,9 +66,16 @@ contract('Flight Surety Tests', async (accounts) => {
     /***********************************************************************************/
 
     describe('Test Airline Registration', function () {
+
+
         it('cannot register an airline using registerAirline() if the registering airline is not funded', async () => {
+            // given
+            let secondAirline = accounts[2];
+
+            // when
+            // then
             await truffleAssert.reverts(
-                appContract.registerAirline(accounts[2], {from: config.firstAirline}),
+                appContract.registerAirline(secondAirline, {from: config.firstAirline}),
                 "Caller is not a fully qualified insurer"
             );
         });
@@ -88,23 +95,23 @@ contract('Flight Surety Tests', async (accounts) => {
             eventCapture.assertInsurerStateChanged(0, eventType.InsurerStateChanged, config.firstAirline, InsurerState.FULLY_QUALIFIED);
         });
 
-        /*
         it('can register an Airline using registerAirline() after the registering airline is funded', async () => {
             // given
+            let secondAirline = accounts[2];
+
             let insurerFee = await dataContract.getInsurerFee();
 
             eventCapture.clear();
 
             // when
-            await appContract.registerAirline(accounts[2], {from: config.firstAirline});
+            await appContract.registerAirline(secondAirline, "second airline", {from: config.firstAirline});
 
             // then
             assert.equal(eventCapture.events.length, 1);
-            assert.equal(eventCapture.events[0].type, "InsurerStateChanged");
-            assert.equal(eventCapture.events[0].params.state.toNumber(), InsurerState.FULLY_QUALIFIED);
+            eventCapture.assertInsurerStateChanged(0, eventType.InsurerStateChanged, secondAirline, InsurerState.REGISTERED);
         });
 
-         */
+
     });
 
 });
