@@ -61,11 +61,11 @@ abstract contract DataInsurerController is PayableContract, DataOperationalContr
         triggerInsurerStateChange(insurerAddress);
     }
 
-    function approveInsurer(address insurerAddress) external override requireIsOperational requireFullyQualifiedInsurer requireAuthorizedCaller {
+    function approveInsurer(address approverInsurerAddress, address insurerAddress) external override requireIsOperational requireFullyQualifiedInsurer requireAuthorizedCaller {
         require(insurers[insurerAddress].state == InsurerState.REGISTERED, "Insurer is not yet registered or has been already approved");
-        require(insurers[insurerAddress].approvers[msg.sender] == false, "Insurer has been already approved by this caller");
+        require(insurers[insurerAddress].approvers[approverInsurerAddress] == false, "Insurer has been already approved by this caller");
 
-        insurers[insurerAddress].approvers[msg.sender] = true;
+        insurers[insurerAddress].approvers[approverInsurerAddress] = true;
         insurers[insurerAddress].approversCtr++;
 
         if (isInsurerApproved(insurerAddress)) {

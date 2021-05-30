@@ -8,7 +8,7 @@ interface BaseDataInsurerController {
 
     function registerInsurer(address insurerAddress, string memory insurerName) external;
 
-    function approveInsurer(address insurerAddress) external;
+    function approveInsurer(address approverInsurerAddress, address insurerAddress) external;
 
     function payInsurerFee() external payable;
 }
