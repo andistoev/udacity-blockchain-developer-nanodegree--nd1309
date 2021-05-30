@@ -1,7 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.4;
 
-import "../shared/BaseDataInsurerController.sol";
+import "./DataContract.sol";
+import "./base/BaseDataInsurerController.sol";
 import "../shared/PayableContract.sol";
 import "./DataOperationalContract.sol";
 

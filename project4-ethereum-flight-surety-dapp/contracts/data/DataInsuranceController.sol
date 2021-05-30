@@ -3,7 +3,7 @@ pragma solidity ^0.8.4;
 
 import "../shared/PayableContract.sol";
 import "./DataOperationalContract.sol";
-import "../shared/BaseDataInsuranceController.sol";
+import "./base/BaseDataInsuranceController.sol";
 import "./DataContract.sol";
 
 abstract contract DataInsuranceController is PayableContract, DataOperationalContract, BaseDataInsuranceController, DataContract {

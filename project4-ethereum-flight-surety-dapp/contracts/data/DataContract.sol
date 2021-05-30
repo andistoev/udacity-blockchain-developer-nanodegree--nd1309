@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.4;
 
-import "../shared/BaseDataContract.sol";
+import "./base/BaseDataContract.sol";
 import "../shared/OwnableContract.sol";
 
 abstract contract DataContract is BaseDataContract, OwnableContract {
