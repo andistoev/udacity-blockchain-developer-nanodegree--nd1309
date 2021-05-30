@@ -8,6 +8,7 @@ import "./DataOperationalContract.sol";
 abstract contract DataInsurerController is PayableContract, DataOperationalContract, BaseInsurerController, DataContract {
 
     uint private constant INSURER_FEE = 10 ether;
+    uint16 private constant NUMBER_OF_FULLY_QUALIFIED_INSURERS_REQUIRED_FOR_MULTI_PARITY_CONSENSUS = 5;
 
     enum InsurerState{
         UNREGISTERED, // 0
@@ -22,8 +23,6 @@ abstract contract DataInsurerController is PayableContract, DataOperationalContr
         uint16 approversCtr;
         mapping(address => bool) approvers;
     }
-
-    uint16 private constant NUMBER_OF_FULLY_QUALIFIED_INSURERS_REQUIRED_FOR_MULTI_PARITY_CONSENSUS = 5;
 
     uint16 fullyQualifiedInsurersCtr;
     mapping(address => InsurerProfile) private insurers;

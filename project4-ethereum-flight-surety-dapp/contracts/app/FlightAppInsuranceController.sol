@@ -3,8 +3,9 @@ pragma solidity ^0.8.4;
 
 import "../shared/PayableContract.sol";
 import "./AppContract.sol";
+import "./AirlineAppInsurerController.sol";
 
-abstract contract FlightAppInsuranceController is PayableContract, AppContract {
+abstract contract FlightAppInsuranceController is PayableContract, AppContract, AirlineAppInsurerController {
 
     // Flight status codees
     uint8 private constant STATUS_CODE_UNKNOWN = 0;
@@ -31,7 +32,7 @@ abstract contract FlightAppInsuranceController is PayableContract, AppContract {
     * API
     */
 
-    function registerFlight(address airlineAddress, string memory flightNumber, uint256 departureTime) external {
+    function registerFlight(address airlineAddress, string memory flightNumber, uint256 departureTime) external requiredRegisteredAirline(airlineAddress) {
         bytes32 insuredObjectKey = getFlightKey(airlineAddress, flightNumber, departureTime);
         require(!flights[insuredObjectKey].isRegistered, "The same flight can not be registered twice");
 
