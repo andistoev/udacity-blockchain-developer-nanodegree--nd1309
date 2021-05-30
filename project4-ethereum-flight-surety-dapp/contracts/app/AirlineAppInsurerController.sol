@@ -3,11 +3,9 @@ pragma solidity ^0.8.4;
 
 import "../shared/PayableContract.sol";
 import "./AppContract.sol";
+import "./BaseAirlineAppInsurerController.sol";
 
-abstract contract AirlineAppInsurerController is PayableContract, AppContract {
-
-    // key => address
-    mapping(address => bool) private registeredAirlines;
+abstract contract AirlineAppInsurerController is BaseAirlineAppInsurerController, PayableContract, AppContract {
 
     /**
     * API
@@ -33,15 +31,6 @@ abstract contract AirlineAppInsurerController is PayableContract, AppContract {
 
     function payAirlineInsurerFee() external payable requiredRegisteredAirline(msg.sender) {
         suretyDataContract.payInsurerFee();
-    }
-
-    /**
-    * Modifiers and private methods
-    */
-
-    modifier requiredRegisteredAirline(address airlineAddress){
-        require(registeredAirlines[airlineAddress], "Airline has not been registered");
-        _;
     }
 
 }
