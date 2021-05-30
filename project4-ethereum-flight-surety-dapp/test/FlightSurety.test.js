@@ -10,10 +10,20 @@ contract('Flight Surety Tests', async (accounts) => {
     let appContract;
     let dataContract;
 
+    let eventCapture;
+
+    const InsurerState = {
+        UNREGISTERED: 0,
+        REGISTERED: 1,
+        APPROVED: 2,
+        FULLY_QUALIFIED: 3
+    };
+
     before('setup contract', async () => {
         config = await ConfigTests.Config(accounts);
         appContract = config.flightSuretyApp;
         dataContract = config.flightSuretyData;
+        eventCapture = config.eventCapture;
     });
 
     /***********************************************************************************/
@@ -60,20 +70,35 @@ contract('Flight Surety Tests', async (accounts) => {
         });
 
         it('the first airline can be funded', async () => {
+            // given
             let insurerFee = await dataContract.getInsurerFee();
+            assert.equal(web3.utils.fromWei(insurerFee, "ether"), '10');
+
+            eventCapture.clear();
+
+            // when
             await appContract.payAirlineInsurerFee({value: insurerFee, from: config.firstAirline});
+
+            // then
+            assert.equal(eventCapture.events.length, 1);
+            assert.equal(eventCapture.events[0].type, "InsurerStateChanged");
+            assert.equal(eventCapture.events[0].params.state.toNumber(), InsurerState.FULLY_QUALIFIED);
         });
 
         /*
         it('can register an Airline using registerAirline() after the registering airline is funded', async () => {
-            // when
-            let insurerFee = await appContract.INSURER_FEE;
-
             // given
-            await appContract.payAirlineInsurerFee({value: insurerFee, from: config.firstAirline});
+            let insurerFee = await dataContract.getInsurerFee();
+
+            eventCapture.clear();
+
+            // when
+            await appContract.registerAirline(accounts[2], {from: config.firstAirline});
 
             // then
-            await appContract.registerAirline(accounts[2], {from: config.firstAirline});
+            assert.equal(eventCapture.events.length, 1);
+            assert.equal(eventCapture.events[0].type, "InsurerStateChanged");
+            assert.equal(eventCapture.events[0].params.state.toNumber(), InsurerState.FULLY_QUALIFIED);
         });
 
          */

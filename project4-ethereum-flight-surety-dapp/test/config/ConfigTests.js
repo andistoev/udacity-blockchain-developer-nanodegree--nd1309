@@ -36,7 +36,8 @@ const ConfigTests = async function (accounts) {
         weiMultiple: (new BigNumber(10)).pow(18),
         testAddresses: testAddresses,
         flightSuretyData: flightSuretyData,
-        flightSuretyApp: flightSuretyApp
+        flightSuretyApp: flightSuretyApp,
+        eventCapture: EventCapture
     }
 }
 
@@ -50,6 +51,8 @@ module.exports = {
 
 const EventCapture = {
 
+    events: [],
+
     registerEvents: async function (flightSuretyData, flightSuretyApp) {
         await flightSuretyData.InsurerStateChanged(this.insurerStateChangedHandler);
         await flightSuretyData.InsurancePolicyStateChanged(this.insurancePolicyStateChangedHandler);
@@ -61,31 +64,42 @@ const EventCapture = {
     },
 
     clear: function () {
+        this.events = [];
+    },
 
+    addEvent: function (type, resultArgs) {
+        let event = {type: type, params: resultArgs};
+        this.events.push(event);
     },
 
     insurerStateChangedHandler: function (error, result) {
         console.log(` => Consumed event InsurerStateChanged <airlineAddress: ${result.args.insurerAddress}, airlineName: ${result.args.insurerAddress}, state: ${result.args.state}>`);
+        EventCapture.addEvent("InsurerStateChanged", result.args);
     },
 
     insurancePolicyStateChangedHandler: function (error, result) {
         console.log(` => Consumed event InsurancePolicyStateChanged <insureeAddress: ${result.args.insureeAddress}, insuredFlightKey: ${result.args.insuredObjectKey}, state: ${result.args.state}>`);
+        EventCapture.addEvent("InsurancePolicyStateChanged", result.args);
     },
 
     fundingReceivedHandler: function (error, result) {
         console.log(` => Consumed event FundingReceived <sponsorAddress: ${result.args.sponsorAddress}, amountPaid: ${result.args.amountPaid}>`);
+        EventCapture.addEvent("FundingReceived", result.args);
     },
 
     oracleFlightStatusInfoRequestedHandler: function (error, result) {
         console.log(` => Consumed event OracleFlightStatusInfoRequested <index: ${result.args.index.toNumber()}, airlineAddress: ${result.args.airlineAddress}, flightNumber: ${result.args.flightNumber}, departureTime: ${result.args.departureTime.toNumber()}>`);
+        EventCapture.addEvent("OracleFlightStatusInfoRequested", result.args);
     },
 
     oracleFlightStatusInfoSubmittedHandler: function (error, result) {
         console.log(` => Consumed event OracleFlightStatusInfoSubmitted <airlineAddress: ${result.args.airlineAddress}, flightNumber: ${result.args.flightNumber}, departureTime: ${result.args.departureTime.toNumber()}, flightStatus: ${result.args.flightStatus}>`);
+        EventCapture.addEvent("OracleFlightStatusInfoSubmitted", result.args);
     },
 
     flightStatusInfoUpdatedHandler: function (error, result) {
         console.log(` => Consumed event FlightStatusInfoUpdated <airlineAddress: ${result.args.airlineAddress}, flightNumber: ${result.args.flightNumber}, departureTime: ${result.args.departureTime.toNumber()}, flightStatus: ${result.args.flightStatus}>`);
+        EventCapture.addEvent("FlightStatusInfoUpdated", result.args);
     }
 }
 
