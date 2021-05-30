@@ -1,5 +1,5 @@
-var Test = require('../config/testConfig.js');
-//var BigNumber = require('bignumber.js');
+const Test = require('./config/configTests.js');
+const BigNumber = require('bignumber.js');
 
 contract('Oracles', async (accounts) => {
 
@@ -7,7 +7,7 @@ contract('Oracles', async (accounts) => {
 
     var config;
     before('setup contract', async () => {
-        config = await Test.Config(accounts);
+        config = await ConfigTests.Config(accounts);
 
         // Watch contract events
         const STATUS_CODE_UNKNOWN = 0;

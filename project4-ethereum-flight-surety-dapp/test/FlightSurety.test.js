@@ -1,7 +1,7 @@
 const truffleAssert = require('truffle-assertions');
 
-var Test = require('../config/testConfig.js');
-var BigNumber = require('bignumber.js');
+const ConfigTests = require('./config/configTests.js');
+const BigNumber = require('bignumber.js');
 
 contract('Flight Surety Tests', async (accounts) => {
 
@@ -11,7 +11,7 @@ contract('Flight Surety Tests', async (accounts) => {
     let dataContract;
 
     before('setup contract', async () => {
-        config = await Test.Config(accounts);
+        config = await ConfigTests.Config(accounts);
         appContract = config.flightSuretyApp;
         dataContract = config.flightSuretyData;
     });
@@ -22,7 +22,7 @@ contract('Flight Surety Tests', async (accounts) => {
 
     describe('Test Operational Status', function () {
         it(`has correct initial isContractOperational() value`, async function () {
-            assertIsContractOperational(true);
+            await assertIsContractOperational(true);
         });
 
         it(`can block access to pauseContract() for non-Contract Owner account`, async function () {
@@ -30,15 +30,15 @@ contract('Flight Surety Tests', async (accounts) => {
                 dataContract.pauseContract({from: config.testAddresses[2]}),
                 "Caller is not contract owner"
             );
-            assertIsContractOperational(true);
+            await assertIsContractOperational(true);
         });
 
         it(`can allow access to pauseContract() and resumeContract() for Contract Owner account`, async function () {
-            dataContract.pauseContract();
-            assertIsContractOperational(false);
+            await dataContract.pauseContract();
+            await assertIsContractOperational(false);
 
-            dataContract.resumeContract();
-            assertIsContractOperational(true);
+            await dataContract.resumeContract();
+            await assertIsContractOperational(true);
         });
 
         async function assertIsContractOperational(expectedStatus) {
@@ -52,12 +52,31 @@ contract('Flight Surety Tests', async (accounts) => {
     /***********************************************************************************/
 
     describe('Test Airline Registration', function () {
-        it('cannot register an Airline using registerAirline() if it is not funded', async () => {
+        it('cannot register an airline using registerAirline() if the registering airline is not funded', async () => {
             await truffleAssert.reverts(
-                config.flightSuretyApp.registerAirline(accounts[2], {from: config.firstAirline}),
+                appContract.registerAirline(accounts[2], {from: config.firstAirline}),
                 "Caller is not a fully qualified insurer"
             );
         });
+
+        it('the first airline can be funded', async () => {
+            let insurerFee = await dataContract.getInsurerFee();
+            await appContract.payAirlineInsurerFee({value: insurerFee, from: config.firstAirline});
+        });
+
+        /*
+        it('can register an Airline using registerAirline() after the registering airline is funded', async () => {
+            // when
+            let insurerFee = await appContract.INSURER_FEE;
+
+            // given
+            await appContract.payAirlineInsurerFee({value: insurerFee, from: config.firstAirline});
+
+            // then
+            await appContract.registerAirline(accounts[2], {from: config.firstAirline});
+        });
+
+         */
     });
 
 });
