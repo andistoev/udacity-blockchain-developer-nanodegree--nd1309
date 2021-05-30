@@ -52,7 +52,7 @@ abstract contract DataInsurerController is PayableContract, DataOperationalContr
         triggerInsurerStateChange(insurerAddress);
     }
 
-    function registerInsurer(address insurerAddress, string memory insurerName) external override requireIsOperational requireFullyQualifiedInsurer requireAuthorizedCaller {
+    function registerInsurer(address approverInsurerAddress, address insurerAddress, string memory insurerName) external override requireIsOperational requireFullyQualifiedInsurer(approverInsurerAddress) requireAuthorizedCaller {
         require(insurers[insurerAddress].state == InsurerState.UNREGISTERED, "Insurer can not be registered twice");
 
         insurers[insurerAddress].name = insurerName;
@@ -61,7 +61,7 @@ abstract contract DataInsurerController is PayableContract, DataOperationalContr
         triggerInsurerStateChange(insurerAddress);
     }
 
-    function approveInsurer(address approverInsurerAddress, address insurerAddress) external override requireIsOperational requireFullyQualifiedInsurer requireAuthorizedCaller {
+    function approveInsurer(address approverInsurerAddress, address insurerAddress) external override requireIsOperational requireFullyQualifiedInsurer(approverInsurerAddress) requireAuthorizedCaller {
         require(insurers[insurerAddress].state == InsurerState.REGISTERED, "Insurer is not yet registered or has been already approved");
         require(insurers[insurerAddress].approvers[approverInsurerAddress] == false, "Insurer has been already approved by this caller");
 
@@ -90,8 +90,8 @@ abstract contract DataInsurerController is PayableContract, DataOperationalContr
     * Modifiers and private methods
     */
 
-    modifier requireFullyQualifiedInsurer(){
-        require(insurers[msg.sender].state == InsurerState.FULLY_QUALIFIED, "Caller is not a fully qualified insurer");
+    modifier requireFullyQualifiedInsurer(address approverInsurerAddress){
+        require(insurers[approverInsurerAddress].state == InsurerState.FULLY_QUALIFIED, "Caller is not a fully qualified insurer");
         _;
     }
 

@@ -6,7 +6,7 @@ interface BaseDataInsurerController {
 
     function registerTheFirstFullyQualifiedInsurer(address insurerAddress, string memory insurerName) external;
 
-    function registerInsurer(address insurerAddress, string memory insurerName) external;
+    function registerInsurer(address approverInsurerAddress, address insurerAddress, string memory insurerName) external;
 
     function approveInsurer(address approverInsurerAddress, address insurerAddress) external;
 
