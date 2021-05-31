@@ -38,6 +38,8 @@ abstract contract OracleController is BaseOracleListenerHandler, BaseAppContract
     * API
     */
 
+    event OracleRegistered(address oracleAddress);
+
     // old name: OracleRequest
     event OracleFlightStatusInfoRequested(uint8 index, address airlineAddress, string flightNumber, uint256 departureTime);
 
@@ -56,6 +58,8 @@ abstract contract OracleController is BaseOracleListenerHandler, BaseAppContract
             true,
             indexes
         );
+
+        emit OracleRegistered(msg.sender);
     }
 
     function unregisterOracle() external requireIsOperational {

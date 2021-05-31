@@ -267,6 +267,26 @@ contract('Flight Surety Tests', async (accounts) => {
             eventCapture.assertInsurancePolicyStateChanged(0, passengerAddress, InsurancePolicyState.ACQUIRED);
         });
 
+        it('can register 30 oracles and persist them in memory', async () => {
+            // given
+            let firstOracleIdx = 20;
+
+            let oneEther = web3.utils.toWei("1", "ether");
+
+            eventCapture.clear();
+
+            // when
+            for (let i = 0; i < 30; i++) {
+                await appContract.registerOracle({value: oneEther, from: accounts[firstOracleIdx + i]});
+            }
+
+            // then
+            assert.equal(eventCapture.events.length, 30);
+            for (let i = 0; i < 30; i++) {
+                eventCapture.assertOracleRegistered(i, accounts[firstOracleIdx + i]);
+            }
+        });
+
     });
 
 });

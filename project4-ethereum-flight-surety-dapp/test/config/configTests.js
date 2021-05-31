@@ -53,6 +53,7 @@ const EventType = {
     InsurerStateChanged: "InsurerStateChanged",
     InsurancePolicyStateChanged: "InsurancePolicyStateChanged",
     FundingReceived: "FundingReceived",
+    OracleRegistered: "OracleRegistered",
     OracleFlightStatusInfoRequested: "OracleFlightStatusInfoRequested",
     OracleFlightStatusInfoSubmitted: "OracleFlightStatusInfoSubmitted",
     FlightStatusInfoUpdated: "FlightStatusInfoUpdated"
@@ -67,6 +68,7 @@ const EventCapture = {
         await flightSuretyData.InsurancePolicyStateChanged(this.insurancePolicyStateChangedHandler);
         await flightSuretyData.FundingReceived(this.fundingReceivedHandler);
 
+        await flightSuretyApp.OracleRegistered(this.oracleRegisteredHandler);
         await flightSuretyApp.OracleFlightStatusInfoRequested(this.oracleFlightStatusInfoRequestedHandler);
         await flightSuretyApp.OracleFlightStatusInfoSubmitted(this.oracleFlightStatusInfoSubmittedHandler);
         await flightSuretyApp.FlightStatusInfoUpdated(this.flightStatusInfoUpdatedHandler);
@@ -108,6 +110,16 @@ const EventCapture = {
     fundingReceivedHandler: function (error, result) {
         let msg = `sponsorAddress: ${result.args.sponsorAddress}, amountPaid: ${result.args.amountPaid}`;
         EventCapture.consumeEvent(EventType.FundingReceived, result.args, msg);
+    },
+
+    oracleRegisteredHandler: function (error, result) {
+        let msg = `oracle: ${result.args.oracleAddress}`;
+        EventCapture.consumeEvent(EventType.OracleRegistered, result.args, msg);
+    },
+
+    assertOracleRegistered: function (eventIdx, exectedOracleAddress) {
+        assert.equal(this.events[eventIdx].type, EventType.OracleRegistered);
+        assert.equal(this.events[eventIdx].params.oracleAddress, exectedOracleAddress);
     },
 
     oracleFlightStatusInfoRequestedHandler: function (error, result) {
