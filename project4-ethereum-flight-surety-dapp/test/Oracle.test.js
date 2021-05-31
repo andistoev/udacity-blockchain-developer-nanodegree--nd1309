@@ -1,4 +1,5 @@
-const Test = require('./config/configTests.js');
+const truffleAssert = require('truffle-assertions');
+const ConfigTests = require('./config/configTests.js');
 const BigNumber = require('bignumber.js');
 
 contract('Oracles', async (accounts) => {

@@ -15,12 +15,10 @@ abstract contract DataInsurerController is PayableContract, DataOperationalContr
     enum InsurerState{
         UNREGISTERED, // 0
         REGISTERED, // 1
-        APPROVED, // 2
-        FULLY_QUALIFIED // 3
+        FULLY_QUALIFIED // 2
     }
 
     struct InsurerProfile {
-        string name;
         InsurerState state;
         uint amountPaid;
         uint16 approversCtr;
@@ -34,7 +32,7 @@ abstract contract DataInsurerController is PayableContract, DataOperationalContr
     * API
     */
 
-    event InsurerStateChanged(address insurerAddress, string insurerName, uint state);
+    event InsurerStateChanged(address insurerAddress, uint state);
 
     function setInsurerConfigParams(uint _insurerFee, uint _numberOfFullyQualifiedInsurersRequiredForMultiParityConsensus) external override requireContractOwner {
         insurerFee = _insurerFee;
@@ -49,44 +47,33 @@ abstract contract DataInsurerController is PayableContract, DataOperationalContr
         return numberOfFullyQualifiedInsurersRequiredForMultiParityConsensus;
     }
 
-    function registerTheFirstInsurer(address insurerAddress, string memory insurerName) external override requireAuthorizedCaller {
+    function registerTheFirstInsurer(address insurerAddress) external override requireAuthorizedCaller {
         require(fullyQualifiedInsurersCtr == 0, "The first fully-qualified insurer can be registered only at contract setup phase");
         require(insurers[insurerAddress].state == InsurerState.UNREGISTERED, "Insurer cannot be registered twice");
 
-        insurers[insurerAddress].name = insurerName;
-        insurers[insurerAddress].state = InsurerState.APPROVED;
+        insurers[insurerAddress].state = InsurerState.REGISTERED;
 
         fullyQualifiedInsurersCtr = 1;
 
         triggerInsurerStateChange(insurerAddress);
     }
 
-    function registerInsurer(address approverInsurerAddress, address insurerAddress, string memory insurerName) external override requireIsOperational requireFullyQualifiedInsurer(approverInsurerAddress) requireAuthorizedCaller {
-        require(insurers[insurerAddress].state == InsurerState.UNREGISTERED, "Insurer cannot be registered twice");
-
-        insurers[insurerAddress].name = insurerName;
-        insurers[insurerAddress].state = InsurerState.REGISTERED;
-
-        triggerInsurerStateChange(insurerAddress);
-    }
-
-    function approveInsurer(address approverInsurerAddress, address insurerAddress) external override requireIsOperational requireFullyQualifiedInsurer(approverInsurerAddress) requireAuthorizedCaller {
-        require(insurers[insurerAddress].state == InsurerState.REGISTERED, "Insurer is not yet registered or has been already approved");
-        require(insurers[insurerAddress].approvers[approverInsurerAddress] == false, "Insurer has been already approved by this caller");
+    function registerInsurer(address approverInsurerAddress, address insurerAddress) external override requireIsOperational requireFullyQualifiedInsurer(approverInsurerAddress) requireAuthorizedCaller {
+        require(insurers[insurerAddress].state == InsurerState.UNREGISTERED, "Insurer has been already registered");
+        require(insurers[insurerAddress].approvers[approverInsurerAddress] == false, "Insurer has been already approved for registration by this caller");
 
         insurers[insurerAddress].approvers[approverInsurerAddress] = true;
         insurers[insurerAddress].approversCtr++;
 
         if (isInsurerApproved(insurerAddress)) {
-            insurers[insurerAddress].state = InsurerState.APPROVED;
+            insurers[insurerAddress].state = InsurerState.REGISTERED;
             triggerInsurerStateChange(insurerAddress);
         }
     }
 
     function payInsurerFee(address insurerAddress) external payable override requireIsOperational requireAuthorizedCaller {
+        require(insurers[insurerAddress].state == InsurerState.REGISTERED, "Insurer is not yet registered");
         require(msg.value == insurerFee, "Invalid insurer's fee paid");
-
-        require(insurers[insurerAddress].state == InsurerState.APPROVED, "Insurer is not yet approved or has been already approved");
 
         insurers[insurerAddress].state = InsurerState.FULLY_QUALIFIED;
         insurers[insurerAddress].amountPaid = getInsurerPaidAmount();
@@ -121,7 +108,7 @@ abstract contract DataInsurerController is PayableContract, DataOperationalContr
     }
 
     function triggerInsurerStateChange(address insurerAddress) private {
-        emit InsurerStateChanged(insurerAddress, insurers[insurerAddress].name, uint(insurers[insurerAddress].state));
+        emit InsurerStateChanged(insurerAddress, uint(insurers[insurerAddress].state));
     }
 
 }

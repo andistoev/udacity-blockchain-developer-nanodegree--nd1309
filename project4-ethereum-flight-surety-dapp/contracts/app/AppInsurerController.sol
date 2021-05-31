@@ -8,30 +8,47 @@ import "../shared/PayableContract.sol";
 
 abstract contract AppInsurerController is BaseAppInsurerController, BaseAppContract, OwnableContract, PayableContract {
 
+    struct Airline {
+        bool isRegistered;
+        string name;
+    }
+
+    // key => address
+    mapping(address => Airline) internal airlines;
+
     /**
     * API
     */
 
     function registerTheFirstAirline(address airlineAddress, string memory airlineName) external requireContractOwner {
-        require(!registeredAirlines[airlineAddress], "Airline cannot be registered twice");
+        require(!airlines[airlineAddress].isRegistered, "Airline cannot be registered twice");
 
-        registeredAirlines[airlineAddress] = true;
-        suretyDataContract.registerTheFirstInsurer(airlineAddress, airlineName);
+        airlines[airlineAddress].name = airlineName;
+        airlines[airlineAddress].isRegistered = true;
+
+        suretyDataContract.registerTheFirstInsurer(airlineAddress);
     }
 
     function registerAirline(address airlineAddress, string memory airlineName) external requireIsOperational {
-        require(!registeredAirlines[airlineAddress], "Airline cannot be registered twice");
+        require(!airlines[airlineAddress].isRegistered, "Airline cannot be registered twice");
 
-        registeredAirlines[airlineAddress] = true;
-        suretyDataContract.registerInsurer(msg.sender, airlineAddress, airlineName);
+        airlines[airlineAddress].name = airlineName;
+        airlines[airlineAddress].isRegistered = true;
+
+        suretyDataContract.registerInsurer(msg.sender, airlineAddress);
     }
 
-    function approveAirline(address airlineAddress) external requireRegisteredAirline(airlineAddress) requireIsOperational {
-        suretyDataContract.approveInsurer(msg.sender, airlineAddress);
-    }
-
-    function payAirlineInsurerFee() external payable requireRegisteredAirline(msg.sender) requireIsOperational {
+    function payAirlineInsurerFee() external payable requireIsOperational {
+        requireRegisteredAirline(msg.sender);
         suretyDataContract.payInsurerFee{value : msg.value}(msg.sender);
+    }
+
+    /**
+    * Modifiers and private methods
+    */
+
+    function requireRegisteredAirline(address airlineAddress) view internal override {
+        require(airlines[airlineAddress].isRegistered, "Airline has not been registered");
     }
 
 }

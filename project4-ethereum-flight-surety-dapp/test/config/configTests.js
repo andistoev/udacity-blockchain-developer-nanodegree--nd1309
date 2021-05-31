@@ -85,7 +85,7 @@ const EventCapture = {
     },
 
     insurerStateChangedHandler: function (error, result) {
-        let msg = `airlineAddress: ${result.args.insurerAddress}, airlineName: ${result.args.insurerName}, state: ${result.args.state}`;
+        let msg = `airlineAddress: ${result.args.insurerAddress}, state: ${result.args.state}`;
         EventCapture.consumeEvent(EventType.InsurerStateChanged, result.args, msg);
     },
 

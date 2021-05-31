@@ -8,11 +8,9 @@ interface BaseDataInsurerController {
 
     function getNumberOfFullyQualifiedInsurersRequiredForMultiParityConsensus() external view returns (uint);
 
-    function registerTheFirstInsurer(address insurerAddress, string memory insurerName) external;
+    function registerTheFirstInsurer(address insurerAddress) external;
 
-    function registerInsurer(address approverInsurerAddress, address insurerAddress, string memory insurerName) external;
-
-    function approveInsurer(address approverInsurerAddress, address insurerAddress) external;
+    function registerInsurer(address approverInsurerAddress, address insurerAddress) external;
 
     function payInsurerFee(address insurerAddress) external payable;
 }

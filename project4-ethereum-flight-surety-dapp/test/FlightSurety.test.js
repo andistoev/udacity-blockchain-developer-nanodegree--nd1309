@@ -1,5 +1,4 @@
 const truffleAssert = require('truffle-assertions');
-
 const ConfigTests = require('./config/configTests.js');
 const BigNumber = require('bignumber.js');
 
@@ -16,8 +15,7 @@ contract('Flight Surety Tests', async (accounts) => {
     const InsurerState = {
         UNREGISTERED: 0,
         REGISTERED: 1,
-        APPROVED: 2,
-        FULLY_QUALIFIED: 3
+        FULLY_QUALIFIED: 2
     };
 
     before('setup contract', async () => {
