@@ -80,8 +80,7 @@ contract('Flight Surety Tests', async (accounts) => {
 
         it('the first airline can pay airline fee and can become fully-qualified insurer', async () => {
             // given
-            let insurerFee = await dataContract.getInsurerFee();
-            assert.equal(web3.utils.fromWei(insurerFee, "ether"), '10');
+            let insurerFee = await getInsurerFee();
 
             eventCapture.clear();
 
@@ -111,8 +110,7 @@ contract('Flight Surety Tests', async (accounts) => {
 
         it('the second airline can pay airline fee and can become fully-qualified insurer', async () => {
             // given
-            let insurerFee = await dataContract.getInsurerFee();
-            assert.equal(web3.utils.fromWei(insurerFee, "ether"), '10');
+            let insurerFee = await getInsurerFee();
 
             let secondAirline = accounts[2];
 
@@ -125,6 +123,60 @@ contract('Flight Surety Tests', async (accounts) => {
             assert.equal(eventCapture.events.length, 1);
             eventCapture.assertInsurerStateChanged(0, eventType.InsurerStateChanged, secondAirline, InsurerState.FULLY_QUALIFIED);
         });
+
+        it('the third and fourth airline can be registered without multi-parity consensus and therefore they can pay airline fee and can become fully-qualified insurers', async () => {
+            // given
+            let insurerFee = await getInsurerFee();
+
+            let secondAirline = accounts[2];
+            let thirdAirline = accounts[3];
+            let fourthAirline = accounts[4];
+
+            eventCapture.clear();
+
+            // when
+            await appContract.registerAirline(thirdAirline, "third airline", {from: secondAirline});
+            await appContract.payAirlineInsurerFee({value: insurerFee, from: thirdAirline});
+            await appContract.registerAirline(fourthAirline, "fourth airline", {from: thirdAirline});
+            await appContract.payAirlineInsurerFee({value: insurerFee, from: fourthAirline});
+
+            // then
+            assert.equal(eventCapture.events.length, 4);
+            eventCapture.assertInsurerStateChanged(0, eventType.InsurerStateChanged, thirdAirline, InsurerState.REGISTERED);
+            eventCapture.assertInsurerStateChanged(1, eventType.InsurerStateChanged, thirdAirline, InsurerState.FULLY_QUALIFIED);
+            eventCapture.assertInsurerStateChanged(2, eventType.InsurerStateChanged, fourthAirline, InsurerState.REGISTERED);
+            eventCapture.assertInsurerStateChanged(3, eventType.InsurerStateChanged, fourthAirline, InsurerState.FULLY_QUALIFIED);
+        });
+
+        it('the fifth airline can be registered with multi-parity consensus only', async () => {
+            // given
+            let insurerFee = await getInsurerFee();
+
+            let thirdAirline = accounts[3];
+            let fourthAirline = accounts[4];
+            let fifthAirline = accounts[5];
+
+            eventCapture.clear();
+
+            // when
+            await appContract.registerAirline(fifthAirline, "fifth airline", {from: thirdAirline});
+
+            // then
+            assert.equal(eventCapture.events.length, 0);
+
+            // and when
+            await appContract.registerAirline(fifthAirline, "fifth airline", {from: fourthAirline});
+
+            // and then
+            assert.equal(eventCapture.events.length, 1);
+            eventCapture.assertInsurerStateChanged(0, eventType.InsurerStateChanged, fifthAirline, InsurerState.REGISTERED);
+        });
+
+        async function getInsurerFee() {
+            let insurerFee = await dataContract.getInsurerFee();
+            assert.equal(web3.utils.fromWei(insurerFee, "ether"), '10');
+            return insurerFee;
+        }
 
 
     });

@@ -10,7 +10,7 @@ abstract contract DataInsurerController is PayableContract, DataOperationalContr
 
     // configurable parameters by contract owner
     uint private insurerFee = 10 ether;
-    uint private numberOfFullyQualifiedInsurersRequiredForMultiParityConsensus = 5;
+    uint private numberOfFullyQualifiedInsurersRequiredForMultiParityConsensus = 4;
 
     enum InsurerState{
         UNREGISTERED, // 0
@@ -22,7 +22,7 @@ abstract contract DataInsurerController is PayableContract, DataOperationalContr
         InsurerState state;
         uint amountPaid;
         uint16 approversCtr;
-        mapping(address => bool) approvers;
+        mapping(address => bool) approvers; // key approverInsurerAddress
     }
 
     uint fullyQualifiedInsurersCtr;
@@ -52,8 +52,6 @@ abstract contract DataInsurerController is PayableContract, DataOperationalContr
         require(insurers[insurerAddress].state == InsurerState.UNREGISTERED, "Insurer cannot be registered twice");
 
         insurers[insurerAddress].state = InsurerState.REGISTERED;
-
-        fullyQualifiedInsurersCtr = 1;
 
         triggerInsurerStateChange(insurerAddress);
     }

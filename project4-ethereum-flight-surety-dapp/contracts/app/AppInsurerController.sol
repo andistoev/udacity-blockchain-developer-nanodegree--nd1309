@@ -30,8 +30,6 @@ abstract contract AppInsurerController is BaseAppInsurerController, BaseAppContr
     }
 
     function registerAirline(address airlineAddress, string memory airlineName) external requireIsOperational {
-        require(!airlines[airlineAddress].isRegistered, "Airline cannot be registered twice");
-
         airlines[airlineAddress].name = airlineName;
         airlines[airlineAddress].isRegistered = true;
 
