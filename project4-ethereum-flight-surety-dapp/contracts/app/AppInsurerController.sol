@@ -37,7 +37,7 @@ abstract contract AppInsurerController is BaseAppInsurerController, BaseAppContr
     }
 
     function payAirlineInsurerFee() external payable requireIsOperational {
-        requireRegisteredAirline(msg.sender);
+        requireRegisteredAirline(msg.sender, "Only registered airline can pay insurer fee");
         suretyDataContract.payInsurerFee{value : msg.value}(msg.sender);
     }
 
@@ -45,8 +45,8 @@ abstract contract AppInsurerController is BaseAppInsurerController, BaseAppContr
     * Modifiers and private methods
     */
 
-    function requireRegisteredAirline(address airlineAddress) view internal override {
-        require(airlines[airlineAddress].isRegistered, "Airline has not been registered");
+    function requireRegisteredAirline(address airlineAddress, string memory errorMsg) view internal override {
+        require(airlines[airlineAddress].isRegistered, errorMsg);
     }
 
 }

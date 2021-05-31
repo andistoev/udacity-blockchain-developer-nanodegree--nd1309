@@ -39,8 +39,9 @@ abstract contract AppInsuranceController is BaseOracleListenerHandler, BaseAppIn
     * API
     */
 
-    function registerFlight(address airlineAddress, string memory flightNumber, uint256 departureTime, string memory origin, string memory destination) external requireIsOperational {
-        requireRegisteredAirline(airlineAddress);
+    function registerFlight(string memory flightNumber, uint256 departureTime, string memory origin, string memory destination) external requireIsOperational {
+        address airlineAddress = msg.sender;
+        requireRegisteredAirline(airlineAddress, "Only an registered airline can register flights");
 
         bytes32 insuredObjectKey = getFlightKey(airlineAddress, flightNumber, departureTime);
         require(!flights[insuredObjectKey].isRegistered, "The same flight cannot be registered twice");

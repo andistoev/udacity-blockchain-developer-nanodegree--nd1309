@@ -60,11 +60,10 @@ contract('Flight Surety Tests', async (accounts) => {
     });
 
     /***********************************************************************************/
-    /* Airline Registration                                                            */
+    /* Insurer Registration                                                            */
     /***********************************************************************************/
 
-    describe('Test Airline Registration', function () {
-
+    describe('Test Insurer Registration', function () {
 
         it('cannot register an airline using registerAirline() if the registering airline is not funded', async () => {
             // given
@@ -194,8 +193,7 @@ contract('Flight Surety Tests', async (accounts) => {
             assert.equal(web3.utils.fromWei(insurerFee, "ether"), '10');
             return insurerFee;
         }
-
-
     });
+
 
 });
