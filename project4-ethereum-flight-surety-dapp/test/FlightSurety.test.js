@@ -150,8 +150,6 @@ contract('Flight Surety Tests', async (accounts) => {
 
         it('the fifth airline can be registered with multi-parity consensus only', async () => {
             // given
-            let insurerFee = await getInsurerFee();
-
             let thirdAirline = accounts[3];
             let fourthAirline = accounts[4];
             let fifthAirline = accounts[5];
@@ -170,6 +168,25 @@ contract('Flight Surety Tests', async (accounts) => {
             // and then
             assert.equal(eventCapture.events.length, 1);
             eventCapture.assertInsurerStateChanged(0, eventType.InsurerStateChanged, fifthAirline, InsurerState.REGISTERED);
+        });
+
+        it('the fifth airline can not participate in the contract because is not yet fully qualified (have not yet paied the fee)', async () => {
+            // given
+            let insurerFee = await getInsurerFee();
+
+            let fifthAirline = accounts[5];
+            let sixthAirline = accounts[6];
+
+            eventCapture.clear();
+
+            // when
+            await truffleAssert.reverts(
+                appContract.registerAirline(sixthAirline, "sixth airline", {from: fifthAirline}),
+                "Caller is not a fully qualified insurer"
+            );
+
+            // then
+            assert.equal(eventCapture.events.length, 0);
         });
 
         async function getInsurerFee() {
