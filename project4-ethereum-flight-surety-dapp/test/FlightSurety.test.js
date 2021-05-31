@@ -194,10 +194,10 @@ contract('Flight Surety Tests', async (accounts) => {
     });
 
     /***********************************************************************************/
-    /* Insurance Lifecycle                                                             */
+    /* Insurance Lifecycle & Oracle Iteraction                                         */
     /***********************************************************************************/
 
-    describe('Test Insurance Lifecycle', function () {
+    describe('Test Insurance Lifecycle & Oracle Iteraction', function () {
 
         let flight1 = {
             airlineIdx: 1,
@@ -213,6 +213,15 @@ contract('Flight Surety Tests', async (accounts) => {
             CLOSED_NO_MONEY_BACK: 2,
             CREDIT_APPROVED: 3,
             CREDIT_WITHDRAWN: 4
+        };
+
+        const FlightStatusCode = {
+            STATUS_CODE_UNKNOWN: 0,
+            STATUS_CODE_ON_TIME: 10,
+            STATUS_CODE_LATE_AIRLINE: 20,
+            STATUS_CODE_LATE_WEATHER: 30,
+            STATUS_CODE_LATE_TECHNICAL: 40,
+            STATUS_CODE_LATE_OTHER: 50
         };
 
         it('a flight can be registered', async () => {
@@ -285,6 +294,20 @@ contract('Flight Surety Tests', async (accounts) => {
             for (let i = 0; i < 30; i++) {
                 eventCapture.assertOracleRegistered(i, accounts[firstOracleIdx + i]);
             }
+        });
+
+        it('can request status info from oracles', async () => {
+            // given
+            let airlineAddress = accounts[flight1.airlineIdx];
+
+            eventCapture.clear();
+
+            // when
+            await appContract.requestOracleFlightStatusInfo(airlineAddress, flight1.flightNumber, flight1.departureTime);
+
+            // then
+            assert.equal(eventCapture.events.length, 1);
+            eventCapture.assertOracleFlightStatusInfoRequested(0, airlineAddress, flight1.flightNumber, flight1.departureTime);
         });
 
     });

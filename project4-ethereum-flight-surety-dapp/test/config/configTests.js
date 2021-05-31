@@ -127,6 +127,13 @@ const EventCapture = {
         EventCapture.consumeEvent(EventType.OracleFlightStatusInfoRequested, result.args, msg);
     },
 
+    assertOracleFlightStatusInfoRequested: function (eventIdx, expectedAirlineAddress, expectedFlightNumber, expectedDepartureTime) {
+        assert.equal(this.events[eventIdx].type, EventType.OracleFlightStatusInfoRequested);
+        assert.equal(this.events[eventIdx].params.airlineAddress, expectedAirlineAddress);
+        assert.equal(this.events[eventIdx].params.flightNumber, expectedFlightNumber);
+        assert.equal(this.events[eventIdx].params.departureTime, expectedDepartureTime);
+    },
+
     oracleFlightStatusInfoSubmittedHandler: function (error, result) {
         let msg = `airlineAddress: ${result.args.airlineAddress}, flightNumber: ${result.args.flightNumber}, departureTime: ${result.args.departureTime.toNumber()}, flightStatus: ${result.args.flightStatus}`;
         EventCapture.consumeEvent(EventType.OracleFlightStatusInfoSubmitted, result.args, msg);
