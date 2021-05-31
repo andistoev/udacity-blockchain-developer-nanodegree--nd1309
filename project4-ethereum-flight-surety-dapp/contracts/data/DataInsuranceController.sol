@@ -14,7 +14,7 @@ abstract contract DataInsuranceController is PayableContract, DataOperationalCon
 
     enum InsurancePolicyState{
         AVAILABLE, // 0
-        OPEN, // 1
+        ACQUIRED, // 1
         CLOSED_NO_MONEY_BACK, // 2
         CREDIT_APPROVED, // 3
         CREDIT_WITHDRAWN // 4
@@ -59,7 +59,7 @@ abstract contract DataInsuranceController is PayableContract, DataOperationalCon
         require(insuredObject.insurancePolicies[insureeAddress].state == InsurancePolicyState.AVAILABLE, "The same policy cannot be bought twice");
 
         insuredObject.insurancePolicies[insureeAddress] = InsurancePolicy(
-            InsurancePolicyState.OPEN,
+            InsurancePolicyState.ACQUIRED,
             getInsureePaidAmount(),
             0
         );
@@ -76,7 +76,7 @@ abstract contract DataInsuranceController is PayableContract, DataOperationalCon
         for (uint i = 0; i < insuredObject.insureeAddresses.length; i++) {
             address insureeAddress = insuredObject.insureeAddresses[i];
             InsurancePolicy storage insurancePolicy = insuredObject.insurancePolicies[insureeAddress];
-            require(insurancePolicy.state == InsurancePolicyState.OPEN, "Insurance cannot be closed or it has been already closed");
+            require(insurancePolicy.state == InsurancePolicyState.ACQUIRED, "Insurance cannot be closed or it has been already closed");
             insurancePolicy.state = InsurancePolicyState.CLOSED_NO_MONEY_BACK;
             triggerInsurancePolicyStateChange(insuredObjectKey, insureeAddress);
         }
@@ -89,7 +89,7 @@ abstract contract DataInsuranceController is PayableContract, DataOperationalCon
         for (uint i = 0; i < insuredObject.insureeAddresses.length; i++) {
             address insureeAddress = insuredObject.insureeAddresses[i];
             InsurancePolicy storage insurancePolicy = insuredObject.insurancePolicies[insureeAddress];
-            require(insurancePolicy.state == InsurancePolicyState.OPEN, "Credit retrieval cannot be approved or it has been already approved");
+            require(insurancePolicy.state == InsurancePolicyState.ACQUIRED, "Credit retrieval cannot be approved or it has been already approved");
             insurancePolicy.state = InsurancePolicyState.CREDIT_APPROVED;
             triggerInsurancePolicyStateChange(insuredObjectKey, insureeAddress);
         }

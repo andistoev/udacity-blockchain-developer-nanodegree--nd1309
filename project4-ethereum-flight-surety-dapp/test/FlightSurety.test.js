@@ -209,7 +209,7 @@ contract('Flight Surety Tests', async (accounts) => {
 
         const InsurancePolicyState = {
             AVAILABLE: 0,
-            OPEN: 1,
+            ACQUIRED: 1,
             CLOSED_NO_MONEY_BACK: 2,
             CREDIT_APPROVED: 3,
             CREDIT_WITHDRAWN: 4
@@ -264,11 +264,9 @@ contract('Flight Surety Tests', async (accounts) => {
 
             // then
             assert.equal(eventCapture.events.length, 1);
-            eventCapture.assertInsurancePolicyStateChanged(0, passengerAddress, InsurancePolicyState.OPEN);
+            eventCapture.assertInsurancePolicyStateChanged(0, passengerAddress, InsurancePolicyState.ACQUIRED);
         });
 
-
     });
-
 
 });
