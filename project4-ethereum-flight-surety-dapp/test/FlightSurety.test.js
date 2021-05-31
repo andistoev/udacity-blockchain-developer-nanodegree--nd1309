@@ -9,14 +9,7 @@ contract('Flight Surety Tests', async (accounts) => {
     let appContract;
     let dataContract;
 
-    let eventType;
     let eventCapture;
-
-    const InsurerState = {
-        UNREGISTERED: 0,
-        REGISTERED: 1,
-        FULLY_QUALIFIED: 2
-    };
 
     before('setup contract', async () => {
         config = await ConfigTests.Config(accounts);
@@ -24,7 +17,6 @@ contract('Flight Surety Tests', async (accounts) => {
         appContract = config.flightSuretyApp;
         dataContract = config.flightSuretyData;
 
-        eventType = config.eventType;
         eventCapture = config.eventCapture;
     });
 
@@ -65,6 +57,12 @@ contract('Flight Surety Tests', async (accounts) => {
 
     describe('Test Insurer Registration', function () {
 
+        const InsurerState = {
+            UNREGISTERED: 0,
+            REGISTERED: 1,
+            FULLY_QUALIFIED: 2
+        };
+
         it('cannot register an airline using registerAirline() if the registering airline is not funded', async () => {
             // given
             let secondAirline = accounts[2];
@@ -88,7 +86,7 @@ contract('Flight Surety Tests', async (accounts) => {
 
             // then
             assert.equal(eventCapture.events.length, 1);
-            eventCapture.assertInsurerStateChanged(0, eventType.InsurerStateChanged, config.firstAirline, InsurerState.FULLY_QUALIFIED);
+            eventCapture.assertInsurerStateChanged(0, config.firstAirline, InsurerState.FULLY_QUALIFIED);
         });
 
         it('can register a second airline using registerAirline() after the registering airline is funded', async () => {
@@ -104,7 +102,7 @@ contract('Flight Surety Tests', async (accounts) => {
 
             // then
             assert.equal(eventCapture.events.length, 1);
-            eventCapture.assertInsurerStateChanged(0, eventType.InsurerStateChanged, secondAirline, InsurerState.REGISTERED);
+            eventCapture.assertInsurerStateChanged(0, secondAirline, InsurerState.REGISTERED);
         });
 
         it('the second airline can pay airline fee and can become fully-qualified insurer', async () => {
@@ -120,7 +118,7 @@ contract('Flight Surety Tests', async (accounts) => {
 
             // then
             assert.equal(eventCapture.events.length, 1);
-            eventCapture.assertInsurerStateChanged(0, eventType.InsurerStateChanged, secondAirline, InsurerState.FULLY_QUALIFIED);
+            eventCapture.assertInsurerStateChanged(0, secondAirline, InsurerState.FULLY_QUALIFIED);
         });
 
         it('the third and fourth airline can be registered without multi-parity consensus and therefore they can pay airline fee and can become fully-qualified insurers', async () => {
@@ -141,10 +139,10 @@ contract('Flight Surety Tests', async (accounts) => {
 
             // then
             assert.equal(eventCapture.events.length, 4);
-            eventCapture.assertInsurerStateChanged(0, eventType.InsurerStateChanged, thirdAirline, InsurerState.REGISTERED);
-            eventCapture.assertInsurerStateChanged(1, eventType.InsurerStateChanged, thirdAirline, InsurerState.FULLY_QUALIFIED);
-            eventCapture.assertInsurerStateChanged(2, eventType.InsurerStateChanged, fourthAirline, InsurerState.REGISTERED);
-            eventCapture.assertInsurerStateChanged(3, eventType.InsurerStateChanged, fourthAirline, InsurerState.FULLY_QUALIFIED);
+            eventCapture.assertInsurerStateChanged(0, thirdAirline, InsurerState.REGISTERED);
+            eventCapture.assertInsurerStateChanged(1, thirdAirline, InsurerState.FULLY_QUALIFIED);
+            eventCapture.assertInsurerStateChanged(2, fourthAirline, InsurerState.REGISTERED);
+            eventCapture.assertInsurerStateChanged(3, fourthAirline, InsurerState.FULLY_QUALIFIED);
         });
 
         it('the fifth airline can be registered with multi-parity consensus only', async () => {
@@ -166,7 +164,7 @@ contract('Flight Surety Tests', async (accounts) => {
 
             // and then
             assert.equal(eventCapture.events.length, 1);
-            eventCapture.assertInsurerStateChanged(0, eventType.InsurerStateChanged, fifthAirline, InsurerState.REGISTERED);
+            eventCapture.assertInsurerStateChanged(0, fifthAirline, InsurerState.REGISTERED);
         });
 
         it('the fifth airline can not participate in the contract because is not yet fully qualified (have not yet paied the fee)', async () => {
@@ -193,6 +191,83 @@ contract('Flight Surety Tests', async (accounts) => {
             assert.equal(web3.utils.fromWei(insurerFee, "ether"), '10');
             return insurerFee;
         }
+    });
+
+    /***********************************************************************************/
+    /* Insurance Lifecycle                                                             */
+    /***********************************************************************************/
+
+    describe('Test Insurance Lifecycle', function () {
+
+        let flight1 = {
+            airlineIdx: 1,
+            flightNumber: "BA2490",
+            departureTime: Math.floor(new Date("15 Jul 2021 10:00:00 GMT") / 1000),
+            origin: "ZRH",
+            destination: "MXP"
+        };
+
+        const InsurancePolicyState = {
+            AVAILABLE: 0,
+            OPEN: 1,
+            CLOSED_NO_MONEY_BACK: 2,
+            CREDIT_APPROVED: 3,
+            CREDIT_WITHDRAWN: 4
+        };
+
+        it('a flight can be registered', async () => {
+            // given
+            let airlineAddress = accounts[flight1.airlineIdx];
+
+            // when
+            await appContract.registerFlight(
+                flight1.flightNumber,
+                flight1.departureTime,
+                flight1.origin,
+                flight1.destination,
+                {from: airlineAddress}
+            );
+        });
+
+        it('passengers can not pay more then 1 ether for purchasing flight insurance', async () => {
+            // given
+            let airlineAddress = accounts[flight1.airlineIdx];
+            let passengerAddress = accounts[10];
+
+            // when
+            // then
+            await truffleAssert.reverts(
+                appContract.buyFlightInsurance(
+                    airlineAddress,
+                    flight1.flightNumber,
+                    flight1.departureTime,
+                    {value: web3.utils.toWei("1", "ether") + 1, from: passengerAddress}
+                ),
+                "Invalid insurance price paid"
+            );
+        });
+
+        it('passengers can buy flight insurance for 1 ether', async () => {
+            // given
+            let airlineAddress = accounts[flight1.airlineIdx];
+            let passengerAddress = accounts[10];
+
+            eventCapture.clear();
+
+            // when
+            await appContract.buyFlightInsurance(
+                airlineAddress,
+                flight1.flightNumber,
+                flight1.departureTime,
+                {value: web3.utils.toWei("1", "ether"), from: passengerAddress}
+            );
+
+            // then
+            assert.equal(eventCapture.events.length, 1);
+            eventCapture.assertInsurancePolicyStateChanged(0, passengerAddress, InsurancePolicyState.OPEN);
+        });
+
+
     });
 
 

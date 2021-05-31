@@ -37,8 +37,7 @@ const ConfigTests = async function (accounts) {
         testAddresses: testAddresses,
         flightSuretyData: flightSuretyData,
         flightSuretyApp: flightSuretyApp,
-        eventCapture: EventCapture,
-        eventType: EventType
+        eventCapture: EventCapture
     }
 }
 
@@ -89,8 +88,8 @@ const EventCapture = {
         EventCapture.consumeEvent(EventType.InsurerStateChanged, result.args, msg);
     },
 
-    assertInsurerStateChanged: function (eventIdx, expectedEventType, exectedInsurerAddress, expectedState) {
-        assert.equal(this.events[eventIdx].type, expectedEventType);
+    assertInsurerStateChanged: function (eventIdx, exectedInsurerAddress, expectedState) {
+        assert.equal(this.events[eventIdx].type, EventType.InsurerStateChanged);
         assert.equal(this.events[eventIdx].params.insurerAddress, exectedInsurerAddress);
         assert.equal(this.events[eventIdx].params.state.toNumber(), expectedState);
     },
@@ -98,6 +97,12 @@ const EventCapture = {
     insurancePolicyStateChangedHandler: function (error, result) {
         let msg = `insureeAddress: ${result.args.insureeAddress}, insuredFlightKey: ${result.args.insuredObjectKey}, state: ${result.args.state}`;
         EventCapture.consumeEvent(EventType.InsurancePolicyStateChanged, result.args, msg);
+    },
+
+    assertInsurancePolicyStateChanged: function (eventIdx, exectedInsureeAddress, expectedState) {
+        assert.equal(this.events[eventIdx].type, EventType.InsurancePolicyStateChanged);
+        assert.equal(this.events[eventIdx].params.insureeAddress, exectedInsureeAddress);
+        assert.equal(this.events[eventIdx].params.state.toNumber(), expectedState);
     },
 
     fundingReceivedHandler: function (error, result) {
