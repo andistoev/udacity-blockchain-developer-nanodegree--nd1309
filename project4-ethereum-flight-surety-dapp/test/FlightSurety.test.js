@@ -224,6 +224,9 @@ contract('Flight Surety Tests', async (accounts) => {
             STATUS_CODE_LATE_OTHER: 50
         };
 
+        const FIRST_ORACLE_ACCOUNT_IDX = 20;
+        const ORACLES_COUNT = 30;
+
         it('a flight can be registered', async () => {
             // given
             let airlineAddress = accounts[flight1.airlineIdx];
@@ -276,27 +279,25 @@ contract('Flight Surety Tests', async (accounts) => {
             eventCapture.assertInsurancePolicyStateChanged(0, passengerAddress, InsurancePolicyState.ACQUIRED);
         });
 
-        it('can register 30 oracles and persist them in memory', async () => {
+        it('can register all oracles and persist them in memory', async () => {
             // given
-            let firstOracleIdx = 20;
-
             let oneEther = web3.utils.toWei("1", "ether");
 
             eventCapture.clear();
 
             // when
-            for (let i = 0; i < 30; i++) {
-                await appContract.registerOracle({value: oneEther, from: accounts[firstOracleIdx + i]});
+            for (let i = 0; i < ORACLES_COUNT; i++) {
+                await appContract.registerOracle({value: oneEther, from: accounts[FIRST_ORACLE_ACCOUNT_IDX + i]});
             }
 
             // then
-            assert.equal(eventCapture.events.length, 30);
-            for (let i = 0; i < 30; i++) {
-                eventCapture.assertOracleRegistered(i, accounts[firstOracleIdx + i]);
+            assert.equal(eventCapture.events.length, ORACLES_COUNT);
+            for (let i = 0; i < ORACLES_COUNT; i++) {
+                eventCapture.assertOracleRegistered(i, accounts[FIRST_ORACLE_ACCOUNT_IDX + i]);
             }
         });
 
-        it('can request status info from oracles', async () => {
+        it('can request flight status info from oracles', async () => {
             // given
             let airlineAddress = accounts[flight1.airlineIdx];
 
@@ -308,6 +309,38 @@ contract('Flight Surety Tests', async (accounts) => {
             // then
             assert.equal(eventCapture.events.length, 1);
             eventCapture.assertOracleFlightStatusInfoRequested(0, airlineAddress, flight1.flightNumber, flight1.departureTime);
+        });
+
+        it('oracles can submit flight status info for airline fault matching with the requestedIndex', async () => {
+            // given
+            let requestedIndex = eventCapture.events[0].params.index.toNumber();
+            console.log(`=> Retrieved from the last event the requestedIndex = ${requestedIndex}`);
+
+            let airlineAddress = accounts[flight1.airlineIdx];
+
+            eventCapture.clear();
+
+            // when
+            for (let i = 0; i < ORACLES_COUNT; i++) {
+                let oracleAddress = accounts[FIRST_ORACLE_ACCOUNT_IDX + i];
+                let oracleIndexes = await appContract.getMyIndexes.call({from: oracleAddress});
+
+                for (let idx = 0; idx < 3; idx++) {
+                    if (oracleIndexes[idx] != requestedIndex) {
+                        continue;
+                    }
+
+                    await appContract.submitOracleFlightStatusInfo(
+                        requestedIndex,
+                        airlineAddress,
+                        flight1.flightNumber,
+                        flight1.departureTime,
+                        FlightStatusCode.STATUS_CODE_LATE_AIRLINE,
+                        {from: oracleAddress}
+                    );
+                }
+            }
+
         });
 
     });

@@ -140,7 +140,7 @@ const EventCapture = {
     },
 
     flightStatusInfoUpdatedHandler: function (error, result) {
-        console.log(`airlineAddress: ${result.args.airlineAddress}, flightNumber: ${result.args.flightNumber}, departureTime: ${result.args.departureTime.toNumber()}, flightStatus: ${result.args.flightStatus}`);
+        let msg = `airlineAddress: ${result.args.airlineAddress}, flightNumber: ${result.args.flightNumber}, departureTime: ${result.args.departureTime.toNumber()}, flightStatus: ${result.args.flightStatus}`;
         EventCapture.consumeEvent(EventType.FlightStatusInfoUpdated, result.args, msg);
     }
 }
