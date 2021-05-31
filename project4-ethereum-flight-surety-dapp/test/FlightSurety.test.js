@@ -78,7 +78,7 @@ contract('Flight Surety Tests', async (accounts) => {
             );
         });
 
-        it('the first airline can be funded', async () => {
+        it('the first airline can pay airline fee and can become fully-qualified insurer', async () => {
             // given
             let insurerFee = await dataContract.getInsurerFee();
             assert.equal(web3.utils.fromWei(insurerFee, "ether"), '10');
@@ -93,7 +93,7 @@ contract('Flight Surety Tests', async (accounts) => {
             eventCapture.assertInsurerStateChanged(0, eventType.InsurerStateChanged, config.firstAirline, InsurerState.FULLY_QUALIFIED);
         });
 
-        it('can register an Airline using registerAirline() after the registering airline is funded', async () => {
+        it('can register a second airline using registerAirline() after the registering airline is funded', async () => {
             // given
             let secondAirline = accounts[2];
 
@@ -107,6 +107,23 @@ contract('Flight Surety Tests', async (accounts) => {
             // then
             assert.equal(eventCapture.events.length, 1);
             eventCapture.assertInsurerStateChanged(0, eventType.InsurerStateChanged, secondAirline, InsurerState.REGISTERED);
+        });
+
+        it('the second airline can pay airline fee and can become fully-qualified insurer', async () => {
+            // given
+            let insurerFee = await dataContract.getInsurerFee();
+            assert.equal(web3.utils.fromWei(insurerFee, "ether"), '10');
+
+            let secondAirline = accounts[2];
+
+            eventCapture.clear();
+
+            // when
+            await appContract.payAirlineInsurerFee({value: insurerFee, from: secondAirline});
+
+            // then
+            assert.equal(eventCapture.events.length, 1);
+            eventCapture.assertInsurerStateChanged(0, eventType.InsurerStateChanged, secondAirline, InsurerState.FULLY_QUALIFIED);
         });
 
 
