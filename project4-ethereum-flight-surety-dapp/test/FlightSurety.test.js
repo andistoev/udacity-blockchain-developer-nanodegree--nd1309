@@ -369,6 +369,26 @@ contract('Flight Surety Tests', async (accounts) => {
             eventCapture.assertFlightStatusInfoUpdated(4, airlineAddress, flight1.flightNumber, flight1.departureTime, FlightStatusCode.STATUS_CODE_LATE_AIRLINE);
         });
 
+        it('passengers can redraw any funds owed to them as a result of receiving credit for insurance payout', async () => {
+            // given
+            let airlineAddress = accounts[flight1.airlineIdx];
+            let passengerAddress = accounts[10];
+
+            eventCapture.clear();
+
+            // when
+            await appContract.withdrawFlightInsuranceCredit(
+                airlineAddress,
+                flight1.flightNumber,
+                flight1.departureTime,
+                {from: passengerAddress}
+            );
+
+            // then
+            assert.equal(eventCapture.events.length, 1);
+            eventCapture.assertInsurancePolicyStateChanged(0, passengerAddress, InsurancePolicyState.CREDIT_WITHDRAWN);
+        });
+
     });
 
 });
