@@ -8,7 +8,7 @@ let web3 = new Web3(new Web3.providers.WebsocketProvider(config.url.replace('htt
 web3.eth.defaultAccount = web3.eth.accounts[0];
 let flightSuretyApp = new web3.eth.Contract(FlightSuretyApp.abi, config.appAddress);
 
-flightSuretyApp.events.OracleRequest({
+flightSuretyApp.events.FlightStatusInfoRequested({
     fromBlock: 0
 }, function (error, event) {
     if (error) console.log(error);

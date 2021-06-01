@@ -15,6 +15,10 @@ abstract contract AppContract is BaseAppContract, PayableContract {
         suretyDataContract = BaseSuretyData(suretyDataContractAddress);
     }
 
+    function isContractOperational() external view returns (bool){
+        return suretyDataContract.isContractOperational();
+    }
+
     receive() external payable {
         payTo(address(suretyDataContract), msg.value, "Cannot fund suretyDataContract");
     }

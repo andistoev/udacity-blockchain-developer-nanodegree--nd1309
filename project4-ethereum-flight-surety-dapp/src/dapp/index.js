@@ -10,7 +10,7 @@ import './flightsurety.css';
     let contract = new Contract('localhost', () => {
 
         // Read transaction
-        contract.isOperational((error, result) => {
+        contract.isContractOperational((error, result) => {
             console.log(error, result);
             display('Operational Status', 'Check if contract is operational', [{
                 label: 'Operational Status',
@@ -24,9 +24,9 @@ import './flightsurety.css';
         DOM.elid('submit-oracle').addEventListener('click', () => {
             let flight = DOM.elid('flight-number').value;
             // Write transaction
-            contract.fetchFlightStatus(flight, (error, result) => {
+            contract.requestFlightStatusInfo(flight, (error, result) => {
                 display('Oracles', 'Trigger oracles', [{
-                    label: 'Fetch Flight Status',
+                    label: 'Fetch Flight Status Info',
                     error: error,
                     value: result.flight + ' ' + result.timestamp
                 }]);

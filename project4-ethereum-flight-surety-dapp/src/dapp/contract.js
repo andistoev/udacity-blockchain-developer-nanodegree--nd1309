@@ -33,14 +33,14 @@ export default class Contract {
         });
     }
 
-    isOperational(callback) {
+    isContractOperational(callback) {
         let self = this;
         self.flightSuretyApp.methods
-            .isOperational()
+            .isContractOperational()
             .call({from: self.owner}, callback);
     }
 
-    fetchFlightStatus(flight, callback) {
+    requestFlightStatusInfo(flight, callback) {
         let self = this;
         let payload = {
             airline: self.airlines[0],
@@ -48,7 +48,7 @@ export default class Contract {
             timestamp: Math.floor(Date.now() / 1000)
         }
         self.flightSuretyApp.methods
-            .fetchFlightStatus(payload.airline, payload.flight, payload.timestamp)
+            .requestFlightStatusInfo(payload.airline, payload.flight, payload.timestamp)
             .send({from: self.owner}, (error, result) => {
                 callback(error, payload);
             });
