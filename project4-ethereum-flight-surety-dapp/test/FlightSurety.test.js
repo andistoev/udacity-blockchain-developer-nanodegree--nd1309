@@ -187,7 +187,7 @@ contract('Flight Surety Tests', async (accounts) => {
         });
 
         async function getInsurerFee() {
-            let insurerFee = await dataContract.getInsurerFee();
+            let insurerFee = await dataContract.getInsurerFee.call();
             assert.equal(web3.utils.fromWei(insurerFee, "ether"), '10');
             return insurerFee;
         }
@@ -304,11 +304,11 @@ contract('Flight Surety Tests', async (accounts) => {
             eventCapture.clear();
 
             // when
-            await appContract.requestOracleFlightStatusInfo(airlineAddress, flight1.flightNumber, flight1.departureTime);
+            await appContract.requestFlightStatusInfo(airlineAddress, flight1.flightNumber, flight1.departureTime);
 
             // then
             assert.equal(eventCapture.events.length, 1);
-            eventCapture.assertOracleFlightStatusInfoRequested(0, airlineAddress, flight1.flightNumber, flight1.departureTime);
+            eventCapture.assertFlightStatusInfoRequested(0, airlineAddress, flight1.flightNumber, flight1.departureTime);
         });
 
         it('oracles can submit flight status info for airline fault matching with the requestedIndex', async () => {
@@ -320,6 +320,10 @@ contract('Flight Surety Tests', async (accounts) => {
 
             eventCapture.clear();
 
+            let acceptedSubmitsCtr = 0;
+            let oracleResponsesRequiredForValidation = (await appContract.ORACLE_RESPONSES_REQUIRED_FOR_VALIDATION.call()).toNumber();
+            assert(oracleResponsesRequiredForValidation, 3);
+
             // when
             for (let i = 0; i < ORACLES_COUNT; i++) {
                 let oracleAddress = accounts[FIRST_ORACLE_ACCOUNT_IDX + i];
@@ -330,7 +334,9 @@ contract('Flight Surety Tests', async (accounts) => {
                         continue;
                     }
 
-                    await appContract.submitOracleFlightStatusInfo(
+                    console.log(`Submitting from oracle ${oracleAddress}`);
+
+                    await appContract.submitFlightStatusInfo(
                         requestedIndex,
                         airlineAddress,
                         flight1.flightNumber,
@@ -338,9 +344,26 @@ contract('Flight Surety Tests', async (accounts) => {
                         FlightStatusCode.STATUS_CODE_LATE_AIRLINE,
                         {from: oracleAddress}
                     );
+
+                    acceptedSubmitsCtr++;
+
+                    if (acceptedSubmitsCtr == oracleResponsesRequiredForValidation) {
+                        break;
+                    }
+                }
+
+                if (acceptedSubmitsCtr == oracleResponsesRequiredForValidation) {
+                    break;
                 }
             }
 
+            // then
+            assert.equal(eventCapture.events.length, 5);
+
+            eventCapture.assertFlightStatusInfoSubmitted(0, airlineAddress, flight1.flightNumber, flight1.departureTime, FlightStatusCode.STATUS_CODE_LATE_AIRLINE);
+            eventCapture.assertFlightStatusInfoSubmitted(1, airlineAddress, flight1.flightNumber, flight1.departureTime, FlightStatusCode.STATUS_CODE_LATE_AIRLINE);
+            eventCapture.assertFlightStatusInfoSubmitted(3, airlineAddress, flight1.flightNumber, flight1.departureTime, FlightStatusCode.STATUS_CODE_LATE_AIRLINE);
+            eventCapture.assertFlightStatusInfoUpdated(4, airlineAddress, flight1.flightNumber, flight1.departureTime, FlightStatusCode.STATUS_CODE_LATE_AIRLINE);
         });
 
     });

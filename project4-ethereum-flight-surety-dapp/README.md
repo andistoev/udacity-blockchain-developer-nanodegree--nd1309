@@ -46,9 +46,7 @@ To deploy the smart contracts locally with 50 account with default 5000 ether pe
 
 To test it:
 
-`npm run test1` or `truffle test ./test/Oracle.test.js`
-
-`npm run test2` or `truffle test ./test/FlightSurety.test.js`
+`npm run test` or `truffle test ./test/FlightSurety.test.js`
 
 To run the oracles:
 

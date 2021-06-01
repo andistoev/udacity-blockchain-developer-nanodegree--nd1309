@@ -14,7 +14,7 @@ abstract contract OracleController is BaseOracleListenerHandler, BaseAppContract
 
     uint256 public constant ORACLE_REGISTRATION_FEE = 1 ether;
 
-    uint256 private constant MIN_ORACLE_RESPONSES_REQUIRED_FOR_VALIDATION = 3;
+    uint256 public constant ORACLE_RESPONSES_REQUIRED_FOR_VALIDATION = 3;
 
     uint8 private randomNumberGeneratorNonce = 0;
 
@@ -25,14 +25,15 @@ abstract contract OracleController is BaseOracleListenerHandler, BaseAppContract
 
     mapping(address => Oracle) private oracles;
 
-    struct OracleFlightStatusInfo {
+    struct FlightStatusInfo {
+        bool isRequested;
         address requester;
         bool isOpen;
         mapping(uint8 => address[]) responses; // key = statusCode
     }
 
     // key = hash(index, flightNumber, departureTime)
-    mapping(bytes32 => OracleFlightStatusInfo) private oracleFlightStatusInfos;
+    mapping(bytes32 => FlightStatusInfo) private oracleFlightStatusInfos;
 
     /**
     * API
@@ -41,10 +42,10 @@ abstract contract OracleController is BaseOracleListenerHandler, BaseAppContract
     event OracleRegistered(address oracleAddress);
 
     // old name: OracleRequest
-    event OracleFlightStatusInfoRequested(uint8 index, address airlineAddress, string flightNumber, uint256 departureTime);
+    event FlightStatusInfoRequested(uint8 index, address airlineAddress, string flightNumber, uint256 departureTime);
 
     // old name: OracleReport
-    event OracleFlightStatusInfoSubmitted(address airlineAddress, string flightNumber, uint256 departureTime, uint8 flightStatus);
+    event FlightStatusInfoSubmitted(address airlineAddress, string flightNumber, uint256 departureTime, uint8 flightStatus);
 
     // old name: FlightStatusInfo
     event FlightStatusInfoUpdated(address airlineAddress, string flightNumber, uint256 departureTime, uint8 flightStatus);
@@ -76,39 +77,41 @@ abstract contract OracleController is BaseOracleListenerHandler, BaseAppContract
     }
 
     // Generate a request for oracles to fetch flightNumber information
-    function requestOracleFlightStatusInfo(address airlineAddress, string calldata flightNumber, uint256 departureTime) external requireIsOperational {
+    function requestFlightStatusInfo(address airlineAddress, string calldata flightNumber, uint256 departureTime) external requireIsOperational {
         uint8 index = getRandomIndex(msg.sender, ORACLE_RANDOM_INDEX_CEIL);
 
         // Generate a unique key for storing the request
         bytes32 oracleKey = getOracleKey(index, airlineAddress, flightNumber, departureTime);
 
-        OracleFlightStatusInfo storage oracleFlightStatusInfo = oracleFlightStatusInfos[oracleKey];
+        FlightStatusInfo storage oracleFlightStatusInfo = oracleFlightStatusInfos[oracleKey];
         require(oracleFlightStatusInfo.requester == address(0), "The same oracle request to request flight information cannot be done twice");
 
-        oracleFlightStatusInfo.isOpen = true;
+        oracleFlightStatusInfo.isRequested = true;
         oracleFlightStatusInfo.requester = msg.sender;
+        oracleFlightStatusInfo.isOpen = true;
 
-        emit OracleFlightStatusInfoRequested(index, airlineAddress, flightNumber, departureTime);
+        emit FlightStatusInfoRequested(index, airlineAddress, flightNumber, departureTime);
     }
 
     // Called by oracle when a response is available to an outstanding request
     // For the response to be accepted, there must be a pending request that is open
     // and matches one of the three Indexes randomly assigned to the oracle at the
     // time of registration (i.e. uninvited oracles are not welcome)
-    function submitOracleFlightStatusInfo(uint8 index, address airlineAddress, string calldata flightNumber, uint256 departureTime, uint8 statusCode) external requireIsOperational {
+    function submitFlightStatusInfo(uint8 index, address airlineAddress, string calldata flightNumber, uint256 departureTime, uint8 statusCode) external requireIsOperational {
         require((oracles[msg.sender].indexes[0] == index) || (oracles[msg.sender].indexes[1] == index) || (oracles[msg.sender].indexes[2] == index), "Index does not match oracle request");
 
         bytes32 oracleKey = getOracleKey(index, airlineAddress, flightNumber, departureTime);
-        require(oracleFlightStatusInfos[oracleKey].isOpen, "Flight or departureTime do not match oracle request");
+        require(oracleFlightStatusInfos[oracleKey].isRequested, "The submitted flight status information has never been requested");
+        require(oracleFlightStatusInfos[oracleKey].isOpen, "The flight status information request has been closed");
 
         oracleFlightStatusInfos[oracleKey].responses[statusCode].push(msg.sender);
 
-        emit OracleFlightStatusInfoSubmitted(airlineAddress, flightNumber, departureTime, statusCode);
+        emit FlightStatusInfoSubmitted(airlineAddress, flightNumber, departureTime, statusCode);
 
-        if (oracleFlightStatusInfos[oracleKey].responses[statusCode].length >= MIN_ORACLE_RESPONSES_REQUIRED_FOR_VALIDATION) {
+        if (oracleFlightStatusInfos[oracleKey].responses[statusCode].length >= ORACLE_RESPONSES_REQUIRED_FOR_VALIDATION) {
             oracleFlightStatusInfos[oracleKey].isOpen = false;
-            processFlightStatusInfoUpdated(airlineAddress, flightNumber, departureTime, statusCode);
             emit FlightStatusInfoUpdated(airlineAddress, flightNumber, departureTime, statusCode);
+            processFlightStatusInfoUpdated(airlineAddress, flightNumber, departureTime, statusCode);
         }
     }
 

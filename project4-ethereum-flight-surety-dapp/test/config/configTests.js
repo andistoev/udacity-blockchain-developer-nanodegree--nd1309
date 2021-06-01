@@ -54,8 +54,8 @@ const EventType = {
     InsurancePolicyStateChanged: "InsurancePolicyStateChanged",
     FundingReceived: "FundingReceived",
     OracleRegistered: "OracleRegistered",
-    OracleFlightStatusInfoRequested: "OracleFlightStatusInfoRequested",
-    OracleFlightStatusInfoSubmitted: "OracleFlightStatusInfoSubmitted",
+    FlightStatusInfoRequested: "FlightStatusInfoRequested",
+    FlightStatusInfoSubmitted: "FlightStatusInfoSubmitted",
     FlightStatusInfoUpdated: "FlightStatusInfoUpdated"
 };
 
@@ -69,8 +69,8 @@ const EventCapture = {
         await flightSuretyData.FundingReceived(this.fundingReceivedHandler);
 
         await flightSuretyApp.OracleRegistered(this.oracleRegisteredHandler);
-        await flightSuretyApp.OracleFlightStatusInfoRequested(this.oracleFlightStatusInfoRequestedHandler);
-        await flightSuretyApp.OracleFlightStatusInfoSubmitted(this.oracleFlightStatusInfoSubmittedHandler);
+        await flightSuretyApp.FlightStatusInfoRequested(this.flightStatusInfoRequestedHandler);
+        await flightSuretyApp.FlightStatusInfoSubmitted(this.flightStatusInfoSubmittedHandler);
         await flightSuretyApp.FlightStatusInfoUpdated(this.flightStatusInfoUpdatedHandler);
     },
 
@@ -122,27 +122,43 @@ const EventCapture = {
         assert.equal(this.events[eventIdx].params.oracleAddress, exectedOracleAddress);
     },
 
-    oracleFlightStatusInfoRequestedHandler: function (error, result) {
+    flightStatusInfoRequestedHandler: function (error, result) {
         let msg = `index: ${result.args.index.toNumber()}, airlineAddress: ${result.args.airlineAddress}, flightNumber: ${result.args.flightNumber}, departureTime: ${result.args.departureTime.toNumber()}`;
-        EventCapture.consumeEvent(EventType.OracleFlightStatusInfoRequested, result.args, msg);
+        EventCapture.consumeEvent(EventType.FlightStatusInfoRequested, result.args, msg);
     },
 
-    assertOracleFlightStatusInfoRequested: function (eventIdx, expectedAirlineAddress, expectedFlightNumber, expectedDepartureTime) {
-        assert.equal(this.events[eventIdx].type, EventType.OracleFlightStatusInfoRequested);
+    assertFlightStatusInfoRequested: function (eventIdx, expectedAirlineAddress, expectedFlightNumber, expectedDepartureTime) {
+        assert.equal(this.events[eventIdx].type, EventType.FlightStatusInfoRequested);
         assert.equal(this.events[eventIdx].params.airlineAddress, expectedAirlineAddress);
         assert.equal(this.events[eventIdx].params.flightNumber, expectedFlightNumber);
         assert.equal(this.events[eventIdx].params.departureTime, expectedDepartureTime);
     },
 
-    oracleFlightStatusInfoSubmittedHandler: function (error, result) {
+    flightStatusInfoSubmittedHandler: function (error, result) {
         let msg = `airlineAddress: ${result.args.airlineAddress}, flightNumber: ${result.args.flightNumber}, departureTime: ${result.args.departureTime.toNumber()}, flightStatus: ${result.args.flightStatus}`;
-        EventCapture.consumeEvent(EventType.OracleFlightStatusInfoSubmitted, result.args, msg);
+        EventCapture.consumeEvent(EventType.FlightStatusInfoSubmitted, result.args, msg);
+    },
+
+    assertFlightStatusInfoSubmitted: function (eventIdx, expectedAirlineAddress, expectedFlightNumber, expectedDepartureTime, expectedFlightStatus) {
+        assert.equal(this.events[eventIdx].type, EventType.FlightStatusInfoSubmitted);
+        assert.equal(this.events[eventIdx].params.airlineAddress, expectedAirlineAddress);
+        assert.equal(this.events[eventIdx].params.flightNumber, expectedFlightNumber);
+        assert.equal(this.events[eventIdx].params.departureTime, expectedDepartureTime);
+        assert.equal(this.events[eventIdx].params.flightStatus.toNumber(), expectedFlightStatus);
     },
 
     flightStatusInfoUpdatedHandler: function (error, result) {
         let msg = `airlineAddress: ${result.args.airlineAddress}, flightNumber: ${result.args.flightNumber}, departureTime: ${result.args.departureTime.toNumber()}, flightStatus: ${result.args.flightStatus}`;
         EventCapture.consumeEvent(EventType.FlightStatusInfoUpdated, result.args, msg);
-    }
+    },
+
+    assertFlightStatusInfoUpdated: function (eventIdx, expectedAirlineAddress, expectedFlightNumber, expectedDepartureTime, expectedFlightStatus) {
+        assert.equal(this.events[eventIdx].type, EventType.FlightStatusInfoUpdated);
+        assert.equal(this.events[eventIdx].params.airlineAddress, expectedAirlineAddress);
+        assert.equal(this.events[eventIdx].params.flightNumber, expectedFlightNumber);
+        assert.equal(this.events[eventIdx].params.departureTime, expectedDepartureTime);
+        assert.equal(this.events[eventIdx].params.flightStatus.toNumber(), expectedFlightStatus);
+    },
 }
 
 
