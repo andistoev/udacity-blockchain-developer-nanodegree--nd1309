@@ -318,6 +318,8 @@ contract('Flight Surety Tests', async (accounts) => {
 
             let airlineAddress = accounts[flight1.airlineIdx];
 
+            let passengerAddress = accounts[10];
+
             eventCapture.clear();
 
             let acceptedSubmitsCtr = 0;
@@ -362,6 +364,7 @@ contract('Flight Surety Tests', async (accounts) => {
 
             eventCapture.assertFlightStatusInfoSubmitted(0, airlineAddress, flight1.flightNumber, flight1.departureTime, FlightStatusCode.STATUS_CODE_LATE_AIRLINE);
             eventCapture.assertFlightStatusInfoSubmitted(1, airlineAddress, flight1.flightNumber, flight1.departureTime, FlightStatusCode.STATUS_CODE_LATE_AIRLINE);
+            eventCapture.assertInsurancePolicyStateChanged(2, passengerAddress, InsurancePolicyState.CREDIT_APPROVED);
             eventCapture.assertFlightStatusInfoSubmitted(3, airlineAddress, flight1.flightNumber, flight1.departureTime, FlightStatusCode.STATUS_CODE_LATE_AIRLINE);
             eventCapture.assertFlightStatusInfoUpdated(4, airlineAddress, flight1.flightNumber, flight1.departureTime, FlightStatusCode.STATUS_CODE_LATE_AIRLINE);
         });
