@@ -374,10 +374,12 @@ contract('Flight Surety Tests', async (accounts) => {
             let airlineAddress = accounts[flight1.airlineIdx];
             let passengerAddress = accounts[10];
 
+            let initialBalanceInWei = await getBalanceInWei(passengerAddress);
+
             eventCapture.clear();
 
             // when
-            await appContract.withdrawFlightInsuranceCredit(
+            txResult = await appContract.withdrawFlightInsuranceCredit(
                 airlineAddress,
                 flight1.flightNumber,
                 flight1.departureTime,
@@ -387,7 +389,50 @@ contract('Flight Surety Tests', async (accounts) => {
             // then
             assert.equal(eventCapture.events.length, 1);
             eventCapture.assertInsurancePolicyStateChanged(0, passengerAddress, InsurancePolicyState.CREDIT_WITHDRAWN);
+
+            let transactionCostInWei = await getTransactionCostInWei(txResult);
+            let oneAndHalfEtherInWei = toWei('1.5');
+            let expectedFinalBalanceInWei = initialBalanceInWei.plus(oneAndHalfEtherInWei).minus(transactionCostInWei);
+
+            let finalBalanceInWei = await getBalanceInWei(passengerAddress);
+
+            console.log(`initialBalanceInWei = ${initialBalanceInWei}, finalBalanceInWei = ${finalBalanceInWei}, transactionCostInWei = ${transactionCostInWei}`);
+
+            assert.equal(finalBalanceInWei.toString(), expectedFinalBalanceInWei.toString());
         });
+
+        async function getBalanceInWei(address) {
+            let balance = await web3.eth.getBalance(address);
+            return new BigNumber(balance);
+        }
+
+        function getGasUsed(txResult) {
+            return txResult.receipt.gasUsed;
+        }
+
+        async function getGasPrice(txResult) {
+            let tx = await web3.eth.getTransaction(txResult.tx);
+            return tx.gasPrice;
+        }
+
+        async function getTransactionCostInWei(txResult) {
+            let gasUsed = getGasUsed(txResult);
+            let gasPrice = await getGasPrice(txResult);
+            console.log(` => gasUsed = ${gasUsed}, gasPrice = ${gasPrice}`);
+
+            let getTransactionCostInWei = new BigNumber(gasPrice).multipliedBy(new BigNumber(gasUsed));
+            console.log(` => getTransactionCostInWei = ${getTransactionCostInWei}`);
+
+            return getTransactionCostInWei;
+        }
+
+        function toEther(weiBN) {
+            return web3.utils.fromWei(weiBN, "ether");
+        }
+
+        function toWei(etherBN) {
+            return web3.utils.toWei(etherBN, "ether");
+        }
 
     });
 
