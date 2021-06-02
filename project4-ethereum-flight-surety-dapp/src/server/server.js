@@ -7,16 +7,19 @@ import express from 'express';
 
 let config = Config['localhost'];
 let web3 = new Web3(new Web3.providers.WebsocketProvider(config.url.replace('http', 'ws')));
-web3.eth.defaultAccount = web3.eth.accounts[0];
 
-console.log(`Default account = ${web3.eth.accounts[0]}`);
+let accounts = await web3.eth.getAccounts();
+
+web3.eth.defaultAccount = accounts[0];
+console.log(`Default account = ${web3.eth.defaultAccount}`);
 
 let flightSuretyApp = new web3.eth.Contract(FlightSuretyApp.abi, config.appAddress);
+
+await registerEventListeners();
 
 const FIRST_ORACLE_ACCOUNT_IDX = 20;
 const ORACLES_COUNT = 30;
 
-registerEventListeners();
 registerOracles();
 
 // === APP ===
@@ -32,23 +35,22 @@ export default app;
 
 // === PRIVATE METHODS ===
 
-
 function registerOracles() {
     let oneEther = web3.utils.toWei("1", "ether");
     console.log(`Register oracles paying ${oneEther} ...`);
 
     for (let i = 0; i < ORACLES_COUNT; i++) {
-        let oracleAddress = web3.eth.accounts[FIRST_ORACLE_ACCOUNT_IDX + i];
+        let oracleAddress = accounts[FIRST_ORACLE_ACCOUNT_IDX + i];
         console.log(`${i + 1}. Register oracle ${oracleAddress}`);
-        //flightSuretyApp.methods.registerOracle().send({value: oneEther, from: web3.eth.accounts[FIRST_ORACLE_ACCOUNT_IDX + i]});
+        flightSuretyApp.methods.registerOracle().send({value: oneEther, from: oracleAddress, gas: 3000000});
     }
 }
 
-function registerEventListeners() {
-    flightSuretyApp.events.OracleRegistered(oracleRegisteredHandler);
-    flightSuretyApp.events.FlightStatusInfoRequested(flightStatusInfoRequestedHandler);
-    flightSuretyApp.events.FlightStatusInfoSubmitted(flightStatusInfoSubmittedHandler);
-    flightSuretyApp.events.FlightStatusInfoUpdated(flightStatusInfoUpdatedHandler);
+async function registerEventListeners() {
+    await flightSuretyApp.events.OracleRegistered(oracleRegisteredHandler);
+    await flightSuretyApp.events.FlightStatusInfoRequested(flightStatusInfoRequestedHandler);
+    await flightSuretyApp.events.FlightStatusInfoSubmitted(flightStatusInfoSubmittedHandler);
+    await flightSuretyApp.events.FlightStatusInfoUpdated(flightStatusInfoUpdatedHandler);
 }
 
 function oracleRegisteredHandler(error, event) {

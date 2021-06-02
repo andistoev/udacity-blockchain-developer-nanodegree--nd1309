@@ -11,7 +11,7 @@ module.exports = {
     ],
     watch: true,
     target: 'node',
-    // experiments: {topLevelAwait: true },
+    experiments: {topLevelAwait: true},
     externals: [nodeExternals({
         allowlist: ['webpack/hot/poll?1000']
     })],
