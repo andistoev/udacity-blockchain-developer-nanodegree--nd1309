@@ -22,21 +22,21 @@ const ConfigTests = async function (accounts) {
     let owner = accounts[0];
     let firstAirline = accounts[1];
 
-    let flightSuretyData = await FlightSuretyData.new();
-    let flightSuretyApp = await FlightSuretyApp.new(flightSuretyData.address);
+    let dataContract = await FlightSuretyData.new();
+    let appContract = await FlightSuretyApp.new(dataContract.address);
 
-    await EventCapture.registerEvents(flightSuretyData, flightSuretyApp);
+    await EventCapture.registerEvents(dataContract, appContract);
 
-    await flightSuretyData.authorizeContractCaller(flightSuretyApp.address);
-    await flightSuretyApp.registerTheFirstAirline(firstAirline, "First Airline");
+    await dataContract.authorizeContractCaller(appContract.address);
+    await appContract.registerTheFirstAirline(firstAirline, "First Airline");
 
     return {
         owner: owner,
         firstAirline: firstAirline,
         weiMultiple: (new BigNumber(10)).pow(18),
         testAddresses: testAddresses,
-        flightSuretyData: flightSuretyData,
-        flightSuretyApp: flightSuretyApp,
+        dataContract: dataContract,
+        appContract: appContract,
         eventCapture: EventCapture
     }
 }
@@ -63,15 +63,15 @@ const EventCapture = {
 
     events: [],
 
-    registerEvents: async function (flightSuretyData, flightSuretyApp) {
-        await flightSuretyData.InsurerStateChanged(this.insurerStateChangedHandler);
-        await flightSuretyData.InsurancePolicyStateChanged(this.insurancePolicyStateChangedHandler);
-        await flightSuretyData.FundingReceived(this.fundingReceivedHandler);
+    registerEvents: async function (dataContract, appContract) {
+        await dataContract.InsurerStateChanged(this.insurerStateChangedHandler);
+        await dataContract.InsurancePolicyStateChanged(this.insurancePolicyStateChangedHandler);
+        await dataContract.FundingReceived(this.fundingReceivedHandler);
 
-        await flightSuretyApp.OracleRegistered(this.oracleRegisteredHandler);
-        await flightSuretyApp.FlightStatusInfoRequested(this.flightStatusInfoRequestedHandler);
-        await flightSuretyApp.FlightStatusInfoSubmitted(this.flightStatusInfoSubmittedHandler);
-        await flightSuretyApp.FlightStatusInfoUpdated(this.flightStatusInfoUpdatedHandler);
+        await appContract.OracleRegistered(this.oracleRegisteredHandler);
+        await appContract.FlightStatusInfoRequested(this.flightStatusInfoRequestedHandler);
+        await appContract.FlightStatusInfoSubmitted(this.flightStatusInfoSubmittedHandler);
+        await appContract.FlightStatusInfoUpdated(this.flightStatusInfoUpdatedHandler);
     },
 
     clear: function () {

@@ -14,9 +14,8 @@ contract('Flight Surety Tests', async (accounts) => {
     before('setup contract', async () => {
         config = await ConfigTests.Config(accounts);
 
-        appContract = config.flightSuretyApp;
-        dataContract = config.flightSuretyData;
-
+        appContract = config.appContract;
+        dataContract = config.dataContract;
         eventCapture = config.eventCapture;
     });
 
@@ -46,7 +45,7 @@ contract('Flight Surety Tests', async (accounts) => {
         });
 
         async function assertIsContractOperational(expectedStatus) {
-            let status = await config.flightSuretyData.isContractOperational.call();
+            let status = await appContract.isContractOperational.call();
             assert.equal(status, expectedStatus, "Incorrected operational status");
         }
     });
