@@ -7,14 +7,29 @@ module.exports = function (deployer) {
     deployer.deploy(FlightSuretyData)
         .then(() => {
             return deployer.deploy(FlightSuretyApp, FlightSuretyData.address)
-                .then(() => initializeContract());
+                .then(() => setupContracts());
         });
 
     let firstAirlineAddress = '0xf17f52151EbEF6C7334FAD080c5704D77216b732';
 
-    function initializeContract() {
-        console.log("Initialize contract ...");
-        publishConfigJsonFiles();
+    function setupContracts() {
+        return new Promise(async (resolve, reject) => {
+            try {
+                console.log("Set up contracts ...");
+                await registerTheFirstAirline();
+                publishConfigJsonFiles();
+                resolve();
+            } catch (error) {
+                console.error(error);
+                reject(error);
+            }
+        });
+    }
+
+    async function registerTheFirstAirline() {
+        console.log(`- register the first airline <address: ${firstAirlineAddress}> ...`);
+        //await FlightSuretyData.authorizeContractCaller(FlightSuretyApp.address);
+        //await FlightSuretyApp.registerTheFirstAirline(firstAirlineAddress, "First Airline");
     }
 
     function publishConfigJsonFiles() {
