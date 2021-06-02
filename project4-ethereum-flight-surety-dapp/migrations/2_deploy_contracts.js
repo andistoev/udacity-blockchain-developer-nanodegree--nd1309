@@ -2,34 +2,36 @@ const FlightSuretyApp = artifacts.require("FlightSuretyApp");
 const FlightSuretyData = artifacts.require("FlightSuretyData");
 const fs = require('fs');
 
-module.exports = function (deployer) {
-
-    deployer.deploy(FlightSuretyData)
-        .then(() => {
-            return deployer.deploy(FlightSuretyApp, FlightSuretyData.address)
-                .then(() => setupContracts());
-        });
+module.exports = async function (deployer) {
 
     let firstAirlineAddress = '0xf17f52151EbEF6C7334FAD080c5704D77216b732';
+    await deployAndInitContracts();
 
-    function setupContracts() {
-        return new Promise(async (resolve, reject) => {
-            try {
-                console.log("Set up contracts ...");
-                await registerTheFirstAirline();
-                publishConfigJsonFiles();
-                resolve();
-            } catch (error) {
-                console.error(error);
-                reject(error);
-            }
-        });
+    async function deployAndInitContracts() {
+        console.log("Set up contracts ...");
+        await deployContracts()
+        await registerTheFirstAirline();
+        publishConfigJsonFiles();
+    }
+
+    async function deployContracts() {
+        await deployer.deploy(FlightSuretyData);
+        await deployer.deploy(FlightSuretyApp, FlightSuretyData.address);
     }
 
     async function registerTheFirstAirline() {
         console.log(`- register the first airline <address: ${firstAirlineAddress}> ...`);
-        //await FlightSuretyData.authorizeContractCaller(FlightSuretyApp.address);
-        //await FlightSuretyApp.registerTheFirstAirline(firstAirlineAddress, "First Airline");
+
+        /*
+        // https://ethereum.stackexchange.com/questions/67487/solidity-truffle-call-contract-function-in-migration-file
+
+        let flightSuretyData = await FlightSuretyData.new();
+        let flightSuretyApp = await FlightSuretyApp.new(flightSuretyData.address);
+
+        await flightSuretyData.authorizeContractCaller(FlightSuretyApp.address);
+        await flightSuretyApp.registerTheFirstAirline(firstAirlineAddress, "First Airline");
+
+         */
     }
 
     function publishConfigJsonFiles() {
