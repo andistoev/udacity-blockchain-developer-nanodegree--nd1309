@@ -5,45 +5,52 @@ import express from 'express';
 
 // === GLOBAL VARIABLES ===
 
-let config = Config['localhost'];
-let web3 = new Web3(new Web3.providers.WebsocketProvider(config.url.replace('http', 'ws')));
+const FIRST_ORACLE_ACCOUNT_IDX = 20;
+const ORACLES_COUNT = 30;
+
+const config = Config['localhost'];
+const web3 = new Web3(new Web3.providers.WebsocketProvider(config.url.replace('http', 'ws')));
+const ONE_ETHER = web3.utils.toWei("1", "ether");
 
 let accounts = await web3.eth.getAccounts();
-
 web3.eth.defaultAccount = accounts[0];
 console.log(`Default account = ${web3.eth.defaultAccount}`);
 
 let flightSuretyApp = new web3.eth.Contract(FlightSuretyApp.abi, config.appAddress);
 
 await registerEventListeners();
-
-const FIRST_ORACLE_ACCOUNT_IDX = 20;
-const ORACLES_COUNT = 30;
-
 registerOracles();
-
-// === APP ===
-
-const app = express();
-app.get('/api', (req, res) => {
-    res.send({
-        message: 'An API for use with your Dapp v3!'
-    })
-});
-
-export default app;
 
 // === PRIVATE METHODS ===
 
 function registerOracles() {
-    let oneEther = web3.utils.toWei("1", "ether");
-    console.log(`Register oracles paying ${oneEther} ...`);
+    console.log(`Register oracles paying ${ONE_ETHER} ...`);
 
     for (let i = 0; i < ORACLES_COUNT; i++) {
         let oracleAddress = accounts[FIRST_ORACLE_ACCOUNT_IDX + i];
-        console.log(`${i + 1}. Register oracle ${oracleAddress}`);
-        flightSuretyApp.methods.registerOracle().send({value: oneEther, from: oracleAddress, gas: 3000000});
+        registerOracle(i + 1, oracleAddress);
     }
+}
+
+function registerOracle(idx, oracleAddress) {
+    console.log(`${idx}. Register oracle ${oracleAddress}`);
+    flightSuretyApp.methods
+        .registerOracle()
+        .send({from: oracleAddress, value: ONE_ETHER, gas: 3000000}, (error, result) => {
+            if (error) throw error;
+            fetchOracleIndexes(oracleAddress);
+        });
+}
+
+function fetchOracleIndexes(oracleAddress) {
+    flightSuretyApp.methods.getMyIndexes().call({from: oracleAddress}, (error, result) => {
+        if (error) throw error;
+        console.log(`=> oracleAddress = ${oracleAddress}, result = ${result}`);
+    });
+}
+
+function submitFlightStatusInfoFromMatchingOracles() {
+    console.log("Submitting flight status info from matching oracles");
 }
 
 async function registerEventListeners() {
@@ -65,6 +72,7 @@ function flightStatusInfoRequestedHandler(error, event) {
     let result = event.returnValues;
     let msg = `index: ${result.index}, airlineAddress: ${result.airlineAddress}, flightNumber: ${result.flightNumber}, departureTime: ${result.departureTime}`;
     showEvent("FlightStatusInfoRequested", msg);
+    submitFlightStatusInfoFromMatchingOracles();
 }
 
 function flightStatusInfoSubmittedHandler(error, event) {
@@ -85,4 +93,13 @@ function showEvent(type, msg) {
     console.log(` => Received event ${type} <${msg}>`);
 }
 
+// === APP ===
 
+const app = express();
+app.get('/api', (req, res) => {
+    res.send({
+        message: 'An API for use with your Dapp v3!'
+    })
+});
+
+export default app;
