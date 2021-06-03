@@ -36,7 +36,7 @@ let accounts = await web3.eth.getAccounts();
 web3.eth.defaultAccount = accounts[0];
 console.log(`Default account = ${web3.eth.defaultAccount}`);
 
-let flightSuretyApp = new web3.eth.Contract(FlightSuretyApp.abi, config.appAddress);
+let appContract = new web3.eth.Contract(FlightSuretyApp.abi, config.appAddress);
 
 await registerEventListeners();
 registerOracles();
@@ -54,7 +54,7 @@ function registerOracles() {
 
 function registerOracle(idx, oracleAddress) {
     console.log(`${idx}. Register oracle ${oracleAddress}`);
-    flightSuretyApp.methods
+    appContract.methods
         .registerOracle()
         .send({from: oracleAddress, value: ONE_ETHER, gas: 3000000}, (error, result) => {
             if (error) throw error;
@@ -63,29 +63,40 @@ function registerOracle(idx, oracleAddress) {
 }
 
 function fetchOracleIndexes(oracleAddress) {
-    flightSuretyApp.methods.getMyIndexes().call({from: oracleAddress}, (error, result) => {
+    appContract.methods.getMyIndexes().call({from: oracleAddress}, (error, result) => {
         if (error) throw error;
         hIndexesByOracleAddress[oracleAddress] = result;
         console.log(`=> oracleAddress = ${oracleAddress}, result = ${result}`);
     });
 }
 
-function submitFlightStatusInfoFromMatchingOracles(requestedIndex) {
+function submitFlightStatusInfoFromMatchingOracles(requestedIndex, flight) {
     console.log(`Submit flight status info from matching oracles to requestedIndex=${requestedIndex}`);
 
     for (let i = 0; i < ORACLES_COUNT; i++) {
         let oracleAddress = accounts[FIRST_ORACLE_ACCOUNT_IDX + i];
         let indexes = hIndexesByOracleAddress[oracleAddress];
         if (indexes.includes(requestedIndex)) {
-            submitFlightStatusInfo(oracleAddress);
+            submitFlightStatusInfo(oracleAddress, requestedIndex, flight);
         }
     }
 }
 
-function submitFlightStatusInfo(oracleAddress) {
+function submitFlightStatusInfo(oracleAddress, requestedIndex, flight) {
     let flightStatusCode = generateRandomFlightStatusCode();
     console.log(`- submit flightStatusCode = <${flightStatusCode}> for oracleAddress = ${oracleAddress}`);
-
+    appContract.methods
+        .submitFlightStatusInfo(
+            requestedIndex,
+            flight.airlineAddress, flight.flightNumber, flight.departureTime,
+            flightStatusCode)
+        .send({from: oracleAddress}, (error, result) => {
+            if (error) {
+                console.log(`=> submitFlightStatusInfo <oracleAddress = ${oracleAddress}: failed. Reason: ${error}`);
+            } else {
+                console.log(`=> submitFlightStatusInfo <oracleAddress = ${oracleAddress}: successful`);
+            }
+        });
 }
 
 function generateRandomFlightStatusCode() {
@@ -98,10 +109,10 @@ function getRandomInt(max) {
 }
 
 async function registerEventListeners() {
-    await flightSuretyApp.events.OracleRegistered(oracleRegisteredHandler);
-    await flightSuretyApp.events.FlightStatusInfoRequested(flightStatusInfoRequestedHandler);
-    await flightSuretyApp.events.FlightStatusInfoSubmitted(flightStatusInfoSubmittedHandler);
-    await flightSuretyApp.events.FlightStatusInfoUpdated(flightStatusInfoUpdatedHandler);
+    await appContract.events.OracleRegistered(oracleRegisteredHandler);
+    await appContract.events.FlightStatusInfoRequested(flightStatusInfoRequestedHandler);
+    await appContract.events.FlightStatusInfoSubmitted(flightStatusInfoSubmittedHandler);
+    await appContract.events.FlightStatusInfoUpdated(flightStatusInfoUpdatedHandler);
 }
 
 function oracleRegisteredHandler(error, event) {
@@ -117,7 +128,13 @@ function flightStatusInfoRequestedHandler(error, event) {
     let msg = `index: ${result.index}, airlineAddress: ${result.airlineAddress}, flightNumber: ${result.flightNumber}, departureTime: ${result.departureTime}`;
     showEvent("FlightStatusInfoRequested", msg);
 
-    submitFlightStatusInfoFromMatchingOracles(result.index);
+    let flight = {
+        airlineAddress: result.airlineAddress,
+        flightNumber: result.flightNumber,
+        departureTime: result.departureTime
+    };
+
+    submitFlightStatusInfoFromMatchingOracles(result.index, flight);
 }
 
 function flightStatusInfoSubmittedHandler(error, event) {
