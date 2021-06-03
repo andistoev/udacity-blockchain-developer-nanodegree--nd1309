@@ -11,7 +11,7 @@ module.exports = async function (deployer) {
     const flight1 = {
         airlineAddress: firstAirlineAddress,
         flightNumber: "EC02689",
-        departureTime: Math.floor(new Date("02 Aug 2021 15:00:00 GMT") / 1000),
+        departureTime: Math.floor(new Date("02 Aug 2021 15:00:00") / 1000),
         origin: "MXP",
         destination: "IBZ"
     };
@@ -19,7 +19,7 @@ module.exports = async function (deployer) {
     const flight2 = {
         airlineAddress: firstAirlineAddress,
         flightNumber: "U202288",
-        departureTime: Math.floor(new Date("02 Aug 2021 16:15:00 GMT") / 1000),
+        departureTime: Math.floor(new Date("02 Aug 2021 16:15:00") / 1000),
         origin: "MXP",
         destination: "LTN"
     };
@@ -27,7 +27,7 @@ module.exports = async function (deployer) {
     const flight3 = {
         airlineAddress: firstAirlineAddress,
         flightNumber: "EC02835",
-        departureTime: Math.floor(new Date("02 Aug 2021 19:40:00 GMT") / 1000),
+        departureTime: Math.floor(new Date("02 Aug 2021 19:40:00") / 1000),
         origin: "MXP",
         destination: "BRI"
     };
@@ -102,9 +102,7 @@ module.exports = async function (deployer) {
                 dataAddress: FlightSuretyData.address,
                 appAddress: FlightSuretyApp.address,
                 firstAirlineAddress: firstAirlineAddress,
-                flight1: flight1,
-                flight2: flight2,
-                flight3: flight3
+                flights: [flight1, flight2, flight3]
             }
         }
         fs.writeFileSync(__dirname + '/../src/dapp/config.json', JSON.stringify(config, null, '\t'), 'utf-8');
