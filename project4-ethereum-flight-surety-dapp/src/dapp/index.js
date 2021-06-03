@@ -9,7 +9,6 @@ import './flightsurety.css';
 
     let contract = new Contract('localhost', () => {
 
-        // Read transaction
         contract.isContractOperational((error, result) => {
             if (error) {
                 throw error;
@@ -25,7 +24,7 @@ import './flightsurety.css';
 
         renderFlightComboboxSelection(contract);
 
-        // User-submitted transaction
+        // SUBMIT TO ORACLE
         DOM.elid('submit-oracle').addEventListener('click', () => {
             let flightIdx = parseInt(DOM.elid('flight-selection').value);
 
@@ -33,10 +32,28 @@ import './flightsurety.css';
                 showResults('Oracles', 'Trigger oracles', [{
                     label: 'Fetch Flight Status Info',
                     error: error,
-                    value: contract.getFlightInfo(flightIdx)
+                    value: contract.getFlightDescriptionByIdx(flightIdx)
                 }]);
             });
-        })
+        });
+
+        // LISTEN TO ORACLE RESULTS
+        contract.subscribeToFlightStatusInfoUpdatedEvent((error, event) => {
+            if (error) {
+                throw error;
+            }
+
+            let result = event.returnValues;
+            let msg = `airlineAddress: ${result.airlineAddress}, flightNumber: ${result.flightNumber}, departureTime: ${result.departureTime}, flightStatus: ${result.flightStatus}`;
+            console.log(` => Received event FlightStatusInfoUpdated <${msg}>`);
+
+            showResults('Oracles', 'Response from oracles', [{
+                label: 'Flight Status Info Updated',
+                error: error,
+                value: contract.getFlightStatusInfo(result.flightNumber, result.departureTime, result.flightStatus)
+            }]);
+
+        });
 
     });
 
@@ -47,7 +64,7 @@ function renderFlightComboboxSelection(contract) {
     let flightSelectionDiv = DOM.elid("flight-selection");
 
     for (let idx = 0; idx < contract.flights.length; idx++) {
-        flightSelectionDiv.appendChild(DOM.option({'value': "" + idx}, contract.getFlightInfo(idx)));
+        flightSelectionDiv.appendChild(DOM.option({'value': "" + idx}, contract.getFlightDescriptionByIdx(idx)));
     }
 }
 

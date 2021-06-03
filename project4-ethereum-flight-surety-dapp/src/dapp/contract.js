@@ -8,13 +8,22 @@ export default class Contract {
 
         let config = Config[network];
 
-        this.web3 = new Web3(new Web3.providers.HttpProvider(config.url));
+        this.web3 = new Web3(new Web3.providers.WebsocketProvider(config.url.replace('http', 'ws')));
         this.flightSuretyApp = new this.web3.eth.Contract(FlightSuretyApp.abi, config.appAddress);
         this.initialize(callback);
         this.owner = null;
         this.firstAirlineAddress = config.firstAirlineAddress;
         this.passengerAddress = null;
         this.flights = config.flights;
+
+        this.hFlightStatusCodeDescription = {
+            '0': 'STATUS_CODE_UNKNOWN (0) => Sorry! Credit withdraw NOT authorized!',
+            '10': 'STATUS_CODE_ON_TIME (10) => Sorry! Credit withdraw NOT authorized!',
+            '20': 'STATUS_CODE_LATE_AIRLINE (20) => YEAH! Credit withdraw authorized!',
+            '30': 'STATUS_CODE_LATE_WEATHER (30) => Sorry! Credit withdraw NOT authorized!',
+            '40': 'STATUS_CODE_LATE_TECHNICAL (40) => Sorry! Credit withdraw NOT authorized!',
+            '50': 'STATUS_CODE_LATE_OTHER (50) => Sorry! Credit withdraw NOT authorize!'
+        };
     }
 
     initialize(callback) {
@@ -44,7 +53,11 @@ export default class Contract {
             .call({from: self.passengerAddress}, callback);
     }
 
-    getFlightInfo(flightIdx) {
+    getFlightStatusInfo(flightNumber, flightDepartureTime, status) {
+        return `Flight <${flightDepartureTime} | ${flightNumber}> has ${this.hFlightStatusCodeDescription[status]}`;
+    }
+
+    getFlightDescriptionByIdx(flightIdx) {
         if (!Number.isInteger(flightIdx) || flightIdx < 0 || flightIdx > this.flights.length - 1) {
             throw new Error("Invalid flight requested");
         }
@@ -59,12 +72,17 @@ export default class Contract {
 
         let flight = self.flights[parseInt(flightIdx)];
 
-        console.log(`Request flight status info for flight = <${self.getFlightInfo(parseInt(flightIdx))}> from address=${self.passengerAddress}`);
+        console.log(`Request flight status info for flight = <${self.getFlightDescriptionByIdx(parseInt(flightIdx))}> from address=${self.passengerAddress}`);
 
         self.flightSuretyApp.methods
             .requestFlightStatusInfo(flight.airlineAddress, flight.flightNumber, flight.departureTime)
             .send({from: self.passengerAddress}, (error, result) => {
                 callback(error, flight);
             });
+    }
+
+    subscribeToFlightStatusInfoUpdatedEvent(callback) {
+        console.log("Subscribe to FlightStatusInfoUpdatedEvent ...");
+        this.flightSuretyApp.events.FlightStatusInfoUpdated(callback);
     }
 }
