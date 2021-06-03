@@ -9,9 +9,8 @@ export default class Contract {
         let config = Config[network];
 
         this.web3 = new Web3(new Web3.providers.WebsocketProvider(config.url.replace('http', 'ws')));
-        this.flightSuretyApp = new this.web3.eth.Contract(FlightSuretyApp.abi, config.appAddress);
+        this.appContract = new this.web3.eth.Contract(FlightSuretyApp.abi, config.appAddress);
         this.initialize(callback);
-        this.owner = null;
         this.firstAirlineAddress = config.firstAirlineAddress;
         this.passengerAddress = null;
         this.flights = config.flights;
@@ -34,8 +33,6 @@ export default class Contract {
 
             console.log(`Retrieved accounts: <0: ${accts[0]}, 1: ${accts[1]}, 2: ${accts[2]}, firstAirlineAddress: ${self.firstAirlineAddress}> ...`);
 
-            this.owner = accts[0];
-
             if (accts[1] != self.firstAirlineAddress) {
                 throw new Error(`dApp can not be initialized. The account[1] must match the already registered firstAirlineAddress`);
             }
@@ -50,7 +47,7 @@ export default class Contract {
         let self = this;
         console.log(`Check isContractOperational from address=${self.passengerAddress}`);
 
-        self.flightSuretyApp.methods
+        self.appContract.methods
             .isContractOperational()
             .call({from: self.passengerAddress}, callback);
     }
@@ -76,7 +73,7 @@ export default class Contract {
 
         console.log(`Buy flight insurance for flight = <${self.getFlightDescriptionByIdx(parseInt(flightIdx))}> from address=${self.passengerAddress} paying ${self.ONE_ETHER} wei`);
 
-        self.flightSuretyApp.methods
+        self.appContract.methods
             .buyFlightInsurance(flight.airlineAddress, flight.flightNumber, flight.departureTime)
             .send({from: self.passengerAddress, value: self.ONE_ETHER}, (error, result) => {
                 if (error) {
@@ -93,7 +90,7 @@ export default class Contract {
 
         console.log(`Request flight status info for flight = <${self.getFlightDescriptionByIdx(parseInt(flightIdx))}> from address=${self.passengerAddress}`);
 
-        self.flightSuretyApp.methods
+        self.appContract.methods
             .requestFlightStatusInfo(flight.airlineAddress, flight.flightNumber, flight.departureTime)
             .send({from: self.passengerAddress}, (error, result) => {
                 callback(error, flight);
@@ -107,7 +104,7 @@ export default class Contract {
 
         console.log(`Withdraw flight insurance credit for flight = <${self.getFlightDescriptionByIdx(parseInt(flightIdx))}> from address=${self.passengerAddress}`);
 
-        self.flightSuretyApp.methods
+        self.appContract.methods
             .withdrawFlightInsuranceCredit(flight.airlineAddress, flight.flightNumber, flight.departureTime)
             .send({from: self.passengerAddress}, (error, result) => {
                 if (error) {
@@ -119,6 +116,6 @@ export default class Contract {
 
     subscribeToFlightStatusInfoUpdatedEvent(callback) {
         console.log("Subscribe to FlightStatusInfoUpdatedEvent ...");
-        this.flightSuretyApp.events.FlightStatusInfoUpdated(callback);
+        this.appContract.events.FlightStatusInfoUpdated(callback);
     }
 }
