@@ -9,7 +9,8 @@ FlightSurety is flight delay insurance for passengers.
 
 This is the 4th project from
 the [Udacity - Blockchain Developer Nanodegree Program](https://www.udacity.com/course/blockchain-developer-nanodegree--nd1309)
-.
+
+![flight surety dapp1](res/flight-surety-dapp1.jpg)
 
 ## Structure
 
@@ -62,6 +63,16 @@ To use the dApp:
 To view the dApp:
 
 `http://localhost:8000`
+
+## User Interface
+
+### Successful flight credit insurance withdraw
+
+![flight surety dapp2](res/flight-surety-dapp2.jpg)
+
+### The accepted result from the oracles is STATUS_CODE_LATE_AIRLINE (20)
+
+![flight surety oracle](res/flight-surety-oracle.png)
 
 ## Resources
 
