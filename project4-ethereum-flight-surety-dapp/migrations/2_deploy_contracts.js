@@ -8,29 +8,113 @@ module.exports = async function (deployer) {
 
     const firstAirlineAddress = '0xf17f52151EbEF6C7334FAD080c5704D77216b732';
 
-    const flight1 = {
-        airlineAddress: firstAirlineAddress,
-        flightNumber: "EC02689",
-        departureTime: Math.floor(new Date("02 Aug 2021 15:00:00") / 1000),
-        origin: "MXP",
-        destination: "IBZ"
-    };
-
-    const flight2 = {
-        airlineAddress: firstAirlineAddress,
-        flightNumber: "U202288",
-        departureTime: Math.floor(new Date("02 Aug 2021 16:15:00") / 1000),
-        origin: "MXP",
-        destination: "LTN"
-    };
-
-    const flight3 = {
-        airlineAddress: firstAirlineAddress,
-        flightNumber: "EC02835",
-        departureTime: Math.floor(new Date("02 Aug 2021 19:40:00") / 1000),
-        origin: "MXP",
-        destination: "BRI"
-    };
+    const flights = [
+        {
+            airlineAddress: firstAirlineAddress,
+            flightNumber: "EC02689",
+            departureTime: Math.floor(new Date("02 Aug 2021 15:00:00") / 1000),
+            origin: "MXP",
+            destination: "IBZ"
+        },
+        {
+            airlineAddress: firstAirlineAddress,
+            flightNumber: "U202288",
+            departureTime: Math.floor(new Date("02 Aug 2021 16:15:00") / 1000),
+            origin: "MXP",
+            destination: "LTN"
+        },
+        {
+            airlineAddress: firstAirlineAddress,
+            flightNumber: "EC02835",
+            departureTime: Math.floor(new Date("02 Aug 2021 19:40:00") / 1000),
+            origin: "MXP",
+            destination: "BRI"
+        },
+        {
+            airlineAddress: firstAirlineAddress,
+            flightNumber: "EC02689",
+            departureTime: Math.floor(new Date("03 Aug 2021 15:00:00") / 1000),
+            origin: "MXP",
+            destination: "IBZ"
+        },
+        {
+            airlineAddress: firstAirlineAddress,
+            flightNumber: "U202288",
+            departureTime: Math.floor(new Date("03 Aug 2021 16:15:00") / 1000),
+            origin: "MXP",
+            destination: "LTN"
+        },
+        {
+            airlineAddress: firstAirlineAddress,
+            flightNumber: "EC02835",
+            departureTime: Math.floor(new Date("03 Aug 2021 19:40:00") / 1000),
+            origin: "MXP",
+            destination: "BRI"
+        },
+        {
+            airlineAddress: firstAirlineAddress,
+            flightNumber: "EC02689",
+            departureTime: Math.floor(new Date("04 Aug 2021 15:00:00") / 1000),
+            origin: "MXP",
+            destination: "IBZ"
+        },
+        {
+            airlineAddress: firstAirlineAddress,
+            flightNumber: "U202288",
+            departureTime: Math.floor(new Date("04 Aug 2021 16:15:00") / 1000),
+            origin: "MXP",
+            destination: "LTN"
+        },
+        {
+            airlineAddress: firstAirlineAddress,
+            flightNumber: "EC02835",
+            departureTime: Math.floor(new Date("04 Aug 2021 19:40:00") / 1000),
+            origin: "MXP",
+            destination: "BRI"
+        },
+        {
+            airlineAddress: firstAirlineAddress,
+            flightNumber: "EC02689",
+            departureTime: Math.floor(new Date("05 Aug 2021 15:00:00") / 1000),
+            origin: "MXP",
+            destination: "IBZ"
+        },
+        {
+            airlineAddress: firstAirlineAddress,
+            flightNumber: "U202288",
+            departureTime: Math.floor(new Date("05 Aug 2021 16:15:00") / 1000),
+            origin: "MXP",
+            destination: "LTN"
+        },
+        {
+            airlineAddress: firstAirlineAddress,
+            flightNumber: "EC02835",
+            departureTime: Math.floor(new Date("05 Aug 2021 19:40:00") / 1000),
+            origin: "MXP",
+            destination: "BRI"
+        },
+        {
+            airlineAddress: firstAirlineAddress,
+            flightNumber: "EC02689",
+            departureTime: Math.floor(new Date("06 Aug 2021 15:00:00") / 1000),
+            origin: "MXP",
+            destination: "IBZ"
+        },
+        {
+            airlineAddress: firstAirlineAddress,
+            flightNumber: "U202288",
+            departureTime: Math.floor(new Date("06 Aug 2021 16:15:00") / 1000),
+            origin: "MXP",
+            destination: "LTN"
+        },
+        {
+            airlineAddress: firstAirlineAddress,
+            flightNumber: "EC02835",
+            departureTime: Math.floor(new Date("06 Aug 2021 19:40:00") / 1000),
+            origin: "MXP",
+            destination: "BRI"
+        }
+    ];
 
     // CONTRACT DEPLOYMENT
 
@@ -49,9 +133,9 @@ module.exports = async function (deployer) {
     await registerTheFirstAirline();
     await fundTheFirstAirline();
 
-    await registerFlight(flight1);
-    await registerFlight(flight2);
-    await registerFlight(flight3);
+    for (let idx = 0; idx < flights.length; idx++) {
+        await registerFlight(flights[idx]);
+    }
 
     // CONFIG DISTRIBUTION
 
@@ -102,7 +186,7 @@ module.exports = async function (deployer) {
                 dataAddress: FlightSuretyData.address,
                 appAddress: FlightSuretyApp.address,
                 firstAirlineAddress: firstAirlineAddress,
-                flights: [flight1, flight2, flight3]
+                flights: flights
             }
         }
         fs.writeFileSync(__dirname + '/../src/dapp/config.json', JSON.stringify(config, null, '\t'), 'utf-8');
