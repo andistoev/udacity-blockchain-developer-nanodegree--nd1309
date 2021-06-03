@@ -32,7 +32,7 @@ import './flightsurety.css';
                 showResults('Flight insurance', 'Buy flight insurance for 1 eth', [{
                     label: 'Status',
                     error: error,
-                    value: result
+                    value: `Flight insurance for <${contract.getFlightDescriptionByIdx(flightIdx)}> successfully purchased!`
                 }]);
             });
         });
@@ -58,7 +58,7 @@ import './flightsurety.css';
                 showResults('Flight insurance', 'Withdraw flight insurance credit', [{
                     label: 'Status',
                     error: error,
-                    value: result
+                    value: `Flight insurance credit for <${contract.getFlightDescriptionByIdx(flightIdx)}> successfully withdrawn!`
                 }]);
             });
         });

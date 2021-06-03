@@ -79,7 +79,7 @@ export default class Contract {
                 if (error) {
                     console.error(error);
                 }
-                callback(error, "successful");
+                callback(error, flight);
             });
     }
 
