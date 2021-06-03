@@ -86,8 +86,10 @@ abstract contract OracleController is BaseAppInsuranceController, BaseOracleList
 
         // Generate a unique key for storing the request
         bytes32 oracleKey = getOracleKey(index, airlineAddress, flightNumber, departureTime);
-
         FlightStatusInfo storage oracleFlightStatusInfo = oracleFlightStatusInfos[oracleKey];
+
+        require(!oracleFlightStatusInfo.isRequested, "Can not request flight status info with the same index twice");
+
         require(oracleFlightStatusInfo.requester == address(0), "The same oracle request to request flight information cannot be done twice");
 
         oracleFlightStatusInfo.isRequested = true;
