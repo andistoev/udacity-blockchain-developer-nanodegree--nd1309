@@ -66,6 +66,22 @@ export default class Contract {
         return `${flightDepartureTime} | ${flight.origin} -> ${flight.destination} | ${flight.flightNumber}`;
     }
 
+    getUserBalance(callback) {
+        let self = this;
+        let balance = this.web3.eth.getBalance(this.passengerAddress, function (error, result) {
+            if (error) {
+                console.log(error);
+                callback(error, null);
+                return;
+            }
+
+            let balanceInWei = result;
+            let balanceInEth = self.web3.utils.fromWei(balanceInWei, 'ether');
+
+            callback(error, balanceInEth);
+        });
+    }
+
     buyFlightInsurance(flightIdx, callback) {
         let self = this;
 
