@@ -22,6 +22,7 @@ abstract contract AppInsuranceController is BaseAppInsuranceController, BaseAppI
 
     struct Flight {
         bool isRegistered;
+        bool isClosed;
 
         address airlineAddress;
         string flightNumber;
@@ -49,6 +50,7 @@ abstract contract AppInsuranceController is BaseAppInsuranceController, BaseAppI
 
         flights[insuredObjectKey] = Flight(
             true,
+            false,
             airlineAddress,
             flightNumber,
             departureTime,
@@ -96,6 +98,14 @@ abstract contract AppInsuranceController is BaseAppInsuranceController, BaseAppI
 
     function requireRegisteredFlight(bytes32 flightKey) view internal override {
         require(flights[flightKey].isRegistered, "The flight has not been registered");
+    }
+
+    function requireNotClosedFlight(bytes32 flightKey) view internal override {
+        require(!flights[flightKey].isClosed, "The flight has been already closed");
+    }
+
+    function closeFlight(bytes32 flightKey) internal override {
+        flights[flightKey].isClosed = true;
     }
 
 }

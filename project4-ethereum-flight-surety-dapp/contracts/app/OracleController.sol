@@ -81,6 +81,7 @@ abstract contract OracleController is BaseAppInsuranceController, BaseOracleList
     function requestFlightStatusInfo(address airlineAddress, string calldata flightNumber, uint256 departureTime) external requireIsOperational {
         bytes32 flightKey = getFlightKey(airlineAddress, flightNumber, departureTime);
         requireRegisteredFlight(flightKey);
+        requireNotClosedFlight(flightKey);
 
         uint8 index = getRandomIndex(msg.sender, ORACLE_RANDOM_INDEX_CEIL);
 
@@ -106,6 +107,7 @@ abstract contract OracleController is BaseAppInsuranceController, BaseOracleList
     function submitFlightStatusInfo(uint8 index, address airlineAddress, string calldata flightNumber, uint256 departureTime, uint8 statusCode) external requireIsOperational {
         bytes32 flightKey = getFlightKey(airlineAddress, flightNumber, departureTime);
         requireRegisteredFlight(flightKey);
+        requireNotClosedFlight(flightKey);
 
         require((oracles[msg.sender].indexes[0] == index) || (oracles[msg.sender].indexes[1] == index) || (oracles[msg.sender].indexes[2] == index), "Index does not match oracle request");
 
@@ -118,6 +120,7 @@ abstract contract OracleController is BaseAppInsuranceController, BaseOracleList
         emit FlightStatusInfoSubmitted(airlineAddress, flightNumber, departureTime, statusCode);
 
         if (oracleFlightStatusInfos[oracleKey].responses[statusCode].length >= ORACLE_RESPONSES_REQUIRED_FOR_VALIDATION) {
+            closeFlight(flightKey);
             oracleFlightStatusInfos[oracleKey].isOpen = false;
             emit FlightStatusInfoUpdated(airlineAddress, flightNumber, departureTime, statusCode);
             processFlightStatusInfoUpdated(airlineAddress, flightNumber, departureTime, statusCode);
