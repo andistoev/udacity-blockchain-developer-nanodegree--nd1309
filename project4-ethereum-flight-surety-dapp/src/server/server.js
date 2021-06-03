@@ -5,8 +5,8 @@ import express from 'express';
 
 // === GLOBAL VARIABLES ===
 
-const FIRST_ORACLE_ACCOUNT_IDX = 20;
-const ORACLES_COUNT = 30;
+const FIRST_ORACLE_ACCOUNT_IDX = 10;
+const ORACLES_COUNT = 40;
 
 const FlightStatusCode = {
     STATUS_CODE_UNKNOWN: 0,
@@ -27,6 +27,7 @@ const flightStatusCodeArr = [
 ];
 
 let hIndexesByOracleAddress = {};
+let hRelativeIdxByOracleAddress = {};
 
 const config = Config['localhost'];
 const web3 = new Web3(new Web3.providers.WebsocketProvider(config.url.replace('http', 'ws')));
@@ -54,6 +55,8 @@ function registerOracles() {
 
 function registerOracle(idx, oracleAddress) {
     console.log(`${idx}. Register oracle ${oracleAddress}`);
+    hRelativeIdxByOracleAddress[oracleAddress] = idx;
+
     appContract.methods
         .registerOracle()
         .send({from: oracleAddress, value: ONE_ETHER, gas: 3000000}, (error, result) => {
@@ -66,7 +69,8 @@ function fetchOracleIndexes(oracleAddress) {
     appContract.methods.getMyIndexes().call({from: oracleAddress}, (error, result) => {
         if (error) throw error;
         hIndexesByOracleAddress[oracleAddress] = result;
-        console.log(`=> oracleAddress = ${oracleAddress}, result = ${result}`);
+        let idx = hRelativeIdxByOracleAddress[oracleAddress];
+        console.log(`=> ${idx}. Fetched indexes for oracleAddress = ${oracleAddress}, result = ${result}`);
     });
 }
 
@@ -84,7 +88,8 @@ function submitFlightStatusInfoFromMatchingOracles(requestedIndex, flight) {
 
 function submitFlightStatusInfo(oracleAddress, requestedIndex, flight) {
     let flightStatusCode = generateRandomFlightStatusCode();
-    console.log(`- submit flightStatusCode = <${flightStatusCode}> for oracleAddress = ${oracleAddress}`);
+    let idx = hRelativeIdxByOracleAddress[oracleAddress];
+    console.log(`- ${idx}. Submit flightStatusCode = <${flightStatusCode}> for oracleAddress = ${oracleAddress}`);
     appContract.methods
         .submitFlightStatusInfo(
             requestedIndex,
@@ -92,9 +97,9 @@ function submitFlightStatusInfo(oracleAddress, requestedIndex, flight) {
             flightStatusCode)
         .send({from: oracleAddress}, (error, result) => {
             if (error) {
-                console.log(`=> submitFlightStatusInfo <oracleAddress = ${oracleAddress}: failed. Reason: ${error}`);
+                console.log(`=> ${idx}. SubmitFlightStatusInfo <oracleAddress = ${oracleAddress}: failed. Reason: ${error}`);
             } else {
-                console.log(`=> submitFlightStatusInfo <oracleAddress = ${oracleAddress}: successful`);
+                console.log(`=> ${idx}. SubmitFlightStatusInfo <oracleAddress = ${oracleAddress}: successful`);
             }
         });
 }
@@ -118,7 +123,11 @@ async function registerEventListeners() {
 function oracleRegisteredHandler(error, event) {
     if (error) throw error;
     let result = event.returnValues;
-    let msg = `oracle: ${result.oracleAddress}`;
+
+    let oracleAddress = result.oracleAddress;
+    let idx = hRelativeIdxByOracleAddress[oracleAddress];
+
+    let msg = `${idx}. OracleAddress: ${oracleAddress}`;
     showEvent("OracleRegistered", msg);
 }
 
