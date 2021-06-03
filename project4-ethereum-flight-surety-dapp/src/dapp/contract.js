@@ -66,6 +66,31 @@ export default class Contract {
         return `${flightDepartureTime} | ${flight.origin} -> ${flight.destination} | ${flight.flightNumber}`;
     }
 
+    connectMetamask(callback) {
+        let self = this;
+
+        if (!window.ethereum) {
+            throw new Error("A latest version of metamask plug-in not found in browser!");
+        }
+
+        window.ethereum.request({method: 'eth_requestAccounts'})
+            .then((result) => {
+                console.log(`Compare the result[0] = ${result[0]} from metamask with the expected passengerAddress=${self.passengerAddress}`);
+                if (self.passengerAddress.toUpperCase() != result[0].toUpperCase()) {
+                    let errorMsg = `User did not used the predefined seed in Metamask or selected wrong account (expected Account 3)`;
+                    console.error(errorMsg)
+                    callback(errorMsg, null);
+                } else {
+                    console.log(`Connected to metamask: result[0]=${result[0]}`);
+                    callback(null, "successful");
+                }
+            })
+            .catch((error) => {
+                console.error(`User denied account access: ${error}`)
+                callback(error, null);
+            });
+    }
+
     buyFlightInsurance(flightIdx, callback) {
         let self = this;
 

@@ -24,6 +24,17 @@ import './flightsurety.css';
 
         renderFlightComboboxSelection(contract);
 
+        // CONNECT METAMASK
+        DOM.elid('connect-metamask').addEventListener('click', () => {
+            contract.connectMetamask((error, result) => {
+                showResults('Metamask', 'Connection to Account3 (passenger)', [{
+                    label: 'Status',
+                    error: error,
+                    value: result
+                }]);
+            });
+        });
+
         // BUY INSURANCE
         DOM.elid('buy-insurance').addEventListener('click', () => {
             let flightIdx = parseInt(DOM.elid('flight-selection').value);
