@@ -16,20 +16,21 @@ import './flightsurety.css';
             }
 
             console.log(`isContractOperational.result=${result}`);
-            display('Operational Status', 'Check if contract is operational', [{
+            showResults('Operational Status', 'Check if contract is operational', [{
                 label: 'Operational Status',
                 error: error,
                 value: result
             }]);
         });
 
+        renderFlightComboboxSelection(contract);
 
         // User-submitted transaction
         DOM.elid('submit-oracle').addEventListener('click', () => {
-            let flightIdx = parseInt(DOM.elid('flightIdx').value);
+            let flightIdx = parseInt(DOM.elid('flight-selection').value);
 
             contract.requestFlightStatusInfo(flightIdx, (error, flight) => {
-                display('Oracles', 'Trigger oracles', [{
+                showResults('Oracles', 'Trigger oracles', [{
                     label: 'Fetch Flight Status Info',
                     error: error,
                     value: contract.getFlightInfo(flightIdx)
@@ -42,8 +43,15 @@ import './flightsurety.css';
 
 })();
 
+function renderFlightComboboxSelection(contract) {
+    let flightSelectionDiv = DOM.elid("flight-selection");
 
-function display(title, description, results) {
+    for (let idx = 0; idx < contract.flights.length; idx++) {
+        flightSelectionDiv.appendChild(DOM.option({'value': "" + idx}, contract.getFlightInfo(idx)));
+    }
+}
+
+function showResults(title, description, results) {
     let displayDiv = DOM.elid("display-wrapper");
     let section = DOM.section();
     section.appendChild(DOM.h2(title));
@@ -57,10 +65,3 @@ function display(title, description, results) {
     displayDiv.append(section);
 
 }
-
-
-
-
-
-
-

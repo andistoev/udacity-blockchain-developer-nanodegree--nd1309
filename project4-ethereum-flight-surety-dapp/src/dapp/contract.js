@@ -51,7 +51,7 @@ export default class Contract {
 
         let flight = this.flights[flightIdx];
         let flightDepartureTime = moment(flight.departureTime * 1000).format("Do MMM HH:mm");
-        return `departureTime: ${flightDepartureTime}, destination: ${flight.origin} -> ${flight.destination}, flightNumber: ${flight.flightNumber}`;
+        return `${flightDepartureTime} | ${flight.origin} -> ${flight.destination} | ${flight.flightNumber}`;
     }
 
     requestFlightStatusInfo(flightIdx, callback) {
