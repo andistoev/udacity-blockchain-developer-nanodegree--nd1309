@@ -16,6 +16,8 @@ export default class Contract {
         this.passengerAddress = null;
         this.flights = config.flights;
 
+        this.ONE_ETHER = this.web3.utils.toWei("1", "ether");
+
         this.hFlightStatusCodeDescription = {
             '0': 'STATUS_CODE_UNKNOWN (0) => Sorry! Credit withdraw NOT authorized!',
             '10': 'STATUS_CODE_ON_TIME (10) => Sorry! Credit withdraw NOT authorized!',
@@ -65,6 +67,23 @@ export default class Contract {
         let flight = this.flights[flightIdx];
         let flightDepartureTime = moment(flight.departureTime * 1000).format("Do MMM HH:mm");
         return `${flightDepartureTime} | ${flight.origin} -> ${flight.destination} | ${flight.flightNumber}`;
+    }
+
+    buyFlightInsurance(flightIdx, callback) {
+        let self = this;
+
+        let flight = self.flights[parseInt(flightIdx)];
+
+        console.log(`Buy flight insurance for flight = <${self.getFlightDescriptionByIdx(parseInt(flightIdx))}> from address=${self.passengerAddress} paying ${self.ONE_ETHER} wei`);
+
+        self.flightSuretyApp.methods
+            .buyFlightInsurance(flight.airlineAddress, flight.flightNumber, flight.departureTime)
+            .send({from: self.passengerAddress, value: self.ONE_ETHER}, (error, result) => {
+                if (error) {
+                    console.error(error);
+                }
+                callback(error, flight);
+            });
     }
 
     requestFlightStatusInfo(flightIdx, callback) {

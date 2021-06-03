@@ -24,6 +24,19 @@ import './flightsurety.css';
 
         renderFlightComboboxSelection(contract);
 
+        // BUY INSURANCE
+        DOM.elid('buy-insurance').addEventListener('click', () => {
+            let flightIdx = parseInt(DOM.elid('flight-selection').value);
+
+            contract.buyFlightInsurance(flightIdx, (error, result) => {
+                showResults('Flight insurance', 'Buy flight insurance for 1 eth', [{
+                    label: 'Status',
+                    error: error,
+                    value: result
+                }]);
+            });
+        });
+
         // SUBMIT TO ORACLE
         DOM.elid('submit-oracle').addEventListener('click', () => {
             let flightIdx = parseInt(DOM.elid('flight-selection').value);
