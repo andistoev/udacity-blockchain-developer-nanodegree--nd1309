@@ -78,7 +78,7 @@ export default class Contract {
                 console.log(`Compare the result[0] = ${result[0]} from metamask with the expected passengerAddress=${self.passengerAddress}`);
                 if (self.passengerAddress.toUpperCase() != result[0].toUpperCase()) {
                     let errorMsg = `User did not used the predefined seed in Metamask or selected wrong account (expected Account 3)`;
-                    console.error(errorMsg)
+                    console.error(errorMsg);
                     callback(errorMsg, null);
                 } else {
                     console.log(`Connected to metamask: result[0]=${result[0]}`);
