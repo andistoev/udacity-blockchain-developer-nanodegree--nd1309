@@ -95,7 +95,7 @@ function submitFlightStatusInfo(oracleAddress, requestedIndex, flight) {
             requestedIndex,
             flight.airlineAddress, flight.flightNumber, flight.departureTime,
             flightStatusCode)
-        .send({from: oracleAddress}, (error, result) => {
+        .send({from: oracleAddress, gas: 3000000}, (error, result) => {
             if (error) {
                 console.log(`=> ${idx}. SubmitFlightStatusInfo <oracleAddress = ${oracleAddress}: failed. Reason: ${error}`);
             } else {
