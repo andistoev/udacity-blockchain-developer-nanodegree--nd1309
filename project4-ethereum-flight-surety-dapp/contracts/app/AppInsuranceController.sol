@@ -5,8 +5,9 @@ import "./base/BaseAppContract.sol";
 import "./base/BaseOracleListenerHandler.sol";
 import "./base/BaseAppInsurerController.sol";
 import "../shared/PayableContract.sol";
+import "./base/BaseAppInsuranceController.sol";
 
-abstract contract AppInsuranceController is BaseOracleListenerHandler, BaseAppInsurerController, BaseAppContract, PayableContract {
+abstract contract AppInsuranceController is BaseAppInsuranceController, BaseAppInsurerController, BaseOracleListenerHandler, BaseAppContract, PayableContract {
 
     uint internal constant MIN_INSURANCE_PRICE = 1 wei;
     uint internal constant MAX_INSURANCE_PRICE = 1 ether;
@@ -60,17 +61,17 @@ abstract contract AppInsuranceController is BaseOracleListenerHandler, BaseAppIn
     }
 
     function buyFlightInsurance(address airlineAddress, string memory flightNumber, uint256 departureTime) external payable requireIsOperational {
-        bytes32 insuredObjectKey = getFlightKey(airlineAddress, flightNumber, departureTime);
-        require(flights[insuredObjectKey].isRegistered, "The flight has not been registered");
+        bytes32 flightKey = getFlightKey(airlineAddress, flightNumber, departureTime);
+        requireRegisteredFlight(flightKey);
 
-        suretyDataContract.buyInsurance{value : msg.value}(msg.sender, insuredObjectKey);
+        suretyDataContract.buyInsurance{value : msg.value}(msg.sender, flightKey);
     }
 
     function withdrawFlightInsuranceCredit(address airlineAddress, string memory flightNumber, uint256 departureTime) external requireIsOperational {
-        bytes32 insuredObjectKey = getFlightKey(airlineAddress, flightNumber, departureTime);
-        require(flights[insuredObjectKey].isRegistered, "The flight has not been registered");
+        bytes32 flightKey = getFlightKey(airlineAddress, flightNumber, departureTime);
+        requireRegisteredFlight(flightKey);
 
-        suretyDataContract.withdrawInsuranceCredit(msg.sender, insuredObjectKey);
+        suretyDataContract.withdrawInsuranceCredit(msg.sender, flightKey);
     }
 
     /**
@@ -78,19 +79,23 @@ abstract contract AppInsuranceController is BaseOracleListenerHandler, BaseAppIn
     */
 
     function processFlightStatusInfoUpdated(address airlineAddress, string memory flightNumber, uint256 departureTime, uint8 statusCode) internal override {
-        bytes32 insuredObjectKey = getFlightKey(airlineAddress, flightNumber, departureTime);
-        require(flights[insuredObjectKey].isRegistered, "The flight has not been registered");
+        bytes32 flightKey = getFlightKey(airlineAddress, flightNumber, departureTime);
+        requireRegisteredFlight(flightKey);
 
         if (statusCode == STATUS_CODE_LATE_AIRLINE) {
-            suretyDataContract.approveAllInsuranceCreditWithdraws(insuredObjectKey);
+            suretyDataContract.approveAllInsuranceCreditWithdraws(flightKey);
         }
         else {
-            suretyDataContract.closeAllInsurances(insuredObjectKey);
+            suretyDataContract.closeAllInsurances(flightKey);
         }
     }
 
-    function getFlightKey(address airlineAddress, string memory flightNumber, uint256 departureTime) pure private returns (bytes32){
+    function getFlightKey(address airlineAddress, string memory flightNumber, uint256 departureTime) pure internal override returns (bytes32){
         return keccak256(abi.encodePacked(airlineAddress, flightNumber, departureTime));
+    }
+
+    function requireRegisteredFlight(bytes32 flightKey) view internal override {
+        require(flights[flightKey].isRegistered, "The flight has not been registered");
     }
 
 }

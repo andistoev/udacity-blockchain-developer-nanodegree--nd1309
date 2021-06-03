@@ -5,8 +5,9 @@ import "./base/BaseOracleListenerHandler.sol";
 import "../shared/OwnableContract.sol";
 import "../shared/PayableContract.sol";
 import "./base/BaseAppContract.sol";
+import "./base/BaseAppInsuranceController.sol";
 
-abstract contract OracleController is BaseOracleListenerHandler, BaseAppContract, OwnableContract, PayableContract {
+abstract contract OracleController is BaseAppInsuranceController, BaseOracleListenerHandler, BaseAppContract, OwnableContract, PayableContract {
 
     uint8 public constant ORACLE_RANDOM_INDEX_CEIL = 10;
 
@@ -78,6 +79,9 @@ abstract contract OracleController is BaseOracleListenerHandler, BaseAppContract
 
     // Generate a request for oracles to fetch flightNumber information
     function requestFlightStatusInfo(address airlineAddress, string calldata flightNumber, uint256 departureTime) external requireIsOperational {
+        bytes32 flightKey = getFlightKey(airlineAddress, flightNumber, departureTime);
+        requireRegisteredFlight(flightKey);
+
         uint8 index = getRandomIndex(msg.sender, ORACLE_RANDOM_INDEX_CEIL);
 
         // Generate a unique key for storing the request
@@ -98,6 +102,9 @@ abstract contract OracleController is BaseOracleListenerHandler, BaseAppContract
     // and matches one of the three Indexes randomly assigned to the oracle at the
     // time of registration (i.e. uninvited oracles are not welcome)
     function submitFlightStatusInfo(uint8 index, address airlineAddress, string calldata flightNumber, uint256 departureTime, uint8 statusCode) external requireIsOperational {
+        bytes32 flightKey = getFlightKey(airlineAddress, flightNumber, departureTime);
+        requireRegisteredFlight(flightKey);
+
         require((oracles[msg.sender].indexes[0] == index) || (oracles[msg.sender].indexes[1] == index) || (oracles[msg.sender].indexes[2] == index), "Index does not match oracle request");
 
         bytes32 oracleKey = getOracleKey(index, airlineAddress, flightNumber, departureTime);
