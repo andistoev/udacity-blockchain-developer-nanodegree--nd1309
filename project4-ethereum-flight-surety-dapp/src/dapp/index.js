@@ -50,6 +50,19 @@ import './flightsurety.css';
             });
         });
 
+        // WITHDRAW CREDIT
+        DOM.elid('withdraw-credit').addEventListener('click', () => {
+            let flightIdx = parseInt(DOM.elid('flight-selection').value);
+
+            contract.withdrawFlightInsuranceCredit(flightIdx, (error, result) => {
+                showResults('Flight insurance', 'Withdraw flight insurance credit', [{
+                    label: 'Status',
+                    error: error,
+                    value: result
+                }]);
+            });
+        });
+
         // LISTEN TO ORACLE RESULTS
         contract.subscribeToFlightStatusInfoUpdatedEvent((error, event) => {
             if (error) {

@@ -100,6 +100,23 @@ export default class Contract {
             });
     }
 
+    withdrawFlightInsuranceCredit(flightIdx, callback) {
+        let self = this;
+
+        let flight = self.flights[parseInt(flightIdx)];
+
+        console.log(`Withdraw flight insurance credit for flight = <${self.getFlightDescriptionByIdx(parseInt(flightIdx))}> from address=${self.passengerAddress}`);
+
+        self.flightSuretyApp.methods
+            .withdrawFlightInsuranceCredit(flight.airlineAddress, flight.flightNumber, flight.departureTime)
+            .send({from: self.passengerAddress}, (error, result) => {
+                if (error) {
+                    console.error(error);
+                }
+                callback(error, flight);
+            });
+    }
+
     subscribeToFlightStatusInfoUpdatedEvent(callback) {
         console.log("Subscribe to FlightStatusInfoUpdatedEvent ...");
         this.flightSuretyApp.events.FlightStatusInfoUpdated(callback);

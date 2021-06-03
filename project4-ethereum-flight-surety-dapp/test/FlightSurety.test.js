@@ -368,7 +368,7 @@ contract('Flight Surety Tests', async (accounts) => {
             eventCapture.assertFlightStatusInfoUpdated(4, airlineAddress, flight1.flightNumber, flight1.departureTime, FlightStatusCode.STATUS_CODE_LATE_AIRLINE);
         });
 
-        it('passengers can redraw any funds owed to them as a result of receiving credit for insurance payout', async () => {
+        it('passengers can withdraw any funds owed to them as a result of receiving credit for insurance payout', async () => {
             // given
             let airlineAddress = accounts[flight1.airlineIdx];
             let passengerAddress = accounts[10];
