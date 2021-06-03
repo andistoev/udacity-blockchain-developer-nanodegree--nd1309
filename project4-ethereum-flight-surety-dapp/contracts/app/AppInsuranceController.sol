@@ -65,6 +65,7 @@ abstract contract AppInsuranceController is BaseAppInsuranceController, BaseAppI
     function buyFlightInsurance(address airlineAddress, string memory flightNumber, uint256 departureTime) external payable requireIsOperational {
         bytes32 flightKey = getFlightKey(airlineAddress, flightNumber, departureTime);
         requireRegisteredFlight(flightKey);
+        requireNotClosedFlight(flightKey);
 
         suretyDataContract.buyInsurance{value : msg.value}(msg.sender, flightKey);
     }

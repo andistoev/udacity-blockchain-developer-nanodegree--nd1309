@@ -56,7 +56,7 @@ abstract contract DataInsuranceController is PayableContract, DataOperationalCon
 
         InsuredObject storage insuredObject = insuredObjects[insuredObjectKey];
         require(insuredObject.isRegistered, "The insured object is not registered");
-        require(insuredObject.insurancePolicies[insureeAddress].state == InsurancePolicyState.AVAILABLE, "The same policy cannot be bought twice");
+        require(insuredObject.insurancePolicies[insureeAddress].state == InsurancePolicyState.AVAILABLE, "The same insurance policy cannot be bought twice");
 
         insuredObject.insurancePolicies[insureeAddress] = InsurancePolicy(
             InsurancePolicyState.ACQUIRED,
