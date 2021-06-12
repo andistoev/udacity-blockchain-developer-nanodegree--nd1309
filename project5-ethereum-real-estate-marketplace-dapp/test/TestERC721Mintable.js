@@ -1,4 +1,6 @@
-var PrivacyAssuredRealEstateOwnershipToken = artifacts.require('PrivacyAssuredRealEstateOwnershipToken');
+const truffleAssert = require('truffle-assertions');
+
+const PrivacyAssuredRealEstateOwnershipToken = artifacts.require('PrivacyAssuredRealEstateOwnershipToken');
 
 contract('TestPrivacyAssuredRealEstateOwnershipToken', async (accounts) => {
 
@@ -11,11 +13,11 @@ contract('TestPrivacyAssuredRealEstateOwnershipToken', async (accounts) => {
 
     let contract;
 
-    before(async function () {
-        contract = await PrivacyAssuredRealEstateOwnershipToken.new({from: owner});
-    });
-
     describe('match erc721 spec', function () {
+
+        before(async function () {
+            contract = await PrivacyAssuredRealEstateOwnershipToken.new({from: owner});
+        });
 
         it('should mint tokens', async () => {
             for (let i = 0; i < tokenIds.length; i++) {
@@ -65,8 +67,15 @@ contract('TestPrivacyAssuredRealEstateOwnershipToken', async (accounts) => {
 
     describe('have ownership properties', function () {
 
-        it('should fail when minting when address is not contract owner', async () => {
+        before(async function () {
+            contract = await PrivacyAssuredRealEstateOwnershipToken.new({from: owner});
+        });
 
+        it('should fail when minting when address is not contract owner', async () => {
+            await truffleAssert.reverts(
+                contract.mint(playerTwo, tokenIds[1], {from: playerOne}),
+                "Caller is not contract owner"
+            );
         });
 
         it('should return contract owner', async () => {
