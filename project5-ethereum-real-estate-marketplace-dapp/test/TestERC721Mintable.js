@@ -11,10 +11,11 @@ contract('TestPrivacyAssuredRealEstateOwnershipToken', async (accounts) => {
 
     let contract;
 
+    before(async function () {
+        contract = await PrivacyAssuredRealEstateOwnershipToken.new({from: owner});
+    });
+
     describe('match erc721 spec', function () {
-        before('setup contract', async () => {
-            contract = await PrivacyAssuredRealEstateOwnershipToken.new({from: owner});
-        });
 
         it('should mint tokens', async () => {
             for (let i = 0; i < tokenIds.length; i++) {
@@ -59,19 +60,24 @@ contract('TestPrivacyAssuredRealEstateOwnershipToken', async (accounts) => {
 
             assert.equal(ownerOfTokenId2, playerTwo, "playerTwo is supposed to be the owner here");
         });
+
     });
 
     describe('have ownership properties', function () {
-        before(async function () {
-            contract = await PrivacyAssuredRealEstateOwnershipToken.new({from: playerOne});
-        });
 
         it('should fail when minting when address is not contract owner', async () => {
 
         });
 
         it('should return contract owner', async () => {
+            // given
+            await contract.mint(playerTwo, tokenIds[1], {from: owner});
 
+            // when
+            const ownerOfTokenIds1 = await contract.ownerOf.call(tokenIds[1]);
+
+            // then
+            assert.equal(ownerOfTokenIds1, playerTwo, "playerTwo is supposed to be the owner");
         });
 
     });
