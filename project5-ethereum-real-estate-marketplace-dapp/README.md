@@ -23,7 +23,8 @@ The repository contains:
 Compatible with:
 
 * Truffle v5.3.7 (core: 5.3.7)
-* Solidity v0.8.4 (solc-js)
+* Solidity v0.8.5 (solc-js)
+* OpenZeppelin v4.1.0 (solidity: 0.8.0)
 * Node v16.2.0
 * Web3.js v1.3.6
 * Ganache CLI v6.12.2 (ganache-core: 2.13.2)
@@ -50,7 +51,10 @@ zokrates setup
 zokrates compute-witness -a 3 9
 ```
 
-- Copy 'zokrates/verifier.sol' to 'contracts/SquareVerifier.sol' and upgrade its version to 0.5.17
+- Copy 'zokrates/verifier.sol' to 'contracts/SquareVerifier.sol' and upgrade its version to 0.8.5
+- Copy 'proof.json' as 'fake_proof1.json' and change the inputs to generate fake proof which is not causing exception
+- Copy 'proof.json' as 'fake_proof2.json' and change the proof parameters to generate fake proof which is causing
+  exception
 
 # Project Resources
 
