@@ -148,7 +148,7 @@ contract ERC721 is IERC721, Pausable, ERC165 {
     }
 
     function transferFrom(address from, address to, uint256 tokenId) public override {
-        require(_isApprovedOrOwner(msg.sender, tokenId));
+        require(_isApprovedOrOwner(msg.sender, tokenId), "The caller has to be approved or owner of the token");
 
         _transferFrom(from, to, tokenId);
     }

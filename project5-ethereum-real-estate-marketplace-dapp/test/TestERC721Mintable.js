@@ -47,12 +47,22 @@ contract('TestPrivacyAssuredRealEstateOwnershipToken', async (accounts) => {
         });
 
         it('should transfer token from one owner to another', async function () {
+            // given
+            let ownerOfTokenId2 = await contract.ownerOf.call(tokenIds[2]);
+            assert.equal(ownerOfTokenId2, playerOne, "playerOne is supposed to be the owner here");
 
+            // when
+            await contract.transferFrom(playerOne, playerTwo, tokenIds[2], {from: playerOne});
+
+            // then
+            ownerOfTokenId2 = await contract.ownerOf.call(tokenIds[2]);
+
+            assert.equal(ownerOfTokenId2, playerTwo, "playerTwo is supposed to be the owner here");
         });
     });
 
     describe('have ownership properties', function () {
-        beforeEach(async function () {
+        before(async function () {
             contract = await PrivacyAssuredRealEstateOwnershipToken.new({from: playerOne});
         });
 
