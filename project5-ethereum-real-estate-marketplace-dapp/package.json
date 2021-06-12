@@ -1,0 +1,18 @@
+{
+  "name": "eth-property-marketplace",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "dev": "lite-server",
+    "test": "truffle test"
+  },
+  "keywords": [],
+  "author": "Andrey Stoev",
+  "license": "MIT",
+  "devDependencies": {
+    "@openzeppelin/contracts": "^4.1.0",
+    "debug": "^2.6.9",
+    "lite-server": "2.6.1",
+    "solc": "^0.8.4"
+  }
+}
