@@ -11,17 +11,17 @@ contract('SquareVerifier Test', async (accounts) => {
         verifierContract = await SquareVerifier.new();
     });
 
-    describe('Test SquareVerifier', function () {
+    describe('can verify proof', function () {
 
-        it('can verify genuine proof', async function () {
+        it('should verify genuine proof', async function () {
             await assertProof(genuineProofJson, true);
         });
 
-        it('can recognize fake proof which is not causing exception by contract execution', async function () {
+        it('should recognize fake proof which is not causing exception by contract execution', async function () {
             await assertProof(fakeProofJson1, false);
         });
 
-        it('can recognize fake proof causing exception by contract execution', async function () {
+        it('should recognize fake proof causing exception by contract execution', async function () {
             await assertProof(fakeProofJson2, false);
         });
 
