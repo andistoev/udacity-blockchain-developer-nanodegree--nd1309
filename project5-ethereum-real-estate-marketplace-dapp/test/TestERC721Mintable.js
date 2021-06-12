@@ -4,31 +4,34 @@ contract('TestPrivacyAssuredRealEstateOwnershipToken', async (accounts) => {
 
     const owner = accounts[0];
 
-    const account_one = accounts[1];
-    const account_two = accounts[2];
+    const playerOne = accounts[1];
+    const playerTwo = accounts[2];
 
-    const tokenIds = [0, 1, 2];
+    const tokenIds = [0, 1, 2, 3];
 
     let contract;
 
-    before('setup contract', async () => {
-        contract = await PrivacyAssuredRealEstateOwnershipToken.new({from: owner});
-    });
-
     describe('match erc721 spec', function () {
+        before('setup contract', async () => {
+            contract = await PrivacyAssuredRealEstateOwnershipToken.new({from: owner});
+        });
+
         it('should mint tokens', async () => {
             for (let i = 0; i < tokenIds.length; i++) {
-                await contract.mint(account_one, tokenIds[i], {from: owner});
+                const receiver = (i <= 2) ? playerOne : playerTwo;
+                await contract.mint(receiver, tokenIds[i], {from: owner});
             }
         });
 
         it('should return total supply', async () => {
-            const result = await contract.totalSupply.call();
+            const result = await contract.getTotalSupply.call();
             assert.equal(result, tokenIds.length);
         });
 
         it('should get token balance', async () => {
-
+            assert.equal(await contract.balanceOf.call(owner), 0);
+            assert.equal(await contract.balanceOf.call(playerOne), 3);
+            assert.equal(await contract.balanceOf.call(playerTwo), 1);
         });
 
         // token uri should be complete i.e: https://s3-us-west-2.amazonaws.com/udacity-blockchain/capstone/1
@@ -50,7 +53,7 @@ contract('TestPrivacyAssuredRealEstateOwnershipToken', async (accounts) => {
 
     describe('have ownership properties', function () {
         beforeEach(async function () {
-            this.contract = await PrivacyAssuredRealEstateOwnershipToken.new({from: account_one});
+            contract = await PrivacyAssuredRealEstateOwnershipToken.new({from: playerOne});
         });
 
         it('should fail when minting when address is not contract owner', async () => {
