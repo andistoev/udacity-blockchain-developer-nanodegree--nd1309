@@ -38,9 +38,25 @@ Run:
 
 ## Develop Back-End
 
-###  
+### Testing
 
-### Zokrates
+Start local ethereum blockchain:
+
+`ganache-cli`
+
+To run all tests:
+
+`npm test` or `truffle test`
+
+To run a single test:
+
+`truffle test ./test/TestERC721Mintable.js`
+
+## Develop Front-End
+
+TODO
+
+## Need to rebuild zokrates?
 
 ![zokrates process](res/zokrates-process.png)
 
