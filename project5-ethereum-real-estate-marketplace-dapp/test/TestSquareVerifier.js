@@ -5,10 +5,10 @@ var fakeProofJson2 = require('../zokrates/fake_proof2.json');
 
 contract('SquareVerifier Test', async (accounts) => {
 
-    let verifierContract;
+    let contract;
 
     before('setup contract', async () => {
-        verifierContract = await SquareVerifier.new();
+        contract = await SquareVerifier.new();
     });
 
     describe('can verify proof', function () {
@@ -29,7 +29,7 @@ contract('SquareVerifier Test', async (accounts) => {
             let isProofGeniune = false;
 
             try {
-                isProofGeniune = await verifierContract.verifyTx.call(proofJson.proof.a, proofJson.proof.b, proofJson.proof.c, proofJson.inputs);
+                isProofGeniune = await contract.verifyTx.call(proofJson.proof.a, proofJson.proof.b, proofJson.proof.c, proofJson.inputs);
             } catch (e) {
                 console.warn(`Exception found by contract method execution: ${e}`);
             }

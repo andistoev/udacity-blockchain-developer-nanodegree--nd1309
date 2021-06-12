@@ -122,10 +122,6 @@ contract ERC721 is Pausable, ERC165 {
     // Mapping from token ID to approved address
     mapping(uint256 => address) private _tokenApprovals;
 
-    // Mapping from owner to number of owned token
-    // IMPORTANT: this mapping uses Counters lib which is used to protect overflow when incrementing/decrementing a uint
-    // use the following functions when interacting with Counters: increment(), decrement(), and current() to get the value
-    // see: https://github.com/OpenZeppelin/openzeppelin-solidity/blob/master/contracts/drafts/Counters.sol
     mapping(address => Counters.Counter) private _ownedTokensCount;
 
     // Mapping from owner to operator approvals
@@ -223,15 +219,14 @@ contract ERC721 is Pausable, ERC165 {
         return (spender == owner || getApproved(tokenId) == spender || isApprovedForAll(owner, spender));
     }
 
-    // @dev Internal function to mint a new token
-    // TIP: remember the functions to use for Counters. you can refresh yourself with the link above
     function _mint(address to, uint256 tokenId) internal virtual {
+        require(!_exists(tokenId), "Can not mint the same token twice");
+        require(to != address(0), "Address can not be empty");
 
-        // TODO revert if given tokenId already exists or given address is invalid
+        _tokenOwner[tokenId] = to;
+        _ownedTokensCount[to].increment();
 
-        // TODO mint tokenId to given address & increase token count of owner
-
-        // TODO emit Transfer event
+        emit Transfer(address(0), to, tokenId);
     }
 
     // @dev Internal function to transfer ownership of a given token ID to another address.
@@ -471,20 +466,32 @@ contract ERC721Metadata is ERC721Enumerable, usingOraclize {
 
 
     constructor (string memory name, string memory symbol, string memory baseTokenURI) {
-        // TODO: set instance var values
+        _name = name;
+        _symbol = symbol;
+        _baseTokenURI = baseTokenURI;
 
         _registerInterface(_INTERFACE_ID_ERC721_METADATA);
     }
 
-    // TODO: create external getter functions for name, symbol, and baseTokenURI
+    function getName() external view returns (string memory){
+        return _name;
+    }
 
-    function tokenURI(uint256 tokenId) external view returns (string memory) {
+    function getSymbol() external view returns (string memory){
+        return _symbol;
+    }
+
+    function getBaseTokenURI() external view returns (string memory){
+        return _baseTokenURI;
+    }
+
+    function getTokenURI(uint256 tokenId) external view returns (string memory) {
         require(_exists(tokenId));
         return _tokenURIs[tokenId];
     }
 
     function setTokenURI(uint tokenId) internal {
-        require(_exists(tokenId), "can not set tokenURI for non existent tokenId");
+        require(_exists(tokenId), "can not set tokenURI for non existing tokenId");
         _tokenURIs[tokenId] = strConcat(_baseTokenURI, uint2str(tokenId));
     }
 
