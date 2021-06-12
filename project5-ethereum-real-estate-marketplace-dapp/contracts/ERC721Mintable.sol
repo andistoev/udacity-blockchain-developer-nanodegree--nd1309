@@ -34,9 +34,9 @@ contract Pausable is Ownable {
 
     bool private _paused;
 
-    event Paused();
+    event ContractPaused();
 
-    event Unpaused();
+    event ContractUnpaused();
 
     modifier whenNotPaused() {
         require(!_paused, "Contract is currently paused by the owner");
@@ -58,9 +58,9 @@ contract Pausable is Ownable {
         _paused = pausedValue;
 
         if (_paused) {
-            emit Paused();
+            emit ContractPaused();
         } else {
-            emit Unpaused();
+            emit ContractUnpaused();
         }
     }
 }
