@@ -1,6 +1,6 @@
-# FlightSurety
+# Ethereum FlightSurety
 
-FlightSurety is flight delay insurance for passengers.
+Ethereum FlightSurety is flight delay insurance for passengers.
 
 - Managed as a collaboration between multiple airlines
 - The passengers purchase insurance prior to flight
