@@ -1,11 +1,11 @@
 {
-  "name": "ethflightsurety",
+  "name": "eth-flight-surety-dapp",
   "version": "1.0.0",
   "description": "",
   "directories": {
     "test": "test"
   },
-  "repository": "https://github.com/techbubble/flightsurety",
+  "repository": "https://github.com/andistoev/udacity-blockchain-developer-nanodegree--nd1309/tree/master/project4-ethereum-flight-surety-dapp",
   "license": "MIT",
   "scripts": {
     "test": "truffle test ./test/FlightSurety.test.js",
