@@ -10,7 +10,7 @@
   "author": "Andrey Stoev",
   "license": "MIT",
   "devDependencies": {
-    "lite-server": "2.6.1",
-    "openzeppelin-solidity": "^2.5.1"
+    "@openzeppelin/contracts": "^4.1.0",
+    "lite-server": "2.6.1"
   }
 }
