@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: LGPL-3.0-only
-pragma solidity ^0.5.0;
+pragma solidity ^0.5.17;
 
 /**
  * @title Elliptic curve operations on twist points for alt_bn128
@@ -580,7 +580,7 @@ library Pairing {
     }
 }
 
-contract Verifier {
+contract SquareVerifier {
     using Pairing for *;
     struct VerifyingKey {
         Pairing.G1Point alpha;

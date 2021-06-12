@@ -50,7 +50,7 @@ zokrates setup
 zokrates compute-witness -a 3 9
 ```
 
-- Copy 'zokrates/verifier.sol' to 'contracts/Verifier.sol' and upgrade its version to 0.8.4
+- Copy 'zokrates/verifier.sol' to 'contracts/SquareVerifier.sol' and upgrade its version to 0.5.17
 
 # Project Resources
 
