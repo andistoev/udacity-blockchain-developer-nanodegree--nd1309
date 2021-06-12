@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.4;
+pragma solidity ^0.5.0;
 
 import 'openzeppelin-solidity/contracts/utils/Address.sol';
 import 'openzeppelin-solidity/contracts/drafts/Counters.sol';
@@ -8,26 +8,63 @@ import 'openzeppelin-solidity/contracts/token/ERC721/IERC721Receiver.sol';
 import "./Oraclize.sol";
 
 contract Ownable {
-    //  TODO's
-    //  1) create a private '_owner' variable of type address with a public getter function
-    //  2) create an internal constructor that sets the _owner var to the creater of the contract 
-    //  3) create an 'onlyOwner' modifier that throws if called by any account other than the owner.
-    //  4) fill out the transferOwnership function
-    //  5) create an event that emits anytime ownerShip is transfered (including in the constructor)
+
+    address private _owner;
+
+    event OwnershipTransferred(address newOwner);
+
+    modifier onlyOwner(){
+        require(msg.sender == _owner, "Caller is not contract owner");
+        _;
+    }
+
+    constructor() internal {
+        _owner = msg.sender;
+        emit OwnershipTransferred(_owner);
+    }
 
     function transferOwnership(address newOwner) public onlyOwner {
-        // TODO add functionality to transfer control of the contract to a newOwner.
-        // make sure the new owner is a real address
-
+        require(newOwner != _owner, "The new owner must differ from the current owner");
+        require(newOwner != address(0), "Address can not be empty");
+        _owner = newOwner;
+        emit OwnershipTransferred(_owner);
     }
 }
 
-//  TODO's: Create a Pausable contract that inherits from the Ownable contract
-//  1) create a private '_paused' variable of type bool
-//  2) create a public setter using the inherited onlyOwner modifier 
-//  3) create an internal constructor that sets the _paused variable to false
-//  4) create 'whenNotPaused' & 'paused' modifier that throws in the appropriate situation
-//  5) create a Paused & Unpaused event that emits the address that triggered the event
+contract Pausable is Ownable {
+
+    bool private _paused;
+
+    event Paused();
+
+    event Unpaused();
+
+    modifier whenNotPaused() {
+        require(!_paused, "Contract is currently paused by the owner");
+        _;
+    }
+
+    modifier paused() {
+        require(_paused, "Contract is not currently paused by the owner");
+        _;
+    }
+
+    constructor() internal {
+        _paused = false;
+    }
+
+    function setPaused(bool paused) public onlyOwner {
+        require(paused != _paused, "Contract has been already paused/unpaused");
+
+        _paused = paused;
+
+        if (_paused) {
+            emit Paused();
+        } else {
+            emit Unpaused();
+        }
+    }
+}
 
 contract ERC165 {
     bytes4 private constant _INTERFACE_ID_ERC165 = 0x01ffc9a7;
@@ -420,9 +457,11 @@ contract ERC721Enumerable is ERC165, ERC721 {
 
 contract ERC721Metadata is ERC721Enumerable, usingOraclize {
 
-    // TODO: Create private vars for token _name, _symbol, and _baseTokenURI (string)
+    string private _name;
+    string private _symbol;
+    string private _baseTokenURI;
 
-    // TODO: create private mapping of tokenId's to token uri's called '_tokenURIs'
+    mapping(uint256 => string) private _tokenURIs;
 
     bytes4 private constant _INTERFACE_ID_ERC721_METADATA = 0x5b5e139f;
     /*

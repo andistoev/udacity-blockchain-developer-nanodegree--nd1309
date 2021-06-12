@@ -10,9 +10,10 @@
   "author": "Andrey Stoev",
   "license": "MIT",
   "devDependencies": {
-    "@openzeppelin/contracts": "^4.1.0",
     "debug": "^2.6.9",
     "lite-server": "2.6.1",
-    "solc": "^0.8.4"
+    "openzeppelin-solidity": "^2.2.0",
+    "solc": "^0.5.2",
+    "solc-js": "^0.5.2"
   }
 }
