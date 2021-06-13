@@ -64,16 +64,20 @@ Create in root folder `.rinkeby-infurakey` and `.secret` and run:
 
 ### Deployment info (required for project submission)
 
-- My first rinkeby account (contract
-  owner): [0x637E7075fc1B2D30d23D9Da79581eBE8Df531c89](https://rinkeby.etherscan.io/address/0x637E7075fc1B2D30d23D9Da79581eBE8Df531c89)
-- My second rinkeby account (token
-  buyer): [0xeEFC23Bd910bb99bEBa0dAe9dA67CB5ED6eDe54d](https://rinkeby.etherscan.io/address/0xeEFC23Bd910bb99bEBa0dAe9dA67CB5ED6eDe54d)
-- Contract SquareVerifier
-  v4: [0x7c3f2fEe85378bE7bA697505440B43b9BC6fA2c1](https://rinkeby.etherscan.io/address/0x7c3f2fEe85378bE7bA697505440B43b9BC6fA2c1)
-- Contract SolnSquareVerifier
-  v4: [0xFf21fb7154c2286Fe6F9156A768EB7d6d9ABb5dF](https://rinkeby.etherscan.io/address/0xFf21fb7154c2286Fe6F9156A768EB7d6d9ABb5dF)
-- Contract [SolnSquareVerifier ABI](pareot-contract-abi.json)
-- Log of deployment to rinkeby: [log](rinkeby-deployment-log.md)
+- My rinkeby accounts:
+  - contract owner & token
+    seller: [0x637E7075fc1B2D30d23D9Da79581eBE8Df531c89](https://rinkeby.etherscan.io/address/0x637E7075fc1B2D30d23D9Da79581eBE8Df531c89)
+  - token
+    buyer: [0xeEFC23Bd910bb99bEBa0dAe9dA67CB5ED6eDe54d](https://rinkeby.etherscan.io/address/0xeEFC23Bd910bb99bEBa0dAe9dA67CB5ED6eDe54d)
+- Contract SquareVerifier v4:
+  -
+  address: [0x7c3f2fEe85378bE7bA697505440B43b9BC6fA2c1](https://rinkeby.etherscan.io/address/0x7c3f2fEe85378bE7bA697505440B43b9BC6fA2c1)
+- Contract SolnSquareVerifier v4:
+  -
+  address: [0xFf21fb7154c2286Fe6F9156A768EB7d6d9ABb5dF](https://rinkeby.etherscan.io/address/0xFf21fb7154c2286Fe6F9156A768EB7d6d9ABb5dF)
+  - [event's history](https://rinkeby.etherscan.io/address/0xFf21fb7154c2286Fe6F9156A768EB7d6d9ABb5dF#events)
+  - [abi](pareot-contract-abi.json)
+  - [deployment log](rinkeby-deployment-log.md)
 
 ## Develop Front-End
 
