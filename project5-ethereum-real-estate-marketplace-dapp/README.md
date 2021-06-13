@@ -62,8 +62,10 @@ Create in root folder `.rinkeby-infurakey` and `.secret` and run:
 
 ### Deployment info (required for project submission)
 
-- My rinkeby
-  account: [0x637E7075fc1B2D30d23D9Da79581eBE8Df531c89](https://rinkeby.etherscan.io/address/0x637E7075fc1B2D30d23D9Da79581eBE8Df531c89)
+- My first rinkeby account (contract
+  owner): [0x637E7075fc1B2D30d23D9Da79581eBE8Df531c89](https://rinkeby.etherscan.io/address/0x637E7075fc1B2D30d23D9Da79581eBE8Df531c89)
+- My second rinkeby account (token
+  buyer): [0xeEFC23Bd910bb99bEBa0dAe9dA67CB5ED6eDe54d](https://rinkeby.etherscan.io/address/0xeEFC23Bd910bb99bEBa0dAe9dA67CB5ED6eDe54d)
 - Contract SquareVerifier
   v3: [0xd3171E21A4a8e86524567f5CeB3cdef3a5f5Da2b](https://rinkeby.etherscan.io/address/0xd3171E21A4a8e86524567f5CeB3cdef3a5f5Da2b)
 - Contract SolnSquareVerifier
@@ -81,6 +83,10 @@ Create in root folder `.rinkeby-infurakey` and `.secret` and run:
 - Navigate to [interace with contract](https://www.myetherwallet.com/interface/interact-with-contract)
 - Connect to SolnSquareVerifier address and use [this contract abi](rinkeby-contract-abi.md)
 - Mint some tokens
+
+### Selling on Open Sea
+
+- [token0](https://testnets.opensea.io/assets/0x87b61A0E1F1388875b12a11D1441a0BCb822E618/0)
 
 ## Need to rebuild zokrates?
 
@@ -141,3 +147,4 @@ zokrates generate-proof -w witness/witness-token9 -j proof/proof-token9.json
 * [Docker](https://docs.docker.com/install/)
 * [ZoKrates](https://zokrates.github.io/gettingstarted.html)
 * [OpenSea](https://opensea.io/)
+* [OpenSea DevDoc](https://docs.opensea.io/docs/3-viewing-your-items-on-opensea)

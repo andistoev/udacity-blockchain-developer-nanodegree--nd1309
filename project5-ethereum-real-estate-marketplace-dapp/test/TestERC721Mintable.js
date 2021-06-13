@@ -40,10 +40,10 @@ contract('TestPrivacyAssuredRealEstateOwnershipToken', async (accounts) => {
         // token uri should be complete i.e: https://s3-us-west-2.amazonaws.com/udacity-blockchain/capstone/1
         it('should return token uri', async () => {
             // given
-            const baseTokenURI = await contract.getBaseTokenURI.call();
+            const baseTokenURI = await contract.baseTokenURI.call();
 
             // when
-            const tokenURI = await contract.getTokenURI.call(tokenIds[1]);
+            const tokenURI = await contract.tokenURI.call(tokenIds[1]);
 
             // then
             assert.equal(tokenURI, baseTokenURI + tokenIds[1], "Incorrect token URI");

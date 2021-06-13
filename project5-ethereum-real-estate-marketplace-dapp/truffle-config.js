@@ -53,8 +53,8 @@ module.exports = {
             network_id: 4,
             gas: 8500000,
             gasPrice: 100000000000,
-            confirmations: 3,
-            timeoutBlocks: 400,
+            confirmations: 2,
+            timeoutBlocks: 300,
             skipDryRun: true
         }
 
