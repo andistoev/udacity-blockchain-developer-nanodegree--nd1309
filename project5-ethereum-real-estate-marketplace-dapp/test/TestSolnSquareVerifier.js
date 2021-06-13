@@ -17,13 +17,13 @@ contract('SolnSquareVerifier', async (accounts) => {
         solnSquareVerifierContract = await SolnSquareVerifier.new(squareVerifierContract.address);
     });
 
-    describe('can add solution and mint verifiable token', function () {
+    describe('have working ownership workflow', function () {
 
-        it('can add solution', async () => {
+        it('can claim real estate ownership', async () => {
             // given
             // when
-            await solnSquareVerifierContract.registerSolution(
-                tokenIds[0], genuineProofJson.inputs,
+            await solnSquareVerifierContract.claimRealEstateOwnership(
+                playerOne, tokenIds[0], genuineProofJson.inputs,
                 genuineProofJson.proof.a, genuineProofJson.proof.b, genuineProofJson.proof.c
             );
 
@@ -32,13 +32,11 @@ contract('SolnSquareVerifier', async (accounts) => {
             assert.equal(totalSupply, 0);
         });
 
-        it('can mint token', async () => {
+        it('can mint token for it', async () => {
             // given
             // when
             await solnSquareVerifierContract.mintPrivacyAssuredRealEstateOwnershipToken(
-                playerOne,
-                tokenIds[0],
-                genuineProofJson.inputs, {from: owner}
+                playerOne, tokenIds[0], genuineProofJson.inputs
             );
 
             // then

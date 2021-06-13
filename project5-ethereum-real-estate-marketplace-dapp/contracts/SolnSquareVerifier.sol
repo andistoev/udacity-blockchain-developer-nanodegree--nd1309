@@ -6,47 +6,50 @@ import "./ISquareVerifier.sol";
 
 contract SolnSquareVerifier is PrivacyAssuredRealEstateOwnershipToken {
 
-    event SolutionAdded(uint256 index);
+    event RealEstateOwnershipClaimed(uint256 tokenId);
 
     ISquareVerifier private squareVerifier;
 
-    struct Solution {
-        address solutionOwner;
+    struct RealEstateOwnership {
+        address tokenOwner;
         uint256 tokenId;
-        bool isRegistered;
+        bool hasBeenClaimed;
         bool isMinted;
     }
 
-    mapping(bytes32 => Solution) private solutions;
+    mapping(bytes32 => RealEstateOwnership) private realEstateOwnerships;
+    mapping(uint256 => bool) private tokenIdUsed;
 
     constructor(address squareVerifierAddress) PrivacyAssuredRealEstateOwnershipToken() public {
         squareVerifier = ISquareVerifier(squareVerifierAddress);
     }
 
-    function registerSolution(uint256 tokenId, uint[2] memory input, uint[2] memory a, uint[2][2] memory b, uint[2] memory c) public {
-        bytes32 key = getSolutionKey(input);
+    function claimRealEstateOwnership(address tokenOwner, uint256 tokenId, uint[2] memory input, uint[2] memory a, uint[2][2] memory b, uint[2] memory c) public {
+        require(tokenOwner != address(0), "The future token owner can not be an empty address");
+        require(!tokenIdUsed[tokenId], "A token has been already used for other property - please select a different one and try again");
 
-        require(!solutions[key].isRegistered, "A solution can not be registered twice");
-        require(squareVerifier.verifyTx(a, b, c, input), "The verification submitted failed");
+        bytes32 key = getRealEstateOwnershipKey(input);
+        require(!realEstateOwnerships[key].hasBeenClaimed, "Real estate ownership could not be claimed twice");
+        require(squareVerifier.verifyTx(a, b, c, input), "Real estate ownership verification failed");
 
-        solutions[key] = Solution(msg.sender, tokenId, true, false);
+        tokenIdUsed[tokenId] = true;
+        realEstateOwnerships[key] = RealEstateOwnership(tokenOwner, tokenId, true, false);
 
-        emit SolutionAdded(tokenId);
+        emit RealEstateOwnershipClaimed(tokenId);
     }
 
-    function mintPrivacyAssuredRealEstateOwnershipToken(address to, uint256 tokenId, uint[2] memory input) public {
-        bytes32 key = getSolutionKey(input);
+    function mintPrivacyAssuredRealEstateOwnershipToken(address tokenOwner, uint256 tokenId, uint[2] memory input) public {
+        bytes32 key = getRealEstateOwnershipKey(input);
 
-        require(msg.sender == solutions[key].solutionOwner, "Only the solution's owner is allowed to mint a solution");
-        require(solutions[key].isRegistered, "Can not be minted a solution which does not exist");
-        require(solutions[key].tokenId == tokenId, "Can not be minted a solution with different tokenId");
-        require(!solutions[key].isMinted, "A solution can not be minted twice");
+        require(tokenOwner == realEstateOwnerships[key].tokenOwner, "RealEstateOwnershipToken can be minted only after it has been claimed for the same owner");
+        require(realEstateOwnerships[key].tokenId == tokenId, "RealEstateOwnershipToken can not be minted - it has been claimed for different tokenId");
+        require(!realEstateOwnerships[key].isMinted, "A solution can not be minted twice");
 
-        mint(to, tokenId);
-        solutions[key].isMinted = true;
+        mint(tokenOwner, tokenId);
+        realEstateOwnerships[key].isMinted = true;
     }
 
-    function getSolutionKey(uint[2] memory input) private pure returns (bytes32){
+    function getRealEstateOwnershipKey(uint[2] memory input) private pure returns (bytes32){
         return keccak256(abi.encodePacked(input[0], input[1]));
     }
 }
