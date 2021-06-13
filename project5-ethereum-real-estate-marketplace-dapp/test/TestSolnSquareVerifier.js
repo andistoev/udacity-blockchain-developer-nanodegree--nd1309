@@ -24,7 +24,7 @@ contract('SolnSquareVerifier', async (accounts) => {
             // when
             await solnSquareVerifierContract.claimRealEstateOwnership(
                 playerOne, tokenIds[0], genuineProofJson.inputs,
-                genuineProofJson.proof.a, genuineProofJson.proof.b, genuineProofJson.proof.c
+                genuineProofJson.proof.a, genuineProofJson.proof.b[0], genuineProofJson.proof.b[1], genuineProofJson.proof.c
             );
 
             // then

@@ -50,7 +50,9 @@ To run all tests:
 
 To run a single test:
 
-`truffle test ./test/TestERC721Mintable.js`
+- `truffle test ./test/TestSolnSquareVerifier.js`
+- `truffle test ./test/TestERC721Mintable.js`
+- `truffle test ./test/TestSquareVerifier.js`
 
 ### Deployment to rinkeby
 

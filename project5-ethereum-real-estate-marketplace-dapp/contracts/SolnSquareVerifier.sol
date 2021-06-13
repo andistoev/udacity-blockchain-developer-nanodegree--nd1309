@@ -24,13 +24,15 @@ contract SolnSquareVerifier is PrivacyAssuredRealEstateOwnershipToken {
         squareVerifier = ISquareVerifier(squareVerifierAddress);
     }
 
-    function claimRealEstateOwnership(address tokenOwner, uint256 tokenId, uint[2] memory input, uint[2] memory a, uint[2][2] memory b, uint[2] memory c) public {
+    function claimRealEstateOwnership(address tokenOwner, uint256 tokenId, uint[2] memory inputs, uint[2] memory a, uint[2] memory b0, uint[2] memory b1, uint[2] memory c) public {
         require(tokenOwner != address(0), "The future token owner can not be an empty address");
         require(!tokenIdUsed[tokenId], "A token has been already used for other property - please select a different one and try again");
 
-        bytes32 key = getRealEstateOwnershipKey(input);
+        bytes32 key = getRealEstateOwnershipKey(inputs);
         require(!realEstateOwnerships[key].hasBeenClaimed, "Real estate ownership could not be claimed twice");
-        require(squareVerifier.verifyTx(a, b, c, input), "Real estate ownership verification failed");
+
+        uint[2][2] memory b = [b0, b1];
+        require(squareVerifier.verifyTx(a, b, c, inputs), "Real estate ownership verification failed");
 
         tokenIdUsed[tokenId] = true;
         realEstateOwnerships[key] = RealEstateOwnership(tokenOwner, tokenId, true, false);
@@ -38,8 +40,8 @@ contract SolnSquareVerifier is PrivacyAssuredRealEstateOwnershipToken {
         emit RealEstateOwnershipClaimed(tokenId);
     }
 
-    function mintPrivacyAssuredRealEstateOwnershipToken(address tokenOwner, uint256 tokenId, uint[2] memory input) public {
-        bytes32 key = getRealEstateOwnershipKey(input);
+    function mintPrivacyAssuredRealEstateOwnershipToken(address tokenOwner, uint256 tokenId, uint[2] memory inputs) public {
+        bytes32 key = getRealEstateOwnershipKey(inputs);
 
         require(tokenOwner == realEstateOwnerships[key].tokenOwner, "RealEstateOwnershipToken can be minted only after it has been claimed for the same owner");
         require(realEstateOwnerships[key].tokenId == tokenId, "RealEstateOwnershipToken can not be minted - it has been claimed for different tokenId");
