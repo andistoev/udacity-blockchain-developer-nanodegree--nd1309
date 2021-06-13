@@ -68,3 +68,4 @@ typings/
 # ignore secret
 .secret
 .rinkeby-infurakey
+.mew-cx-rinkeby-account

@@ -58,11 +58,7 @@ Create in root folder `.rinkeby-infurakey` and `.secret` and run:
 
 `truffle migrate --network rinkeby`
 
-## Develop Front-End
-
-TODO
-
-## Deployment info (required for project submission)
+### Deployment info (required for project submission)
 
 - My rinkeby
   account: [0x637E7075fc1B2D30d23D9Da79581eBE8Df531c89](https://rinkeby.etherscan.io/address/0x637E7075fc1B2D30d23D9Da79581eBE8Df531c89)
@@ -71,6 +67,14 @@ TODO
 - Contract SolnSquareVerifier
   v2: [0x7a973865a6027170A5394612071FAC4E4F971795](https://rinkeby.etherscan.io/address/0x7a973865a6027170A5394612071FAC4E4F971795)
 - Log of deployment to rinkeby: [log](rinkeby-deployment-log.md)
+
+## Develop Front-End
+
+### Token Minting
+
+- Use [my ethere wallet - MEW CX](https://www.myetherwallet.com/access-my-wallet) in Brave browser
+- Log-in in your rinkeby account
+- Mint some token through the contract address of SolnSquareVerifier
 
 ## Need to rebuild zokrates?
 
