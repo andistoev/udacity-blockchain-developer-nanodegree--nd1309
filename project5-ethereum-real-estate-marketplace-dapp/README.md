@@ -81,7 +81,7 @@ Create in root folder `.rinkeby-infurakey` and `.secret` and run:
 - Change network to Rinkeby Testnet
 - Select the contract owner account
 - Navigate to [interace with contract](https://www.myetherwallet.com/interface/interact-with-contract)
-- Connect to SolnSquareVerifier address and use [this contract abi](rinkeby-contract-abi.md)
+- Connect to SolnSquareVerifier address and use [this contract abi](rinkeby-contract-abi.json)
 - Mint some tokens
 
 ### Token Status at Testnet Open Sea (required for project submission)
