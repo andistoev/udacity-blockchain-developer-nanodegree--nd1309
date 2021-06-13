@@ -1,7 +1,7 @@
-var SquareVerifier = artifacts.require('SquareVerifier');
-var genuineProofJson = require('../zokrates/proof.json');
-var fakeProofJson1 = require('../zokrates/fake_proof1.json');
-var fakeProofJson2 = require('../zokrates/fake_proof2.json');
+const SquareVerifier = artifacts.require('SquareVerifier');
+const genuineProofJson = require('../zokrates/proof.json');
+const fakeProofJson1 = require('../zokrates/fake_proof1.json');
+const fakeProofJson2 = require('../zokrates/fake_proof2.json');
 
 contract('SquareVerifier Test', async (accounts) => {
 
@@ -13,15 +13,15 @@ contract('SquareVerifier Test', async (accounts) => {
 
     describe('can verify proof', function () {
 
-        it('should verify genuine proof', async function () {
+        it('should verify genuine proof', async () => {
             await assertProof(genuineProofJson, true);
         });
 
-        it('should recognize fake proof which is not causing exception by contract execution', async function () {
+        it('should recognize fake proof which is not causing exception by contract execution', async () => {
             await assertProof(fakeProofJson1, false);
         });
 
-        it('should recognize fake proof causing exception by contract execution', async function () {
+        it('should recognize fake proof causing exception by contract execution', async () => {
             await assertProof(fakeProofJson2, false);
         });
 

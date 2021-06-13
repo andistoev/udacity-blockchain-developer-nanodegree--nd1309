@@ -68,7 +68,7 @@ zokrates compute-witness -a 3 9
 ```
 
 - Copy 'zokrates/verifier.sol' to 'contracts/SquareVerifier.sol' and upgrade its version to 0.8.5
-- Add inside the code interface ISquareVerifier with verifyTx method and make SquareVerifier implement it
+- Import ISquareVerifier.sol and make sure SquareVerifier implements it
 - Copy 'proof.json' as 'fake_proof1.json' and change the inputs to generate fake proof which is not causing exception
 - Copy 'proof.json' as 'fake_proof2.json' and change the proof parameters to generate fake proof which is causing
   exception

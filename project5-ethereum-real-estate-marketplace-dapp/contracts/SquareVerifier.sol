@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: LGPL-3.0-only
 pragma solidity ^0.8.5;
 
+import "./ISquareVerifier.sol";
+
 /**
  * @title Elliptic curve operations on twist points for alt_bn128
  * @author Mustafa Al-Bassam (mus@musalbas.com)
@@ -578,10 +580,6 @@ library Pairing {
         p2[3] = d2;
         return pairing(p1, p2);
     }
-}
-
-interface ISquareVerifier {
-    function verifyTx(uint[2] memory a, uint[2][2] memory b, uint[2] memory c, uint[2] memory input) external view returns (bool r);
 }
 
 contract SquareVerifier is ISquareVerifier {
