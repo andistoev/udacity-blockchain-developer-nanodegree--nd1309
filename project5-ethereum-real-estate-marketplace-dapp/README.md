@@ -72,6 +72,7 @@ Create in root folder `.rinkeby-infurakey` and `.secret` and run:
   v4: [0x7c3f2fEe85378bE7bA697505440B43b9BC6fA2c1](https://rinkeby.etherscan.io/address/0x7c3f2fEe85378bE7bA697505440B43b9BC6fA2c1)
 - Contract SolnSquareVerifier
   v4: [0xFf21fb7154c2286Fe6F9156A768EB7d6d9ABb5dF](https://rinkeby.etherscan.io/address/0xFf21fb7154c2286Fe6F9156A768EB7d6d9ABb5dF)
+- Contract [SolnSquareVerifier ABI](pareot-contract-abi.json)
 - Log of deployment to rinkeby: [log](rinkeby-deployment-log.md)
 
 ## Develop Front-End
