@@ -72,9 +72,13 @@ Create in root folder `.rinkeby-infurakey` and `.secret` and run:
 
 ### Token Minting
 
-- Use [my ethere wallet - MEW CX](https://www.myetherwallet.com/access-my-wallet) in Brave browser
-- Log-in in your rinkeby account
-- Mint some token through the contract address of SolnSquareVerifier
+- Start Brave browser
+- Log-in to your [my ether wallet - MEW CX](https://www.myetherwallet.com)
+- Change network to Rinkeby Testnet
+- Select the contract owner account
+- Navigate to [interace with contract](https://www.myetherwallet.com/interface/interact-with-contract)
+- Connect to SolnSquareVerifier address and use [this contract abi](rinkeby-contract-abi.md)
+- Mint some tokens
 
 ## Need to rebuild zokrates?
 
