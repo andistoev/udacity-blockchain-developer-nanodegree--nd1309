@@ -52,9 +52,25 @@ To run a single test:
 
 `truffle test ./test/TestERC721Mintable.js`
 
+### Deployment to rinkeby
+
+Create in root folder `.rinkeby-infurakey` and `.secret` and run:
+
+`truffle migrate --network rinkeby`
+
 ## Develop Front-End
 
 TODO
+
+## Deployment info (required for project submission)
+
+- My rinkeby
+  account: [0x637E7075fc1B2D30d23D9Da79581eBE8Df531c89](https://rinkeby.etherscan.io/address/0x637E7075fc1B2D30d23D9Da79581eBE8Df531c89)
+- Contract
+  SquareVerifier: [0xc7ACE421B066A0923795E92F7cd9f898B9F7154f](https://rinkeby.etherscan.io/address/0xc7ACE421B066A0923795E92F7cd9f898B9F7154f)
+- Contract
+  SolnSquareVerifier: [0xF4ac7aD5fCD1beBC4e8Af3bcf289b538E3B9a3ad](https://rinkeby.etherscan.io/address/0xF4ac7aD5fCD1beBC4e8Af3bcf289b538E3B9a3ad)
+- Log of deployment to rinkeby: [log](rinkeby-deployment-log.md)
 
 ## Need to rebuild zokrates?
 
