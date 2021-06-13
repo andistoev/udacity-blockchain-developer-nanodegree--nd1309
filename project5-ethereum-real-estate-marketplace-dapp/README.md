@@ -10,6 +10,8 @@ Ethereum Real Estate Marketplace is a decentralized marketplace for house proper
 This is the 5th capstone project from
 the [Udacity - Blockchain Developer Nanodegree Program](https://www.udacity.com/course/blockchain-developer-nanodegree--nd1309)
 
+![pareot reseller](res/pareot-reseller.jpg)
+
 ## Structure
 
 The repository contains:
@@ -96,6 +98,14 @@ Create in root folder `.rinkeby-infurakey` and `.secret` and run:
 - [token7](https://testnets.opensea.io/assets/0xFf21fb7154c2286Fe6F9156A768EB7d6d9ABb5dF/7)
 - [token8](https://testnets.opensea.io/assets/0xFf21fb7154c2286Fe6F9156A768EB7d6d9ABb5dF/8)
 - [token9](https://testnets.opensea.io/assets/0xFf21fb7154c2286Fe6F9156A768EB7d6d9ABb5dF/9)
+
+### User Interface
+
+![token minting](res/token-minting.png)
+
+![pareot token view](res/pareot-token-view.jpg)
+
+![metamask](res/metamask.png)
 
 ## Need to rebuild zokrates?
 
