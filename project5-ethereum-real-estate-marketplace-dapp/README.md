@@ -91,18 +91,18 @@ Create in root folder `.rinkeby-infurakey` and `.secret` and run:
 - Connect to SolnSquareVerifier address and use [this contract abi](pareot-contract-abi.json)
 - Mint some tokens
 
-### Token Status at Testnet Open Sea (required for project submission)
+### Minted NFT listed on Open Sea (required for project submission)
 
-- [token0](https://testnets.opensea.io/assets/0xFf21fb7154c2286Fe6F9156A768EB7d6d9ABb5dF/0)
-- [token1](https://testnets.opensea.io/assets/0xFf21fb7154c2286Fe6F9156A768EB7d6d9ABb5dF/1)
-- [token2](https://testnets.opensea.io/assets/0xFf21fb7154c2286Fe6F9156A768EB7d6d9ABb5dF/2)
-- [token3](https://testnets.opensea.io/assets/0xFf21fb7154c2286Fe6F9156A768EB7d6d9ABb5dF/3)
-- [token4](https://testnets.opensea.io/assets/0xFf21fb7154c2286Fe6F9156A768EB7d6d9ABb5dF/4)
-- [token5](https://testnets.opensea.io/assets/0xFf21fb7154c2286Fe6F9156A768EB7d6d9ABb5dF/5)
-- [token6](https://testnets.opensea.io/assets/0xFf21fb7154c2286Fe6F9156A768EB7d6d9ABb5dF/6)
-- [token7](https://testnets.opensea.io/assets/0xFf21fb7154c2286Fe6F9156A768EB7d6d9ABb5dF/7)
-- [token8](https://testnets.opensea.io/assets/0xFf21fb7154c2286Fe6F9156A768EB7d6d9ABb5dF/8)
-- [token9](https://testnets.opensea.io/assets/0xFf21fb7154c2286Fe6F9156A768EB7d6d9ABb5dF/9)
+- [token-0](https://testnets.opensea.io/assets/0xFf21fb7154c2286Fe6F9156A768EB7d6d9ABb5dF/0)
+- [token-1](https://testnets.opensea.io/assets/0xFf21fb7154c2286Fe6F9156A768EB7d6d9ABb5dF/1)
+- [token-2](https://testnets.opensea.io/assets/0xFf21fb7154c2286Fe6F9156A768EB7d6d9ABb5dF/2)
+- [token-3](https://testnets.opensea.io/assets/0xFf21fb7154c2286Fe6F9156A768EB7d6d9ABb5dF/3)
+- [token-4](https://testnets.opensea.io/assets/0xFf21fb7154c2286Fe6F9156A768EB7d6d9ABb5dF/4)
+- [token-5](https://testnets.opensea.io/assets/0xFf21fb7154c2286Fe6F9156A768EB7d6d9ABb5dF/5)
+- [token-6](https://testnets.opensea.io/assets/0xFf21fb7154c2286Fe6F9156A768EB7d6d9ABb5dF/6)
+- [token-7](https://testnets.opensea.io/assets/0xFf21fb7154c2286Fe6F9156A768EB7d6d9ABb5dF/7)
+- [token-8](https://testnets.opensea.io/assets/0xFf21fb7154c2286Fe6F9156A768EB7d6d9ABb5dF/8)
+- [token-9](https://testnets.opensea.io/assets/0xFf21fb7154c2286Fe6F9156A768EB7d6d9ABb5dF/9)
 
 ### User Interface
 
