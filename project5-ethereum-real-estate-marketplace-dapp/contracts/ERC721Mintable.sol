@@ -645,10 +645,9 @@ contract PrivacyAssuredRealEstateOwnershipToken is ERC721Metadata {
     constructor() ERC721Metadata(_name, _symbol, _baseTokenURI) {
     }
 
-    function mint(address to, uint256 tokenId) public onlyOwner() returns (bool) {
+    function mint(address to, uint256 tokenId) public onlyOwner() {
         _mint(to, tokenId);
         setTokenURI(tokenId);
-        return true;
     }
 
 }
