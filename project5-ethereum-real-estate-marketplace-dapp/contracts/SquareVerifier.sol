@@ -580,7 +580,11 @@ library Pairing {
     }
 }
 
-contract SquareVerifier {
+interface ISquareVerifier {
+    function verifyTx(uint[2] memory a, uint[2][2] memory b, uint[2] memory c, uint[2] memory input) external view returns (bool r);
+}
+
+contract SquareVerifier is ISquareVerifier {
     using Pairing for *;
     struct VerifyingKey {
         Pairing.G1Point alpha;
@@ -626,7 +630,7 @@ contract SquareVerifier {
         return 0;
     }
 
-    function verifyTx(uint[2] memory a, uint[2][2] memory b, uint[2] memory c, uint[2] memory input) public view returns (bool r) {
+    function verifyTx(uint[2] memory a, uint[2][2] memory b, uint[2] memory c, uint[2] memory input) public view override returns (bool r) {
         Proof memory proof;
         proof.a = Pairing.G1Point(a[0], a[1]);
         proof.b = Pairing.G2Point([b[0][0], b[0][1]], [b[1][0], b[1][1]]);
