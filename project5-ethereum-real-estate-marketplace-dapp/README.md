@@ -17,8 +17,8 @@ the [Udacity - Blockchain Developer Nanodegree Program](https://www.udacity.com/
 The repository contains:
 
 - zokrates: "Genesis" for zk-SNARKs proof and solidity verifier contract
-- eth-contracts/contracts: ethereum smart contracts
-- eth-contracts/test: Mocha unit testing (executable through Truffle)
+- contracts: ethereum smart contracts
+- test: Mocha unit testing (executable through Truffle)
 
 ## Install
 
