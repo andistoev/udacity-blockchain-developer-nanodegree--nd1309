@@ -1,7 +1,7 @@
 const SquareVerifier = artifacts.require('SquareVerifier');
-const genuineProofJson = require('../zokrates/proof.json');
-const fakeProofJson1 = require('../zokrates/fake_proof1.json');
-const fakeProofJson2 = require('../zokrates/fake_proof2.json');
+const genuineProofJson = require('../zokrates/proof/proof-token0.json');
+const fakeProofJson1 = require('../zokrates/proof/proof-token0-fake1.json');
+const fakeProofJson2 = require('../zokrates/proof/proof-token0-fake2.json');
 
 contract('SquareVerifier Test', async (accounts) => {
 

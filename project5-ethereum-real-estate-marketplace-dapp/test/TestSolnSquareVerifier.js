@@ -1,6 +1,6 @@
 const SquareVerifier = artifacts.require('SquareVerifier');
 const SolnSquareVerifier = artifacts.require('SolnSquareVerifier');
-const genuineProofJson = require('../zokrates/proof.json');
+const genuineProofJson = require('../zokrates/proof/proof-token5.json');
 
 contract('SolnSquareVerifier', async (accounts) => {
 

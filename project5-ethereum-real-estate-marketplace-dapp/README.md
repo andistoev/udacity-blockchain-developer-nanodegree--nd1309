@@ -90,14 +90,46 @@ Create in root folder `.rinkeby-infurakey` and `.secret` and run:
 cd zokrates
 zokrates compile -i square.code
 zokrates setup
-zokrates compute-witness -a 3 9
+
+# create 10 unique proofs for 10 tokens
+
+zokrates compute-witness -o witness/witness-token0 -a 3 9
+zokrates generate-proof -w witness/witness-token0 -j proof/proof-token0.json
+
+zokrates compute-witness -o witness/witness-token1 -a 4 16
+zokrates generate-proof -w witness/witness-token1 -j proof/proof-token1.json
+
+zokrates compute-witness -o witness/witness-token2 -a 5 25
+zokrates generate-proof -w witness/witness-token2 -j proof/proof-token2.json
+
+zokrates compute-witness -o witness/witness-token3 -a 6 36
+zokrates generate-proof -w witness/witness-token3 -j proof/proof-token3.json
+
+zokrates compute-witness -o witness/witness-token4 -a 7 49
+zokrates generate-proof -w witness/witness-token4 -j proof/proof-token4.json
+
+zokrates compute-witness -o witness/witness-token5 -a 8 64
+zokrates generate-proof -w witness/witness-token5 -j proof/proof-token5.json
+
+zokrates compute-witness -o witness/witness-token6 -a 9 81
+zokrates generate-proof -w witness/witness-token6 -j proof/proof-token6.json
+
+zokrates compute-witness -o witness/witness-token7 -a 10 100
+zokrates generate-proof -w witness/witness-token7 -j proof/proof-token7.json
+
+zokrates compute-witness -o witness/witness-token8 -a 11 121
+zokrates generate-proof -w witness/witness-token8 -j proof/proof-token8.json
+
+zokrates compute-witness -o witness/witness-token9 -a 12 144
+zokrates generate-proof -w witness/witness-token9 -j proof/proof-token9.json
 ```
 
 - Copy 'zokrates/verifier.sol' to 'contracts/SquareVerifier.sol' and upgrade its version to 0.8.5
 - Import ISquareVerifier.sol and make sure SquareVerifier implements it
-- Copy 'proof.json' as 'fake_proof1.json' and change the inputs to generate fake proof which is not causing exception
-- Copy 'proof.json' as 'fake_proof2.json' and change the proof parameters to generate fake proof which is causing
-  exception
+- Copy 'proof/proof-token0.json' as 'proof/proof-token0-fake1.json' and change the inputs to generate fake proof which
+  is not causing exception
+- Copy 'proof/proof-token0.json' as 'proof/proof-token0-fake2.json' and change the proof parameters to generate fake
+  proof which is causing exception
 
 # Project Resources
 
