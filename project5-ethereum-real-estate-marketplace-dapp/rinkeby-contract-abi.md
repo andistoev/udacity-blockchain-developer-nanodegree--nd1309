@@ -140,7 +140,8 @@
     "name": "__callback",
     "outputs": [],
     "stateMutability": "pure",
-    "type": "function"
+    "type": "function",
+    "constant": true
   },
   {
     "inputs": [
@@ -163,7 +164,8 @@
     "name": "__callback",
     "outputs": [],
     "stateMutability": "pure",
-    "type": "function"
+    "type": "function",
+    "constant": true
   },
   {
     "inputs": [
@@ -200,45 +202,8 @@
       }
     ],
     "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "tokenOwner",
-        "type": "address"
-      },
-      {
-        "internalType": "uint256",
-        "name": "tokenId",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256[2]",
-        "name": "input",
-        "type": "uint256[2]"
-      },
-      {
-        "internalType": "uint256[2]",
-        "name": "a",
-        "type": "uint256[2]"
-      },
-      {
-        "internalType": "uint256[2][2]",
-        "name": "b",
-        "type": "uint256[2][2]"
-      },
-      {
-        "internalType": "uint256[2]",
-        "name": "c",
-        "type": "uint256[2]"
-      }
-    ],
-    "name": "claimRealEstateOwnership",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
+    "type": "function",
+    "constant": true
   },
   {
     "inputs": [
@@ -257,7 +222,8 @@
       }
     ],
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
+    "constant": true
   },
   {
     "inputs": [],
@@ -270,7 +236,8 @@
       }
     ],
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
+    "constant": true
   },
   {
     "inputs": [],
@@ -283,7 +250,8 @@
       }
     ],
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
+    "constant": true
   },
   {
     "inputs": [],
@@ -296,7 +264,8 @@
       }
     ],
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
+    "constant": true
   },
   {
     "inputs": [
@@ -315,7 +284,8 @@
       }
     ],
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
+    "constant": true
   },
   {
     "inputs": [
@@ -339,7 +309,8 @@
       }
     ],
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
+    "constant": true
   },
   {
     "inputs": [
@@ -358,7 +329,8 @@
       }
     ],
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
+    "constant": true
   },
   {
     "inputs": [],
@@ -371,7 +343,8 @@
       }
     ],
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
+    "constant": true
   },
   {
     "inputs": [
@@ -395,7 +368,8 @@
       }
     ],
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
+    "constant": true
   },
   {
     "inputs": [
@@ -418,29 +392,6 @@
   {
     "inputs": [
       {
-        "internalType": "address",
-        "name": "tokenOwner",
-        "type": "address"
-      },
-      {
-        "internalType": "uint256",
-        "name": "tokenId",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256[2]",
-        "name": "input",
-        "type": "uint256[2]"
-      }
-    ],
-    "name": "mintPrivacyAssuredRealEstateOwnershipToken",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
         "internalType": "uint256",
         "name": "tokenId",
         "type": "uint256"
@@ -455,7 +406,8 @@
       }
     ],
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
+    "constant": true
   },
   {
     "inputs": [
@@ -556,7 +508,8 @@
       }
     ],
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
+    "constant": true
   },
   {
     "inputs": [
@@ -590,6 +543,72 @@
       }
     ],
     "name": "transferOwnership",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "tokenOwner",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "tokenId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256[2]",
+        "name": "inputs",
+        "type": "uint256[2]"
+      },
+      {
+        "internalType": "uint256[2]",
+        "name": "a",
+        "type": "uint256[2]"
+      },
+      {
+        "internalType": "uint256[2]",
+        "name": "b0",
+        "type": "uint256[2]"
+      },
+      {
+        "internalType": "uint256[2]",
+        "name": "b1",
+        "type": "uint256[2]"
+      },
+      {
+        "internalType": "uint256[2]",
+        "name": "c",
+        "type": "uint256[2]"
+      }
+    ],
+    "name": "claimRealEstateOwnership",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "tokenOwner",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "tokenId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256[2]",
+        "name": "inputs",
+        "type": "uint256[2]"
+      }
+    ],
+    "name": "mintPrivacyAssuredRealEstateOwnershipToken",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"

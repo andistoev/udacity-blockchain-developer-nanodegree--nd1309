@@ -54,7 +54,7 @@ To run a single test:
 - `truffle test ./test/TestERC721Mintable.js`
 - `truffle test ./test/TestSquareVerifier.js`
 
-### Deployment to rinkeby
+### Deployment on Rinkeby
 
 Create in root folder `.rinkeby-infurakey` and `.secret` and run:
 
@@ -65,9 +65,9 @@ Create in root folder `.rinkeby-infurakey` and `.secret` and run:
 - My rinkeby
   account: [0x637E7075fc1B2D30d23D9Da79581eBE8Df531c89](https://rinkeby.etherscan.io/address/0x637E7075fc1B2D30d23D9Da79581eBE8Df531c89)
 - Contract SquareVerifier
-  v2: [0x0e50192ba7F417B6256f8bA16FAD1b1a1b049D97](https://rinkeby.etherscan.io/address/0x0e50192ba7F417B6256f8bA16FAD1b1a1b049D97)
+  v3: [0xd3171E21A4a8e86524567f5CeB3cdef3a5f5Da2b](https://rinkeby.etherscan.io/address/0xd3171E21A4a8e86524567f5CeB3cdef3a5f5Da2b)
 - Contract SolnSquareVerifier
-  v2: [0x7a973865a6027170A5394612071FAC4E4F971795](https://rinkeby.etherscan.io/address/0x7a973865a6027170A5394612071FAC4E4F971795)
+  v3: [0x87b61A0E1F1388875b12a11D1441a0BCb822E618](https://rinkeby.etherscan.io/address/0x87b61A0E1F1388875b12a11D1441a0BCb822E618)
 - Log of deployment to rinkeby: [log](rinkeby-deployment-log.md)
 
 ## Develop Front-End
