@@ -11,7 +11,7 @@ Starting migrations...
 ======================
 > Network name:    'rinkeby'
 > Network id:      4
-> Block gas limit: 10000000 (0x989680)
+> Block gas limit: 10001629 (0x989cdd)
 
 
 1_initial_migration.js
@@ -19,23 +19,22 @@ Starting migrations...
 
 Deploying 'Migrations'
 ----------------------
-> transaction hash:    0xbd29a7d5e36ab53a183b9cf43c52c8cde24045d8de85f3aa5635d4491dbd95fc
-> Blocks: 0            Seconds: 8
-> contract address:    0xC2B1BBF1D192A2e99B20fC7228b36ECa22Fbd790
-> block number:        8757985
-> block timestamp:     1623606048
+> transaction hash:    0x39b4d7dee9df6347694306be5471d96ba6426bdd47a934ed0fc2971dfeabad2d
+> Blocks: 1            Seconds: 12
+> contract address:    0x66465Ad3e39FDE001Ad9B8F1AdE3Db17660464Ef
+> block number:        8758606
+> block timestamp:     1623615364
 > account:             0x637E7075fc1B2D30d23D9Da79581eBE8Df531c89
-> balance:             17.470736518
+> balance:             11.876854869
 > gas used:            274508 (0x4304c)
 > gas price:           100 gwei
 > value sent:          0 ETH
 > total cost:          0.0274508 ETH
 
-Pausing for 3 confirmations...
+Pausing for 2 confirmations...
 ------------------------------
-> confirmation number: 1 (block: 8757986)
-> confirmation number: 2 (block: 8757987)
-> confirmation number: 3 (block: 8757988)
+> confirmation number: 1 (block: 8758607)
+> confirmation number: 2 (block: 8758608)
 
 > Saving migration to chain.
 > Saving artifacts
@@ -48,51 +47,49 @@ Pausing for 3 confirmations...
 
 Deploying 'SquareVerifier'
 --------------------------
-> transaction hash:    0xb555cb847accfeaea9a03b97b193cdbc7bfe4f5ff63ff398bcaeaa1b4337a268
-> Blocks: 1            Seconds: 12
-> contract address:    0xd3171E21A4a8e86524567f5CeB3cdef3a5f5Da2b
-> block number:        8757990
-> block timestamp:     1623606123
+> transaction hash:    0x4b1df6b5214aa4c12b36bcc95a6cbc88935d481ec6141be046e582d86e35a190
+> Blocks: 1            Seconds: 8
+> contract address:    0x7c3f2fEe85378bE7bA697505440B43b9BC6fA2c1
+> block number:        8758610
+> block timestamp:     1623615425
 > account:             0x637E7075fc1B2D30d23D9Da79581eBE8Df531c89
-> balance:             17.336659318
+> balance:             11.742777669
 > gas used:            1294834 (0x13c1f2)
 > gas price:           100 gwei
 > value sent:          0 ETH
 > total cost:          0.1294834 ETH
 
-Pausing for 3 confirmations...
+Pausing for 2 confirmations...
 ------------------------------
-> confirmation number: 1 (block: 8757991)
-> confirmation number: 2 (block: 8757992)
-> confirmation number: 3 (block: 8757993)
+> confirmation number: 1 (block: 8758611)
+> confirmation number: 2 (block: 8758612)
 
 Deploying 'SolnSquareVerifier'
 ------------------------------
-> transaction hash:    0x7b22768f21fe7d9922263bda520f2197e57bda6dc5f9792f07ad1b38e1105626
-> Blocks: 0            Seconds: 12
-> contract address:    0x87b61A0E1F1388875b12a11D1441a0BCb822E618
-> block number:        8757994
-> block timestamp:     1623606183
+> transaction hash:    0x42cee83f047466f83f2b686194fdf4ab61a920b76323e92d33313b898eae57e8
+> Blocks: 1            Seconds: 12
+> contract address:    0xFf21fb7154c2286Fe6F9156A768EB7d6d9ABb5dF
+> block number:        8758613
+> block timestamp:     1623615470
 > account:             0x637E7075fc1B2D30d23D9Da79581eBE8Df531c89
-> balance:             16.912643918
-> gas used:            4240154 (0x40b31a)
+> balance:             11.318765869
+> gas used:            4240118 (0x40b2f6)
 > gas price:           100 gwei
 > value sent:          0 ETH
-> total cost:          0.4240154 ETH
+> total cost:          0.4240118 ETH
 
-Pausing for 3 confirmations...
+Pausing for 2 confirmations...
 ------------------------------
-> confirmation number: 1 (block: 8757995)
-> confirmation number: 2 (block: 8757996)
-> confirmation number: 3 (block: 8757997)
+> confirmation number: 1 (block: 8758614)
+> confirmation number: 2 (block: 8758615)
 
 > Saving migration to chain.
 > Saving artifacts
    -------------------------------------
-> Total cost:           0.5534988 ETH
+> Total cost:           0.5534952 ETH
 
 
 Summary
 =======
 > Total deployments:   3
-> Final cost:          0.5809496 ETH
+> Final cost:          0.580946 ETH

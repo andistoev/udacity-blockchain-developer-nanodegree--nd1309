@@ -67,9 +67,9 @@ Create in root folder `.rinkeby-infurakey` and `.secret` and run:
 - My second rinkeby account (token
   buyer): [0xeEFC23Bd910bb99bEBa0dAe9dA67CB5ED6eDe54d](https://rinkeby.etherscan.io/address/0xeEFC23Bd910bb99bEBa0dAe9dA67CB5ED6eDe54d)
 - Contract SquareVerifier
-  v3: [0xd3171E21A4a8e86524567f5CeB3cdef3a5f5Da2b](https://rinkeby.etherscan.io/address/0xd3171E21A4a8e86524567f5CeB3cdef3a5f5Da2b)
+  v4: [0x7c3f2fEe85378bE7bA697505440B43b9BC6fA2c1](https://rinkeby.etherscan.io/address/0x7c3f2fEe85378bE7bA697505440B43b9BC6fA2c1)
 - Contract SolnSquareVerifier
-  v3: [0x87b61A0E1F1388875b12a11D1441a0BCb822E618](https://rinkeby.etherscan.io/address/0x87b61A0E1F1388875b12a11D1441a0BCb822E618)
+  v4: [0xFf21fb7154c2286Fe6F9156A768EB7d6d9ABb5dF](https://rinkeby.etherscan.io/address/0xFf21fb7154c2286Fe6F9156A768EB7d6d9ABb5dF)
 - Log of deployment to rinkeby: [log](rinkeby-deployment-log.md)
 
 ## Develop Front-End
@@ -84,9 +84,18 @@ Create in root folder `.rinkeby-infurakey` and `.secret` and run:
 - Connect to SolnSquareVerifier address and use [this contract abi](rinkeby-contract-abi.md)
 - Mint some tokens
 
-### Selling on Open Sea
+### Token Status at Testnet Open Sea (required for project submission)
 
-- [token0](https://testnets.opensea.io/assets/0x87b61A0E1F1388875b12a11D1441a0BCb822E618/0)
+- [token0](https://testnets.opensea.io/assets/0xFf21fb7154c2286Fe6F9156A768EB7d6d9ABb5dF/0)
+- [token1](https://testnets.opensea.io/assets/0xFf21fb7154c2286Fe6F9156A768EB7d6d9ABb5dF/1)
+- [token2](https://testnets.opensea.io/assets/0xFf21fb7154c2286Fe6F9156A768EB7d6d9ABb5dF/2)
+- [token3](https://testnets.opensea.io/assets/0xFf21fb7154c2286Fe6F9156A768EB7d6d9ABb5dF/3)
+- [token4](https://testnets.opensea.io/assets/0xFf21fb7154c2286Fe6F9156A768EB7d6d9ABb5dF/4)
+- [token5](https://testnets.opensea.io/assets/0xFf21fb7154c2286Fe6F9156A768EB7d6d9ABb5dF/5)
+- [token6](https://testnets.opensea.io/assets/0xFf21fb7154c2286Fe6F9156A768EB7d6d9ABb5dF/6)
+- [token7](https://testnets.opensea.io/assets/0xFf21fb7154c2286Fe6F9156A768EB7d6d9ABb5dF/7)
+- [token8](https://testnets.opensea.io/assets/0xFf21fb7154c2286Fe6F9156A768EB7d6d9ABb5dF/8)
+- [token9](https://testnets.opensea.io/assets/0xFf21fb7154c2286Fe6F9156A768EB7d6d9ABb5dF/9)
 
 ## Need to rebuild zokrates?
 
