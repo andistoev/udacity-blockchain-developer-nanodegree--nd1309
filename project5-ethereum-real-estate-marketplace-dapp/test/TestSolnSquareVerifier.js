@@ -17,9 +17,9 @@ contract('SolnSquareVerifier', async (accounts) => {
         solnSquareVerifierContract = await SolnSquareVerifier.new(squareVerifierContract.address);
     });
 
-    describe('have working ownership workflow', function () {
+    describe('have a functional ownership\'s workflow', function () {
 
-        it('can claim real estate ownership', async () => {
+        it('should claim real estate ownership', async () => {
             // given
             // when
             await solnSquareVerifierContract.claimRealEstateOwnership(
@@ -32,7 +32,7 @@ contract('SolnSquareVerifier', async (accounts) => {
             assert.equal(totalSupply, 0);
         });
 
-        it('can mint token for it', async () => {
+        it('should mint token for it', async () => {
             // given
             // when
             await solnSquareVerifierContract.mintPrivacyAssuredRealEstateOwnershipToken(
