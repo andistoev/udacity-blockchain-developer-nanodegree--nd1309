@@ -20,13 +20,13 @@ Starting migrations...
 
    Deploying 'Migrations'
    ----------------------
-   > transaction hash:    0x934fc522205dc36beeabe7e759e70138c065e2aabd2d9c468e5fc3f59a97698e
+   > transaction hash:    0xdc23bc3cb9794938fae814d522e461d9a95de7406e81ef56b357715557e053ab
    > Blocks: 1            Seconds: 12
-   > contract address:    0x6b4FA0CE19aEdfa2A2Fd4664BF2f2bF560d8A83F
-   > block number:        8757234
-   > block timestamp:     1623594783
+   > contract address:    0x3c40cB77854b2A5271995B108fAb28811c6427BE
+   > block number:        8757429
+   > block timestamp:     1623597708
    > account:             0x637E7075fc1B2D30d23D9Da79581eBE8Df531c89
-   > balance:             18.653416718
+   > balance:             18.062076618
    > gas used:            274508 (0x4304c)
    > gas price:           100 gwei
    > value sent:          0 ETH
@@ -34,9 +34,9 @@ Starting migrations...
 
    Pausing for 3 confirmations...
    ------------------------------
-   > confirmation number: 1 (block: 8757235)
-   > confirmation number: 2 (block: 8757236)
-   > confirmation number: 3 (block: 8757237)
+   > confirmation number: 1 (block: 8757430)
+   > confirmation number: 2 (block: 8757431)
+   > confirmation number: 3 (block: 8757432)
 
    > Saving migration to chain.
    > Saving artifacts
@@ -49,13 +49,13 @@ Starting migrations...
 
    Deploying 'SquareVerifier'
    --------------------------
-   > transaction hash:    0x8ebcec969f1e5cba5f14b50ee096da99aa0a9b3d0fb86b4b1046fbf8b32fadb7
-   > Blocks: 1            Seconds: 8
-   > contract address:    0xc7ACE421B066A0923795E92F7cd9f898B9F7154f
-   > block number:        8757239
-   > block timestamp:     1623594858
+   > transaction hash:    0xddc1d9edf80e2abb419cd4aae1bbb5c577e125abaed2b4c897e507041130a743
+   > Blocks: 0            Seconds: 8
+   > contract address:    0x0e50192ba7F417B6256f8bA16FAD1b1a1b049D97
+   > block number:        8757434
+   > block timestamp:     1623597783
    > account:             0x637E7075fc1B2D30d23D9Da79581eBE8Df531c89
-   > balance:             18.519339518
+   > balance:             17.927999418
    > gas used:            1294834 (0x13c1f2)
    > gas price:           100 gwei
    > value sent:          0 ETH
@@ -63,19 +63,19 @@ Starting migrations...
 
    Pausing for 3 confirmations...
    ------------------------------
-   > confirmation number: 1 (block: 8757240)
-   > confirmation number: 2 (block: 8757241)
-   > confirmation number: 3 (block: 8757242)
+   > confirmation number: 1 (block: 8757435)
+   > confirmation number: 2 (block: 8757436)
+   > confirmation number: 3 (block: 8757437)
 
    Deploying 'SolnSquareVerifier'
    ------------------------------
-   > transaction hash:    0x8997cb0a182ee5d9904b9d539fcfbc62e379ee5d443a09cb30874361d75adaa3
+   > transaction hash:    0x72bfbd988003ec25f945997609b32d23047eeaf83fa074a46cf649788a5d9ccf
    > Blocks: 0            Seconds: 8
-   > contract address:    0xF4ac7aD5fCD1beBC4e8Af3bcf289b538E3B9a3ad
-   > block number:        8757243
-   > block timestamp:     1623594918
+   > contract address:    0x7a973865a6027170A5394612071FAC4E4F971795
+   > block number:        8757438
+   > block timestamp:     1623597843
    > account:             0x637E7075fc1B2D30d23D9Da79581eBE8Df531c89
-   > balance:             18.092411218
+   > balance:             17.501071118
    > gas used:            4269283 (0x4124e3)
    > gas price:           100 gwei
    > value sent:          0 ETH
@@ -83,9 +83,9 @@ Starting migrations...
 
    Pausing for 3 confirmations...
    ------------------------------
-   > confirmation number: 1 (block: 8757244)
-   > confirmation number: 2 (block: 8757245)
-   > confirmation number: 3 (block: 8757246)
+   > confirmation number: 1 (block: 8757439)
+   > confirmation number: 2 (block: 8757440)
+   > confirmation number: 3 (block: 8757441)
 
    > Saving migration to chain.
    > Saving artifacts

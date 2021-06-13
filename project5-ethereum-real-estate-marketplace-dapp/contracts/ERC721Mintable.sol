@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.5;
 
-import '@openzeppelin/contracts/utils/Address.sol';
-import '@openzeppelin/contracts/utils/Counters.sol';
-import '@openzeppelin/contracts/token/ERC721/IERC721Receiver.sol';
+import './Address.sol';
+import './Counters.sol';
+import './IERC721Receiver.sol';
 import "./Oraclize.sol";
 
 /**

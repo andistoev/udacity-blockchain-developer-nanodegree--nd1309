@@ -66,10 +66,10 @@ TODO
 
 - My rinkeby
   account: [0x637E7075fc1B2D30d23D9Da79581eBE8Df531c89](https://rinkeby.etherscan.io/address/0x637E7075fc1B2D30d23D9Da79581eBE8Df531c89)
-- Contract
-  SquareVerifier: [0xc7ACE421B066A0923795E92F7cd9f898B9F7154f](https://rinkeby.etherscan.io/address/0xc7ACE421B066A0923795E92F7cd9f898B9F7154f)
-- Contract
-  SolnSquareVerifier: [0xF4ac7aD5fCD1beBC4e8Af3bcf289b538E3B9a3ad](https://rinkeby.etherscan.io/address/0xF4ac7aD5fCD1beBC4e8Af3bcf289b538E3B9a3ad)
+- Contract SquareVerifier
+  v2: [0x0e50192ba7F417B6256f8bA16FAD1b1a1b049D97](https://rinkeby.etherscan.io/address/0x0e50192ba7F417B6256f8bA16FAD1b1a1b049D97)
+- Contract SolnSquareVerifier
+  v2: [0x7a973865a6027170A5394612071FAC4E4F971795](https://rinkeby.etherscan.io/address/0x7a973865a6027170A5394612071FAC4E4F971795)
 - Log of deployment to rinkeby: [log](rinkeby-deployment-log.md)
 
 ## Need to rebuild zokrates?
