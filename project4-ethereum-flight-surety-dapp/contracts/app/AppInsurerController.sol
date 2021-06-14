@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.4;
+pragma solidity ^0.8.5;
 
 import "./base/BaseAppInsurerController.sol";
 import "./base/BaseAppContract.sol";

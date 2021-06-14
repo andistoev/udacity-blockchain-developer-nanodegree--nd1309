@@ -58,6 +58,7 @@ To run the oracles:
 To use the dApp:
 
 `truffle migrate`
+
 `npm run dapp`
 
 To view the dApp:
