@@ -2,8 +2,8 @@
 
 Ethereum CryptoStar Dapp is a star register.
 
-- The star can be created and looked for
-- Use non-fungible token (ERC-721)
+- The star can be created as non-fungible token (ERC-721)
+- The star can is searchable
 
 ![star-dapp](res/star-dapp.jpg)
 

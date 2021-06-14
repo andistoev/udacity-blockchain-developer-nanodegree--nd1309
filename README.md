@@ -15,8 +15,8 @@ Private BlockchainDigitalAssets Dapp is a blockchain application.
 
 Ethereum CryptoStar Dapp is a star register.
 
-- The star can be created and looked for
-- Use non-fungible token (ERC-721)
+- The star can be created as non-fungible token (ERC-721)
+- The star can is searchable
 
 ### [Project 3 - Ethereum SupplyChain Dapp](project3-ethereum-supply-chain-n-data-auditing-dapp/README.md)
 
