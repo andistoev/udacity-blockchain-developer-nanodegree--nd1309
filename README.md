@@ -5,15 +5,35 @@
 - duration: 4 months, 10h+/week
 - content: solid theory & development of 5 reviewed projects
 
-### Project Portfolio
+### [Project 1 - Private Blockchain Digital Assets NodeJS](project1-private-blockchain-digital-assets-nodejs)
 
-- [project1: Private Blockchain Digital Assets NodeJS](project1-private-blockchain-digital-assets-nodejs)
-- [project2: Ethereum NFT Crypto Start Dapp](project2-ethereum-nft-crypto-star-dapp)
-- [project3: Ethereum Supply Chain & Data Auditing Dapp](project3-ethereum-supply-chain-n-data-auditing-dapp)
-- [project4: Ethereum Flight Surety Dapp](project4-ethereum-flight-surety-dapp)
-- [project5: Ethereum Real Estate Marketplace Dapp](project5-ethereum-real-estate-marketplace-dapp)
+### [Project 2 - Ethereum NFT Crypto Start Dapp](project2-ethereum-nft-crypto-star-dapp)
 
-### My Verifiable Certification
+### [Project 3 - Ethereum Supply Chain & Data Auditing Dapp](project3-ethereum-supply-chain-n-data-auditing-dapp)
+
+### [Project 4 - Ethereum Flight Surety Dapp](project4-ethereum-flight-surety-dapp)
+
+Ethereum FlightSurety is a flight delay insurance for passengers.
+
+- Managed as a collaboration between multiple airlines
+- The passengers purchase insurance prior to flight
+- If flight is delayed due to airline fault, passengers are paid 1.5X the amount they paid for the insurance
+- Oracles provide flight status information
+
+![project4](project4-ethereum-flight-surety-dapp/res/flight-surety-dapp1.jpg)
+
+### [Project 5 - Ethereum Real Estate Marketplace Dapp](project5-ethereum-real-estate-marketplace-dapp)
+
+Ethereum Real Estate Marketplace is a decentralized marketplace for house property owners.
+
+- Every house property is mint as NFT
+- zk-SNARKs proof protects the title's ownership privacy
+- A title ownership can be verified through an ethereum solidity contract
+- House properties can be traded on a public NFT marketplace OpenSea
+
+![project5](project5-ethereum-real-estate-marketplace-dapp/res/pareot-reseller.jpg)
+
+### ... And My Reward ...
 
 [![my certificate](res/stoev-blockchain-developer-certificate.jpg)](https://confirm.udacity.com/D3M4JLAF)
 
