@@ -3,7 +3,7 @@
 Private BlockchainDigitalAssets Dapp is a private blockchain used as a star register.
 
 - You offer private blockchain as a service
-- Fans of astronomy can sign stars with their Bitcoin Wallet
+- Fans of astronomy can register stars signing them with their Bitcoin Wallet
 - The first to register a star will be it's owner
 
 ## Model
