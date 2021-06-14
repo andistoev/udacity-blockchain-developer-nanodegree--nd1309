@@ -15,11 +15,10 @@ Private BlockchainDigitalAssets Dapp is a private blockchain used as a star regi
 
 ### [Project 2 - Ethereum NFT Crypto Start Dapp](project2-ethereum-nft-crypto-star-dapp/README.md)
 
-Private BlockchainDigitalAssets Dapp is a private blockchain used as a star register.
+Ethereum CryptoStar Dapp is a star register.
 
-- You offer private blockchain as a service
-- Fans of astronomy can register stars
-- The first to register a star will be ist owner
+- User can register a star as a non-fungible token (ERC-721)
+- User can search the stars
 
 ### [Project 3 - Ethereum SupplyChain Dapp](project3-ethereum-supply-chain-n-data-auditing-dapp/README.md)
 
