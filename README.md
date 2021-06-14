@@ -9,25 +9,23 @@
 
 ### Project 2 - Ethereum NFT Crypto Start Dapp
 
-[![star-dapp](project2-ethereum-nft-crypto-star-dapp/res/star-dapp.jpg)](project2-ethereum-nft-crypto-star-dapp/README.md)
-
 Ethereum CryptoStar Dapp is a star register.
 
 - The star can be created and looked for
 - Use non-fungible token (ERC-721)
 
-### Project 3 - Ethereum SupplyChain Dapp
+[![star-dapp](project2-ethereum-nft-crypto-star-dapp/res/star-dapp.jpg)](project2-ethereum-nft-crypto-star-dapp/README.md)
 
-[![project 3 - intro](project3-ethereum-supply-chain-n-data-auditing-dapp/res/metamask-auth-5-accounts.png)](project3-ethereum-supply-chain-n-data-auditing-dapp/README.md)
+### Project 3 - Ethereum SupplyChain Dapp
 
 Ethereum SupplyChain is a supply chain item's tracker.
 
 - The product's authenticity can be tracked and audited
 - The smart contracts have a fine-grain user permission's management
 
-### Project 4 - Ethereum FlightSurety Dapp
+[![project 3 - intro](project3-ethereum-supply-chain-n-data-auditing-dapp/res/metamask-auth-5-accounts.png)](project3-ethereum-supply-chain-n-data-auditing-dapp/README.md)
 
-[![project4](project4-ethereum-flight-surety-dapp/res/flight-surety-dapp1.jpg)](project4-ethereum-flight-surety-dapp/README.md)
+### Project 4 - Ethereum FlightSurety Dapp
 
 Ethereum FlightSurety Dapp is a flight delay insurance for passengers.
 
@@ -36,9 +34,9 @@ Ethereum FlightSurety Dapp is a flight delay insurance for passengers.
 - If flight is delayed due to airline fault, passengers are paid 1.5X the amount they paid for the insurance
 - Oracles provide flight status information
 
-### Project 5 - Ethereum RealEstateMarketplace Dapp
+[![project4](project4-ethereum-flight-surety-dapp/res/flight-surety-dapp1.jpg)](project4-ethereum-flight-surety-dapp/README.md)
 
-[![project5](project5-ethereum-real-estate-marketplace-dapp/res/pareot-reseller.jpg)](project5-ethereum-real-estate-marketplace-dapp/README.md)
+### Project 5 - Ethereum RealEstateMarketplace Dapp
 
 Ethereum RealEstateMarketplace Dapp is a decentralized marketplace for house property owners.
 
@@ -46,6 +44,8 @@ Ethereum RealEstateMarketplace Dapp is a decentralized marketplace for house pro
 - zk-SNARKs proof protects the title's ownership privacy
 - A title ownership can be verified through an ethereum solidity contract
 - House properties can be traded on a public NFT marketplace OpenSea
+
+[![project5](project5-ethereum-real-estate-marketplace-dapp/res/pareot-reseller.jpg)](project5-ethereum-real-estate-marketplace-dapp/README.md)
 
 ### ... And My Reward ...
 
