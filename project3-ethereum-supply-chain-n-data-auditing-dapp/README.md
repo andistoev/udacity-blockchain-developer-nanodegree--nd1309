@@ -20,75 +20,9 @@ verify a product’s authenticity.
 - Ganache CLI v6.12.2 (ganache-core: 2.13.2)
 - MetaMask 9.5.2
 
-### 1. Part 1 - Plan the project with write-ups
+### [Domain Model](res/domain-model.md)
 
-#### 1.1. Requirement 1 - Project write-up - UML
-
-##### Planning Overview
-
-- Selected supply chain: French bread production and distribution
-
-- Assets:
-    - wheat
-    - baguette
-
-- Actors:
-    - farmer
-    - distributor
-    - retailer
-    - consumer
-
-- Roles:
-
-| Actor | Role |
-|:---:|:---:|
-|Farmer|can harvest wheat|
-|Farmer|can process wheat into baguette|
-|Farmer|can pack the baguette|
-|Farmer|can mark the baguette for sale|
-|Distributor|can buy the baguette|
-|Distributor|can ship the baguette|
-|Retailer|can receive the baguette|
-|Consumer|can purchase the baguette|
-
-#### Activity Diagram
-
-![baguette-activity-diagram](res/baguette-activity-diagram.png)
-
-##### Sequence Diagram
-
-![baguette-sequence-diagram](res/baguette-sequence-diagram.png)
-
-##### State Diagram
-
-![baguette-state-diagram](res/baguette-state-diagram.png)
-
-##### Class Diagram
-
-![baguette-class-diagram](res/baguette-class-diagram.png)
-
-#### 1.2. Requirement 2 - Project write-up - Libraries ️
-
-If libraries are used in the project, the project write-up indicates which libraries and discusses why these libraries
-were adopted.
-
-| Libraries used | Version | Motivation |
-|:---:|:---:|:---:|
-|web3.min.js|0.19.0|To allow interaction with ethereum contracts from browser|
-|truffle-contract.js|0.5.5|To allow interaction with ethereum contracts from browser|
-|jquery-3.6.0.min.js|3.6.0|To build very simple front-end (the focus of the project are the contracts)|
-
-#### 1.3. Requirement 3 - Project write-up - IPFS
-
-If IPFS is used, the project write-up discusses how IPFS is used in this project.
-
-| Libraries used | Version | Motivation |
-|:---:|:---:|:---:|
-|IPFS not used|N/A|N/A|
-
-### 2. Part 2	Write smart contracts
-
-#### 2.1. Requirement 1: Define and implement required interfaces
+### Interfaces
 
 - AccessControl - Collection of Contracts: These contracts manages the various addresses and constraints for operations
   that can be executed only by specific roles.
@@ -96,11 +30,7 @@ If IPFS is used, the project write-up discusses how IPFS is used in this project
   This includes our main data storage, constants and data types, plus internal functions for managing these items.
 - Core - Ownable.sol: is the contract that controls ownership and transfer of ownership.
 
-#### 2.2. Requirement 2: Build out AccessControl Contracts
-
-#### 2.3. Requirement 3: Build out Base Contract
-
-#### 2.4. Requirement 4: Build out Core Contract
+#### Build
 
 `ganache-cli -m "spirit supply whale amount human item harsh scare congress discover talent hamster"`
 => [log](res/ganache-cli-log.md)
@@ -109,18 +39,14 @@ If IPFS is used, the project write-up discusses how IPFS is used in this project
 
 `truffle migrate` => [log](res/truffle-migrate-log.md)
 
-### 3. Part 3	Test smart contract code coverage
-
-#### Requirement: Smart contract has associated tests
+#### Testing
 
 For this project, as with any project, make sure to test your smart contracts to ensure they are working properly in
 different situations without any risk.
 
 `truffle test` => [log](res/truffle-test-log.md)
 
-### 4. Part 4	Deploy smart contracts on a public test network (Rinkeby)
-
-#### 4.1. Requirement 1: Deploy smart contract on a public test network
+### Deploy To Rinkeby
 
 Using Truffle framework, deploy your smart contract with the Rinkeby test network. Take note of your contract hash and address after successful deployment.
 
@@ -136,21 +62,13 @@ Using Truffle framework, deploy your smart contract with the Rinkeby test networ
 - contract hash: 0xa5dca8e800e007172d2bdb27673feacf30564469d647a9d8bc33fbaea973856e
 - contract address: 0x3dFacD7FbC83FF51Fc4eA2F74d529De704B9E31F
 
-#### 4.2. Requirement 2: Submit Contract Address
+#### Contract Address
 
 Provide a document with your project submission that includes the contract address.
 
 - contract address: https://rinkeby.etherscan.io/address/0x3dFacD7FbC83FF51Fc4eA2F74d529De704B9E31F
 
-### 5. Part 5	Modify client code to interact with smart contracts
-
-Create the frontend that allows your users to interact with your DApp. This should be a simple and clean frontend that
-manages product lifecycle as the product navigates down the supply chain.
-
-Using javascript, create a single JS file with all web3 functions that allows your client code to interact with you
-smart contracts.
-
-#### Requirement: Configure client code for each actor
+#### Front-End
 
 Front-end is configured to:
 
