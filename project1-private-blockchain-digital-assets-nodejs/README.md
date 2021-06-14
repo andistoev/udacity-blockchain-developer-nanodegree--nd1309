@@ -1,4 +1,8 @@
-# Private Blockchain Application
+# Private BlockchainDigitalAssets Dapp
+
+Private BlockchainDigitalAssets Dapp is a blockchain application.
+
+- User can mint digital assets on private home-made blockchain
 
 You are starting your journey as a Blockchain Developer, this project allows you to demonstrate
 that you are familiarized with the fundamentals concepts of a Blockchain platform.

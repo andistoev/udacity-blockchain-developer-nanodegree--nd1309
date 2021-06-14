@@ -5,16 +5,18 @@
 - duration: 4 months, 10h+/week
 - activity: mind-blowing theory & development of 5 reviewed blockchain projects
 
-### [Project 1 - Private Blockchain Digital Assets NodeJS](project1-private-blockchain-digital-assets-nodejs/README.md)
+### [Project 1 - Private BlockchainDigitalAssets Dapp](project1-private-blockchain-digital-assets-nodejs/README.md)
 
-### Project 2 - Ethereum NFT Crypto Start Dapp
+Private BlockchainDigitalAssets Dapp is a blockchain application.
+
+- User can mint digital assets on private home-made blockchain
+
+### [Project 2 - Ethereum NFT Crypto Start Dapp](project2-ethereum-nft-crypto-star-dapp/README.md)
 
 Ethereum CryptoStar Dapp is a star register.
 
 - The star can be created and looked for
 - Use non-fungible token (ERC-721)
-
-[![star-dapp](project2-ethereum-nft-crypto-star-dapp/res/star-dapp.jpg)](project2-ethereum-nft-crypto-star-dapp/README.md)
 
 ### Project 3 - Ethereum SupplyChain Dapp
 
