@@ -1,4 +1,4 @@
-## With These 5 Projects I Upgraded My Skills To A New Level: Certified Blockchain Developer"
+## With These 5 Projects I Upgraded My Skills To A New Level: Certified Blockchain Developer
 
 - certification program:
   [Udacity - Blockchain Developer Nanodegree Program](https://www.udacity.com/course/blockchain-developer-nanodegree--nd1309)
