@@ -1,4 +1,4 @@
-## Blockchain Project Portfolio Which I Created During The Blockchain Developer Nanodegree
+## These Are My 5 Projects Which I Developed To Become Certified Blockchain Developer
 
 - certification
   program: [Udacity - Blockchain Developer Nanodegree Program](https://www.udacity.com/course/blockchain-developer-nanodegree--nd1309)
