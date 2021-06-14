@@ -1,9 +1,14 @@
-# ethereum-nft-crypto-star-dapp
-Ethereum non-fungible token (ERC-721) Crypto Star DApp
+# Ethereum CryptoStar Dapp
 
-This is the second project to submit from the Udacity nano degree "Blockchain Developer".
+Ethereum CryptoStar Dapp is a star register.
+
+- The star can be created and looked for
+- Use non-fungible token (ERC-721)
+
+![star-dapp](res/star-dapp.jpg)
 
 ## Required for submission info:
+
 - Truffle version = v5.1.65
 - Ganache version = 2.5.4.1367
 - OpenZeppelin version = 2.1.2

@@ -7,7 +7,14 @@
 
 ### [Project 1 - Private Blockchain Digital Assets NodeJS](project1-private-blockchain-digital-assets-nodejs/README.md)
 
-### [Project 2 - Ethereum NFT Crypto Start Dapp](project2-ethereum-nft-crypto-star-dapp/README.md)
+### Project 2 - Ethereum NFT Crypto Start Dapp
+
+[![star-dapp](project2-ethereum-nft-crypto-star-dapp/res/star-dapp.jpg)](project2-ethereum-nft-crypto-star-dapp/README.md)
+
+Ethereum CryptoStar Dapp is a star register.
+
+- The star can be created and looked for
+- Use non-fungible token (ERC-721)
 
 ### Project 3 - Ethereum SupplyChain Dapp
 
