@@ -91,7 +91,11 @@ Create in root folder `.rinkeby-infurakey` and `.secret` and run:
 - Connect to SolnSquareVerifier address and use [this contract abi](pareot-contract-abi.json)
 - Mint some tokens
 
-### Minted NFT listed on Open Sea (required for project submission)
+### Front store & minted NFT listed on Open Sea (required for project submission)
+
+Visit the [Front Store](https://testnets.opensea.io/assets/unidentified-contract-2m8wyj1rug) ...
+
+... or select directly one of the tokens:
 
 - [token-0](https://testnets.opensea.io/assets/0xFf21fb7154c2286Fe6F9156A768EB7d6d9ABb5dF/0)
 - [token-1](https://testnets.opensea.io/assets/0xFf21fb7154c2286Fe6F9156A768EB7d6d9ABb5dF/1)
