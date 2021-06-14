@@ -112,6 +112,8 @@ Visit the [Front Store](https://testnets.opensea.io/assets/unidentified-contract
 
 ![token minting](res/token-minting.png)
 
+![pareot front store](res/pareot-front-store.jpg)
+
 ![pareot token view](res/pareot-token-view.jpg)
 
 ![metamask](res/metamask.png)
