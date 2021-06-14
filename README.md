@@ -1,4 +1,4 @@
-## Look At My Blockchain Project Portfolio Created During My Blockchain Developer Nanodegree
+## Blockchain Project Portfolio Which I Created During The Blockchain Developer Nanodegree
 
 - certification
   program: [Udacity - Blockchain Developer Nanodegree Program](https://www.udacity.com/course/blockchain-developer-nanodegree--nd1309)
