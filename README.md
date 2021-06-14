@@ -5,13 +5,15 @@
 - duration: 4 months, 10h+/week
 - content: solid theory & development of 5 reviewed projects
 
-### [Project 1 - Private Blockchain Digital Assets NodeJS](project1-private-blockchain-digital-assets-nodejs)
+### [Project 1 - Private Blockchain Digital Assets NodeJS](project1-private-blockchain-digital-assets-nodejs/README.md)
 
-### [Project 2 - Ethereum NFT Crypto Start Dapp](project2-ethereum-nft-crypto-star-dapp)
+### [Project 2 - Ethereum NFT Crypto Start Dapp](project2-ethereum-nft-crypto-star-dapp/README.md)
 
-### [Project 3 - Ethereum Supply Chain & Data Auditing Dapp](project3-ethereum-supply-chain-n-data-auditing-dapp)
+### [Project 3 - Ethereum Supply Chain & Data Auditing Dapp](project3-ethereum-supply-chain-n-data-auditing-dapp/README.md)
 
-### [Project 4 - Ethereum Flight Surety Dapp](project4-ethereum-flight-surety-dapp)
+### Project 4 - Ethereum Flight Surety Dapp
+
+[![project4](project4-ethereum-flight-surety-dapp/res/flight-surety-dapp1.jpg)](project4-ethereum-flight-surety-dapp/README.md)
 
 Ethereum FlightSurety is a flight delay insurance for passengers.
 
@@ -20,9 +22,9 @@ Ethereum FlightSurety is a flight delay insurance for passengers.
 - If flight is delayed due to airline fault, passengers are paid 1.5X the amount they paid for the insurance
 - Oracles provide flight status information
 
-![project4](project4-ethereum-flight-surety-dapp/res/flight-surety-dapp1.jpg)
+### Project 5 - Ethereum Real Estate Marketplace Dapp
 
-### [Project 5 - Ethereum Real Estate Marketplace Dapp](project5-ethereum-real-estate-marketplace-dapp)
+[![project5](project5-ethereum-real-estate-marketplace-dapp/res/pareot-reseller.jpg)](project5-ethereum-real-estate-marketplace-dapp/README.md)
 
 Ethereum Real Estate Marketplace is a decentralized marketplace for house property owners.
 
@@ -30,8 +32,6 @@ Ethereum Real Estate Marketplace is a decentralized marketplace for house proper
 - zk-SNARKs proof protects the title's ownership privacy
 - A title ownership can be verified through an ethereum solidity contract
 - House properties can be traded on a public NFT marketplace OpenSea
-
-![project5](project5-ethereum-real-estate-marketplace-dapp/res/pareot-reseller.jpg)
 
 ### ... And My Reward ...
 
