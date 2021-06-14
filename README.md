@@ -9,7 +9,9 @@
 
 ### [Project 2 - Ethereum NFT Crypto Start Dapp](project2-ethereum-nft-crypto-star-dapp/README.md)
 
-### [Project 3 - Ethereum Supply Chain & Data Auditing Dapp](project3-ethereum-supply-chain-n-data-auditing-dapp/README.md)
+### Project 3 - Ethereum Supply Chain & Data Auditing Dapp
+
+[![project 3 - intro](project3-ethereum-supply-chain-n-data-auditing-dapp/res/metamask-auth-5-accounts.png)](project3-ethereum-supply-chain-n-data-auditing-dapp/README.md)
 
 ### Project 4 - Ethereum Flight Surety Dapp
 

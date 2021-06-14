@@ -9,6 +9,8 @@ For this project, you will creating a DApp supply chain solution backed by the E
 You will architect smart contracts that manage specific user permission controls as well as contracts that track and
 verify a product’s authenticity.
 
+![project 3 - intro](res/metamask-auth-5-accounts.png)
+
 ### Required for submission info:
 
 - Contract address: https://rinkeby.etherscan.io/address/0x3dFacD7FbC83FF51Fc4eA2F74d529De704B9E31F
