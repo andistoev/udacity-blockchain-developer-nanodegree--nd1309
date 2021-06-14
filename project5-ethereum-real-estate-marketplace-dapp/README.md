@@ -7,8 +7,8 @@ Ethereum RealEstateMarketplace Dapp is a decentralized marketplace for house pro
 - A title ownership can be verified through an ethereum solidity contract
 - House properties can be traded on a public NFT marketplace OpenSea
 
-This is the 5th capstone project from
-the [Udacity - Blockchain Developer Nanodegree Program](https://www.udacity.com/course/blockchain-developer-nanodegree--nd1309)
+This is the 5th capstone project from the
+[Udacity - Blockchain Developer Nanodegree Program](https://www.udacity.com/course/blockchain-developer-nanodegree--nd1309)
 
 ![pareot reseller](res/pareot-reseller.jpg)
 

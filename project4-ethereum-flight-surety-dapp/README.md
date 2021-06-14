@@ -8,8 +8,8 @@ Ethereum FlightSurety Dapp is a flight delay insurance for passengers.
 - Oracles provide flight status information
 - The smart contract is upgradable
 
-This is the 4th project from
-the [Udacity - Blockchain Developer Nanodegree Program](https://www.udacity.com/course/blockchain-developer-nanodegree--nd1309)
+This is the 4th project from the
+[Udacity - Blockchain Developer Nanodegree Program](https://www.udacity.com/course/blockchain-developer-nanodegree--nd1309)
 
 ![flight surety dapp1](res/flight-surety-dapp1.jpg)
 

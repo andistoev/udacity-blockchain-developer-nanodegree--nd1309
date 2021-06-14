@@ -6,6 +6,9 @@ Ethereum SupplyChain Dapp is a supply chain item's tracker.
 - The smart contracts have a fine-grain user permission's management
 - A state machine controls the correct state transition
 
+This is the 3th project from the
+[Udacity - Blockchain Developer Nanodegree Program](https://www.udacity.com/course/blockchain-developer-nanodegree--nd1309)
+
 ![project 3 - intro](res/metamask-auth-5-accounts.png)
 
 ![process](res/baguette-sequence-diagram.png)
