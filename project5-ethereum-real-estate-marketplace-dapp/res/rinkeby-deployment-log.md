@@ -1,4 +1,5 @@
-➜  project5-ethereum-real-estate-marketplace-dapp git:(master) ✗ truffle migrate --network rinkeby
+```bash
+=> truffle migrate --network rinkeby
 
 Compiling your contracts...
 ===========================
@@ -93,3 +94,4 @@ Summary
 =======
 > Total deployments:   3
 > Final cost:          0.580946 ETH
+```

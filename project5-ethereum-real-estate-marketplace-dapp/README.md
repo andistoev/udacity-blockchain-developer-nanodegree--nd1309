@@ -77,7 +77,7 @@ Create in root folder `.rinkeby-infurakey` and `.secret` and run:
       [0xFf21fb7154c2286Fe6F9156A768EB7d6d9ABb5dF](https://rinkeby.etherscan.io/address/0xFf21fb7154c2286Fe6F9156A768EB7d6d9ABb5dF)
     - [event's history](https://rinkeby.etherscan.io/address/0xFf21fb7154c2286Fe6F9156A768EB7d6d9ABb5dF#events)
     - [abi](pareot-contract-abi.json)
-    - [deployment log](rinkeby-deployment-log.md)
+    - [deployment log](res/rinkeby-deployment-log.md)
 
 ## Develop Front-End
 
