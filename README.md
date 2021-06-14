@@ -9,26 +9,31 @@
 
 ### [Project 2 - Ethereum NFT Crypto Start Dapp](project2-ethereum-nft-crypto-star-dapp/README.md)
 
-### Project 3 - Ethereum Supply Chain & Data Auditing Dapp
+### Project 3 - Ethereum SupplyChain Dapp
 
 [![project 3 - intro](project3-ethereum-supply-chain-n-data-auditing-dapp/res/metamask-auth-5-accounts.png)](project3-ethereum-supply-chain-n-data-auditing-dapp/README.md)
 
-### Project 4 - Ethereum Flight Surety Dapp
+Ethereum SupplyChain is a supply chain item's tracker.
+
+- The product's authenticity can be tracked and audited
+- The smart contracts have a fine-grain user permission's management
+
+### Project 4 - Ethereum FlightSurety Dapp
 
 [![project4](project4-ethereum-flight-surety-dapp/res/flight-surety-dapp1.jpg)](project4-ethereum-flight-surety-dapp/README.md)
 
-Ethereum FlightSurety is a flight delay insurance for passengers.
+Ethereum FlightSurety Dapp is a flight delay insurance for passengers.
 
 - Managed as a collaboration between multiple airlines
 - The passengers purchase insurance prior to flight
 - If flight is delayed due to airline fault, passengers are paid 1.5X the amount they paid for the insurance
 - Oracles provide flight status information
 
-### Project 5 - Ethereum Real Estate Marketplace Dapp
+### Project 5 - Ethereum RealEstateMarketplace Dapp
 
 [![project5](project5-ethereum-real-estate-marketplace-dapp/res/pareot-reseller.jpg)](project5-ethereum-real-estate-marketplace-dapp/README.md)
 
-Ethereum Real Estate Marketplace is a decentralized marketplace for house property owners.
+Ethereum RealEstateMarketplace Dapp is a decentralized marketplace for house property owners.
 
 - Every house property is mint as NFT
 - zk-SNARKs proof protects the title's ownership privacy

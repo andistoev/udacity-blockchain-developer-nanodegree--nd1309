@@ -1,6 +1,6 @@
-# Ethereum Real Estate Marketplace
+# Ethereum RealEstateMarketplace Dapp
 
-Ethereum Real Estate Marketplace is a decentralized marketplace for house property owners.
+Ethereum RealEstateMarketplace Dapp is a decentralized marketplace for house property owners.
 
 - Every house property is mint as NFT
 - zk-SNARKs proof protects the title's ownership privacy

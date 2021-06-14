@@ -1,6 +1,6 @@
-# Ethereum FlightSurety
+# Ethereum FlightSurety Dapp
 
-Ethereum FlightSurety is a flight delay insurance for passengers.
+Ethereum FlightSurety Dapp is a flight delay insurance for passengers.
 
 - Managed as a collaboration between multiple airlines
 - The passengers purchase insurance prior to flight

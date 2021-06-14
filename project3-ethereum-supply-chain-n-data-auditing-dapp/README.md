@@ -1,13 +1,9 @@
-# Udacity - Blockchain Developer Nanodegree Program
+# Ethereum SupplyChain Dapp
 
-## Project 3 - Ethereum Dapp for Tracking Items through Supply Chain
+Ethereum SupplyChain Dapp is a supply chain item's tracker.
 
-### Project Details
-
-For this project, you will creating a DApp supply chain solution backed by the Ethereum platform.
-
-You will architect smart contracts that manage specific user permission controls as well as contracts that track and
-verify a product’s authenticity.
+- The product's authenticity can be tracked and audited
+- The smart contracts have a fine-grain user permission's management
 
 ![project 3 - intro](res/metamask-auth-5-accounts.png)
 
