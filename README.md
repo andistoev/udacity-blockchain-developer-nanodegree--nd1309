@@ -41,6 +41,8 @@ Ethereum FlightSurety Dapp is a flight delay insurance for passengers.
 - If flight is delayed due to airline fault, passengers are paid 1.5X the amount they paid for the insurance
 - Oracles provide flight status information
 - The smart contract is upgradable
+- The smart contract securely requests and receives information from oracles
+- Airlines registration implements multi-party consensus
 
 [![project4](project4-ethereum-flight-surety-dapp/res/flight-surety-dapp1.jpg)](project4-ethereum-flight-surety-dapp/README.md)
 
